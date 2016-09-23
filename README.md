@@ -9,6 +9,7 @@ RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-T
 
 ### TODO
 - [ ] Drop WEPopover dependency and always present other screens modally.
+- [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.)
 - [ ] Add directions to the README.md about how to present the modal screens as popovers (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)).
 - [ ] Make use of iOS NSTextStorage
 - [ ] Port fixes and changes from OS X
