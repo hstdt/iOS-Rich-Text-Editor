@@ -3,7 +3,7 @@ RichTextEditor-iOS
 
 **NOTE: This repo is in desperate need of some help. Code needs cleaned up, and there are some issues with the RTE depending on setting itself to its own delegate in order to make things work properly. I haven't gotten the chance to do this myself. Please help!**
 
-**There is an OS X branch of this repo that I (Deadpikle) have been building on for a work project. Much of the refactoring and fixes that took place there can be moved to the iOS editor (using NSTextStorage, no more self.delegate = self dumbness, etc.). If ANYONE has any time to hep refactor here, that would be great!**
+**There is an OS X branch of this repo that I (Deadpikle) have been building on for a work project. Much of the refactoring and fixes that took place there can be moved to the iOS editor (using NSTextStorage, no more self.delegate = self dumbness, etc.). If ANYONE has any time to help refactor here, that would be great!**
 
 -Forked by Deadpikle for additional fixes and features. Readme updates TODO. There have been many enhancements and improvements. Please bug me for an updated README if I forget, which I probably will. The code is by no means perfectly clean, but it does function! Be wary of using the stock undo/redo with bulleted lists —- it often fails. Also, I have no idea how CocoaPods updates with forks work, so if someone needs me to do that, please point me in the right direction…-
 
