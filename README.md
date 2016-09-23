@@ -1,4 +1,4 @@
-RichTextEditor-iOS
+RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-Text-Editor/badge.png)](http://cocoadocs.org/docsets/iOS-Rich-Text-Editor)
 ==================
 
 **NOTE: This repo is in desperate need of some help. Code needs cleaned up, and there are some issues with the RTE depending on setting itself to its own delegate in order to make things work properly. I haven't gotten the chance to do this myself. Please help!**
