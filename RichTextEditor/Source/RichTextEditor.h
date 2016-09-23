@@ -27,7 +27,6 @@
 
 #import <UIKit/UIKit.h>
 #import "RichTextEditorToolbar.h"
-#include "PSPDFTextView.h"
 
 @class RichTextEditor;
 @protocol RichTextEditorDataSource <NSObject>
@@ -49,7 +48,7 @@
 -(void)userPerformedRedo;
 @end
 
-@interface RichTextEditor : PSPDFTextView <UITextViewDelegate>
+@interface RichTextEditor : UITextView <UITextViewDelegate>
 
 @property (nonatomic, weak) IBOutlet id <RichTextEditorDataSource> dataSource;
 @property (nonatomic, assign) CGFloat defaultIndentationSize;
