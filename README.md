@@ -14,6 +14,7 @@ Features:
 - Italic
 - Underline
 - StrikeThrough
+- Bulleted lists
 - Font
 - Font size
 - Text background color
@@ -25,6 +26,10 @@ Features:
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Rich-Text-Editor/master/iphoneScreenshot.png)
 
+
+Installing
+-------------------------
+Add the sources to your project, then add `-fno-objc-arc` to the compiler flags for `WETouchableView.m`, `WEPopoverController.m`, and `WEPopoverContainerView.m`. (Yes, that library really needs to be updated.)
 
 Custom Font Size Selection
 -------------------------
