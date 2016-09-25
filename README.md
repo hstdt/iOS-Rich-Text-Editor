@@ -12,7 +12,9 @@ RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-T
 - [ ] Make use of iOS NSTextStorage
 - [ ] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
 
-RichTextEditor for iPhone &amp; iPad
+## RichTextEditor for iPhone &amp; iPad
+
+**Requirements**: iOS 8.0 or higher 
 
 Features:
 - Bold

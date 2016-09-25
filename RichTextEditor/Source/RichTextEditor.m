@@ -32,6 +32,8 @@
 #import "UIFont+RichTextEditor.h"
 #import "NSAttributedString+RichTextEditor.h"
 #import "UIView+RichTextEditor.h"
+#import "WZProtocolInterceptor.h"
+#import  <objc/runtime.h>
 
 #define RICHTEXTEDITOR_TOOLBAR_HEIGHT 40
 // removed first tab in lieu of using indents for bulleted lists
@@ -51,44 +53,57 @@
 
 @property float currSysVersion;
 
+@property WZProtocolInterceptor *delegate_interceptor;
+
 @end
 
 @implementation RichTextEditor
 
 #pragma mark - Initialization -
 
-- (id)init
-{
-    if (self = [super init])
-	{
+- (id)init {
+    if (self = [super init]) {
         [self commonInitialization];
     }
 	
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame])
-	{
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         [self commonInitialization];
     }
 	
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-	if (self = [super initWithCoder:aDecoder])
-	{
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	if (self = [super initWithCoder:aDecoder]) {
 		[self commonInitialization];
 	}
 	
 	return self;
 }
 
-- (void)commonInitialization
-{
+
+- (id)delegate {
+	return self.delegate_interceptor.receiver;
+}
+
+- (void)setDelegate:(id)newDelegate {
+	[super setDelegate:nil];
+	[self.delegate_interceptor setReceiver:newDelegate];
+	[super setDelegate:(id)self.delegate_interceptor];
+}
+
+- (void)commonInitialization {
+	// Prevent the use of self.delegate = self
+	// http://stackoverflow.com/questions/3498158/intercept-objective-c-delegate-messages-within-a-subclass
+	Protocol *p = objc_getProtocol("UITextViewDelegate");
+	self.delegate_interceptor = [[WZProtocolInterceptor alloc] initWithInterceptedProtocol:p];
+	[self.delegate_interceptor setMiddleMan:self];
+	[super setDelegate:(id)self.delegate_interceptor];
+	
     self.borderColor = [UIColor lightGrayColor];
     self.borderWidth = 1.0;
     
@@ -121,7 +136,6 @@
 													  [self applyBulletListIfApplicable];
 													  [self deleteBulletListWhenApplicable];
 												  }];
-    [self setDelegate:self];
     
     // http://stackoverflow.com/questions/26454037/uitextview-text-selection-and-highlight-jumping-in-ios-8
     self.currSysVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
@@ -138,8 +152,7 @@
     _textObserver = nil;
 }
 
-- (void)textViewDidChangeSelection:(UITextView *)textView
-{
+- (void)textViewDidChangeSelection:(UITextView *)textView {
     //NSLog(@"[RTE] Changed selection to location: %lu, length: %lu", (unsigned long)textView.selectedRange.location, (unsigned long)textView.selectedRange.length);
     [self updateToolbarState];
     [self setNeedsLayout];
@@ -149,6 +162,9 @@
 	BOOL currentParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:BULLET_STRING]) ? YES: NO;
     if (currentParagraphHasBullet)
         self.userInBulletList = YES;
+	if (self.delegate && [self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
+		[self.delegate textViewDidChangeSelection:self];
+	}
 }
 
 #pragma mark - Override Methods -
@@ -249,9 +265,13 @@
 
 - (void)setHtmlString:(NSString *)htmlString
 {
-    NSAttributedString *attr = [RichTextEditor attributedStringFromHTMLString:htmlString];
-    if (attr)
-        self.attributedText = attr;
+	NSMutableAttributedString *attr = [[RichTextEditor attributedStringFromHTMLString:htmlString] mutableCopy];
+	if (attr) {
+		if ([attr.string hasSuffix:@"\n"]) {
+			[attr replaceCharactersInRange:NSMakeRange(attr.length - 1, 1) withString:@""];
+		}
+		self.attributedText = attr;
+	}
 }
 
 - (NSString *)htmlString
@@ -261,11 +281,6 @@
 
 +(NSString *)htmlStringFromAttributedText:(NSAttributedString*)text
 {
-	if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-	{
-		NSLog(@"Method setHtmlString is only supported on iOS 7 and above");
-		return nil;
-	}
 	
 	NSData *data = [text dataFromRange:NSMakeRange(0, text.length)
                     documentAttributes:
@@ -278,12 +293,6 @@
 
 +(NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString
 {
-	if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-	{
-		NSLog(@"Method setHtmlString is only supported on iOS 7 and above");
-		return nil;
-	}
-    
 	NSError *error ;
 	NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
 	NSAttributedString *str =
@@ -291,11 +300,9 @@
                                      options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                                NSCharacterEncodingDocumentAttribute: [NSNumber numberWithInt:NSUTF8StringEncoding]}
                           documentAttributes:nil error:&error];
-	if (error)
-		NSLog(@"[RTE] Attributed string from HTML string %@", error);
-	else {
+	if (!error)
 		return str;
-    }
+	NSLog(@"[RTE] Attributed string from HTML string %@", error);
     return nil;
 }
 
@@ -478,12 +485,12 @@
     NSMutableAttributedString *space = [[NSMutableAttributedString alloc] initWithString:@" " attributes:attributes];
     [space addAttributes:[NSDictionary dictionaryWithObject:paragraphStyle forKey:NSParagraphStyleAttributeName] range:NSMakeRange(0, 1)];
     [attributedText insertAttributedString:space atIndex:range.location];
-    self.attributedText = attributedText;
+	[self.textStorage insertAttributedString:space atIndex:range.location];
     [self setSelectedRange:NSMakeRange(range.location, 1)];
     [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:NSMakeRange(self.selectedRange.location+self.selectedRange.length-1, 1)];
     [self setSelectedRange:NSMakeRange(range.location, 0)];
-    [attributedText deleteCharactersInRange:NSMakeRange(range.location, 1)];
-    self.attributedText = attributedText;
+	[attributedText deleteCharactersInRange:NSMakeRange(range.location, 1)];
+	[self.textStorage deleteCharactersInRange:NSMakeRange(range.location, 1)];
     [self applyAttributeToTypingAttribute:paragraphStyle forKey:NSParagraphStyleAttributeName];
 }
 
@@ -586,7 +593,7 @@
             */
             [bulletAttributedString setAttributes:dictionary range:NSMakeRange(0, BULLET_STRING.length)];
 			
-			[currentAttributedString insertAttributedString:bulletAttributedString atIndex:range.location];
+			[self.textStorage insertAttributedString:bulletAttributedString atIndex:range.location];
 			
 			CGSize expectedStringSize = [BULLET_STRING sizeWithAttributes:dictionary];
             
@@ -607,9 +614,7 @@
 			rangeOffset = rangeOffset + BULLET_STRING.length;
             self.userInBulletList = YES;
 		}
-        [currentAttributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
-        self.attributedText = currentAttributedString;
-		//[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:range];
+		[self.textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
 	}];
 	
 	// If paragraph is empty move cursor to front of bullet, so the user can start typing right away
@@ -632,8 +637,8 @@
     }
     //NSLog(@"[RTE] Range for end of bullet: %lu, %lu", (unsigned long)rangeForSelection.location, (unsigned long)rangeForSelection.length);
     if (self.currSysVersion < 8.0)
-        self.scrollEnabled = YES;
-   [self setSelectedRange:rangeForSelection];
+		self.scrollEnabled = YES;
+	self.selectedRange = rangeForSelection;
 }
 
 - (void)richTextEditorToolbarDidSelectTextAttachment:(UIImage *)textAttachment
@@ -710,9 +715,6 @@
 
 - (void)updateToolbarState
 {
-	// There is a bug in iOS6 that causes a crash when accessing typingAttribute on an empty text
-	if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") && ![self hasText])
-		return;
 	
 	// If no text exists or typing attributes is in progress update toolbar using typing attributes instead of selected text
 	if (self.typingAttributesInProgress || ![self hasText])
@@ -796,11 +798,7 @@
 - (void)removeAttributeForKey:(NSString *)key atRange:(NSRange)range
 {
 	NSRange initialRange = self.selectedRange;
-	
-	NSMutableAttributedString *attributedString = [self.attributedText mutableCopy];
-	[attributedString removeAttribute:key range:range];
-	self.attributedText = attributedString;
-	
+	[self.textStorage removeAttribute:key range:range];
 	[self setSelectedRange:initialRange];
 }
 
@@ -824,10 +822,8 @@
 	// If any text selected apply attributes to text
 	if (range.length > 0)
 	{
-		NSMutableAttributedString *attributedString = [self.attributedText mutableCopy];
-		
-		[attributedString beginEditing];
-		[attributedString enumerateAttributesInRange:range
+		[self.textStorage beginEditing];
+		[self.textStorage enumerateAttributesInRange:range
 											 options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
 										  usingBlock:^(NSDictionary *dictionary, NSRange range, BOOL *stop){
 											  
@@ -838,10 +834,9 @@
 																		 fromDictionary:dictionary];
 											  
 											  if (newFont)
-												  [attributedString addAttributes:[NSDictionary dictionaryWithObject:newFont forKey:NSFontAttributeName] range:range];
+												  [self.textStorage addAttributes:[NSDictionary dictionaryWithObject:newFont forKey:NSFontAttributeName] range:range];
 										  }];
-		[attributedString endEditing];
-		self.attributedText = attributedString;
+		[self.textStorage endEditing];
 		
 		[self setSelectedRange:range];
 	}
@@ -957,13 +952,11 @@
             if (((int)(range.location-checkStringLength) >= 0 &&
                  [[self.attributedText.string substringFromIndex:range.location-checkStringLength] hasPrefix:checkString])) {
                 NSLog(@"[RTE] Getting rid of a bullet due to backspace while in empty bullet paragraph.");
-                // Get rid of bullet string
-                NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
-                [mutableAttributedString deleteCharactersInRange:NSMakeRange(range.location-checkStringLength, checkStringLength)];
-                self.attributedText = mutableAttributedString;
-                NSRange newRange = NSMakeRange(range.location-checkStringLength, 0);
-                [self setSelectedRange:newRange];
-                
+				// Get rid of bullet string
+				[self.textStorage deleteCharactersInRange:NSMakeRange(range.location-checkStringLength, checkStringLength)];
+				NSRange newRange = NSMakeRange(range.location-checkStringLength, 0);
+				self.selectedRange = newRange;
+				
                 // Get rid of bullet indentation
                 NSRange rangeOfParagraph = [self.attributedText firstParagraphRangeFromTextRange:newRange];
                 NSDictionary *dictionary = [self dictionaryAtIndex:rangeOfParagraph.location];
@@ -984,14 +977,11 @@
                     // Since it gets here AFTER it adds a new bullet
                     if ([[self.attributedText.string substringWithRange:rangeOfPreviousParagraph] hasSuffix:BULLET_STRING]) {
                         //NSLog(@"[RTE] Getting rid of bullets due to user hitting enter.");
-                        NSMutableAttributedString *mutableAttributedString = [self.attributedText mutableCopy];
                         NSRange rangeToDelete = NSMakeRange(rangeOfPreviousParagraph.location, rangeOfPreviousParagraph.length+rangeOfCurrentParagraph.length+1);
-                        [mutableAttributedString deleteCharactersInRange:rangeToDelete];
-                        self.attributedText = mutableAttributedString;
-                        
-                        NSRange newRange = NSMakeRange(rangeOfPreviousParagraph.location, 0);
-                        [self setSelectedRange:newRange];
-                        
+						[self.textStorage deleteCharactersInRange:rangeToDelete];
+						NSRange newRange = NSMakeRange(rangeOfPreviousParagraph.location, 0);
+						self.selectedRange = newRange;
+						
                         // Get rid of bullet indentation
                         NSRange rangeOfParagraph = [self.attributedText firstParagraphRangeFromTextRange:newRange];
                         NSDictionary *dictionary = [self dictionaryAtIndex:newRange.location];
@@ -1081,23 +1071,37 @@
 #pragma mark - Keyboard Shortcuts
 
 - (NSArray *)keyCommands {
-    return @[[UIKeyCommand keyCommandWithInput:@"b" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
+    return @[[UIKeyCommand keyCommandWithInput:@"B" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
+			 [UIKeyCommand keyCommandWithInput:@"b" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
+			 [UIKeyCommand keyCommandWithInput:@"I" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
              [UIKeyCommand keyCommandWithInput:@"i" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
-             [UIKeyCommand keyCommandWithInput:@"u" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)]
+			 [UIKeyCommand keyCommandWithInput:@"U" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
+			 [UIKeyCommand keyCommandWithInput:@"u" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
+			 [UIKeyCommand keyCommandWithInput:@"T" modifierFlags:UIKeyModifierCommand|UIKeyModifierShift action:@selector(keyboardKeyPressed:)],
+			 [UIKeyCommand keyCommandWithInput:@"t" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
              ];
 }
 
-- (void)keyboardKeyPressed:(UIKeyCommand*)keyPressed {
-    switch ([keyPressed.input UTF8String][0]) {
-        case 'b':
+- (void)keyboardKeyPressed:(UIKeyCommand*)keyCommand {
+    switch ([keyCommand.input UTF8String][0]) {
+		case 'B':
+		case 'b':
             [self richTextEditorToolbarDidSelectBold];
             break;
+		case 'I':
         case 'i':
             [self richTextEditorToolbarDidSelectItalic];
             break;
+		case 'U':
         case 'u':
             [self richTextEditorToolbarDidSelectUnderline];
             break;
+		case 'T':
+			[self richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationDecrease];
+			break;
+		case 't':
+			[self richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationIncrease];
+			break;
         default:
             break;
     }
