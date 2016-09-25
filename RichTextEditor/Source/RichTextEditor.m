@@ -131,7 +131,7 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-	NSLog(@"Text view did change");
+	//NSLog(@"[RTE] Text view did change");
 	[self applyBulletListIfApplicable];
 	[self deleteBulletListWhenApplicable];
 	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChange:)]) {
@@ -140,7 +140,7 @@
 }
 
 - (void)textViewDidChangeSelection:(UITextView *)textView {
-    NSLog(@"[RTE] Changed selection to location: %lu, length: %lu", (unsigned long)textView.selectedRange.location, (unsigned long)textView.selectedRange.length);
+	//NSLog(@"[RTE] Changed selection to location: %lu, length: %lu", (unsigned long)textView.selectedRange.location, (unsigned long)textView.selectedRange.length);
     [self updateToolbarState];
     [self setNeedsLayout];
     [self scrollRangeToVisible:self.selectedRange]; // fixes issue with cursor moving to top via keyboard and RTE not scrolling
