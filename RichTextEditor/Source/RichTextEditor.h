@@ -42,23 +42,23 @@
 - (UIViewController <RichTextEditorColorPicker> *)colorPickerForRichTextEditor:(RichTextEditor *)richTextEditor withAction:(RichTextEditorColorPickerAction)action;
 - (UIViewController <RichTextEditorFontPicker> *)fontPickerForRichTextEditor:(RichTextEditor *)richTextEditor;
 - (UIViewController <RichTextEditorFontSizePicker> *)fontSizePickerForRichTextEditor:(RichTextEditor *)richTextEditor;
--(NSUInteger)levelsOfUndo;
--(BOOL)handlesUndoRedoForText;
--(void)userPerformedUndo;
--(void)userPerformedRedo;
+- (NSUInteger)levelsOfUndo;
+- (BOOL)handlesUndoRedoForText;
+- (void)userPerformedUndo;
+- (void)userPerformedRedo;
 @end
 
 @interface RichTextEditor : UITextView <UITextViewDelegate>
 
 @property (nonatomic, weak) IBOutlet id <RichTextEditorDataSource> dataSource;
 @property (nonatomic, assign) CGFloat defaultIndentationSize;
-@property  BOOL userInBulletList;
+@property BOOL userInBulletList;
 
 - (void)setBorderColor:(UIColor*)borderColor;
 - (void)setBorderWidth:(CGFloat)borderWidth;
 - (NSString *)htmlString;
 - (void)setHtmlString:(NSString *)htmlString;
-+(NSString *)htmlStringFromAttributedText:(NSAttributedString*)text;
-+(NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString;
--(void)removeTextObserverForDealloc;
++ (NSString *)htmlStringFromAttributedText:(NSAttributedString*)text;
++ (NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString;
+- (void)removeTextObserverForDealloc;
 @end
