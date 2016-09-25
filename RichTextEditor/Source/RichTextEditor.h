@@ -48,7 +48,7 @@
 - (void)userPerformedRedo;
 @end
 
-@interface RichTextEditor : UITextView <UITextViewDelegate>
+@interface RichTextEditor : UITextView
 
 @property (nonatomic, weak) IBOutlet id <RichTextEditorDataSource> dataSource;
 @property (nonatomic, assign) CGFloat defaultIndentationSize;
@@ -60,5 +60,5 @@
 - (void)setHtmlString:(NSString *)htmlString;
 + (NSString *)htmlStringFromAttributedText:(NSAttributedString*)text;
 + (NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString;
-- (void)removeTextObserverForDealloc;
+
 @end

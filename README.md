@@ -11,6 +11,7 @@ RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-T
 - [ ] Add directions to the README.md about how to present the modal screens as popovers (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)).
 - [ ] Make use of iOS NSTextStorage
 - [ ] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
+- [ ] Convert this README file to use ## instead of ----- for h1/2/3/4/5 syntax
 
 ## RichTextEditor for iPhone &amp; iPad
 
@@ -32,6 +33,10 @@ Features:
 ![alt tag](https://raw.github.com/aryaxt/iOS-Rich-Text-Editor/master/ipadScreenShot.png)
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Rich-Text-Editor/master/iphoneScreenshot.png)
+
+### Delegate Warning!
+
+In order to intercept delegate messages, this class uses WZProtocolInterceptor. If you call `self.textView.delegate`, you will get the WZProtocolInterceptor object, *not* the original delegate that you set earlier with `self.textView.delegate = ...`! If you need to get the delegate that you set, call `self.textView.delegate.receiver`. 
 
 
 Installing

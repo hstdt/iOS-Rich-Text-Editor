@@ -52,7 +52,7 @@
 		158389471735A5D7006DE713 /* RichTextEditorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 158389461735A5D7006DE713 /* RichTextEditorTests.m */; };
 		1583895A1735D7F4006DE713 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158389591735D7F4006DE713 /* CoreText.framework */; };
 		15B6E20F17A4C2820015867C /* RichTextEditorToggleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B6E20E17A4C2820015867C /* RichTextEditorToggleButton.m */; };
-		D28387061A7EE06F0093AF3E /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D28387051A7EE06F0093AF3E /* PSPDFTextView.m */; };
+		3402F26B1D98225A0066F4BE /* WZProtocolInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3402F26A1D98225A0066F4BE /* WZProtocolInterceptor.m */; };
 		D28387081A7EE1340093AF3E /* OtherLicenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = D28387071A7EE1340093AF3E /* OtherLicenses.txt */; };
 		D2ECA73C1A321FE900C57F03 /* backcolor.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7001A321FE900C57F03 /* backcolor.png */; };
 		D2ECA73D1A321FE900C57F03 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7011A321FE900C57F03 /* bold.png */; };
@@ -192,8 +192,8 @@
 		158389591735D7F4006DE713 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		15B6E20D17A4C2820015867C /* RichTextEditorToggleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorToggleButton.h; sourceTree = "<group>"; };
 		15B6E20E17A4C2820015867C /* RichTextEditorToggleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichTextEditorToggleButton.m; sourceTree = "<group>"; };
-		D28387041A7EE06F0093AF3E /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
-		D28387051A7EE06F0093AF3E /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
+		3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WZProtocolInterceptor.h; path = Helpers/WZProtocolInterceptor.h; sourceTree = "<group>"; };
+		3402F26A1D98225A0066F4BE /* WZProtocolInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WZProtocolInterceptor.m; path = Helpers/WZProtocolInterceptor.m; sourceTree = "<group>"; };
 		D28387071A7EE1340093AF3E /* OtherLicenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OtherLicenses.txt; sourceTree = "<group>"; };
 		D2ECA7001A321FE900C57F03 /* backcolor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backcolor.png; sourceTree = "<group>"; };
 		D2ECA7011A321FE900C57F03 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
@@ -285,8 +285,8 @@
 			children = (
 				153F9555179F9953005B2487 /* Assets */,
 				153F955A179F9953005B2487 /* Categories */,
+				3402F2681D98224E0066F4BE /* Helpers */,
 				153F9561179F9953005B2487 /* iphone Popover */,
-				D2ECA6FA1A32156D00C57F03 /* PSPDFTextView */,
 				153F957B179F9953005B2487 /* RichTextEditor.h */,
 				153F957C179F9953005B2487 /* RichTextEditor.m */,
 				153F9584179F9953005B2487 /* RichTextEditorToolbar.h */,
@@ -492,13 +492,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D2ECA6FA1A32156D00C57F03 /* PSPDFTextView */ = {
+		3402F2681D98224E0066F4BE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				D28387041A7EE06F0093AF3E /* PSPDFTextView.h */,
-				D28387051A7EE06F0093AF3E /* PSPDFTextView.m */,
+				3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */,
+				3402F26A1D98225A0066F4BE /* WZProtocolInterceptor.m */,
 			);
-			path = PSPDFTextView;
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		D2ECA7051A321FE900C57F03 /* buttons */ = {
@@ -707,7 +707,6 @@
 			files = (
 				153F959D179F9953005B2487 /* WEPopoverContainerView.m in Sources */,
 				153F95A4179F9953005B2487 /* RichTextEditorToolbar.m in Sources */,
-				D28387061A7EE06F0093AF3E /* PSPDFTextView.m in Sources */,
 				153F959C179F9953005B2487 /* UIBarButtonItem+WEPopover.m in Sources */,
 				153F95A3179F9953005B2487 /* RichTextEditorFontSizePickerViewController.m in Sources */,
 				153F958B179F9953005B2487 /* UIFont+RichTextEditor.m in Sources */,
@@ -721,6 +720,7 @@
 				158389321735A5D7006DE713 /* ViewController.m in Sources */,
 				153F95A1179F9953005B2487 /* RichTextEditorColorPickerViewController.m in Sources */,
 				153F958A179F9953005B2487 /* NSAttributedString+RichTextEditor.m in Sources */,
+				3402F26B1D98225A0066F4BE /* WZProtocolInterceptor.m in Sources */,
 				15B6E20F17A4C2820015867C /* RichTextEditorToggleButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

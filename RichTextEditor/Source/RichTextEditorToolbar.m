@@ -71,7 +71,7 @@
 {
 	if (self = [super initWithFrame:frame])
 	{
-		self.delegate = delegate;
+		self.toolbarDelegate = delegate;
 		self.dataSource = dataSource;
 		
 		self.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1];
@@ -143,57 +143,57 @@
 
 - (void)boldSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectBold];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectBold];
 }
 
 - (void)italicSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectItalic];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectItalic];
 }
 
 - (void)underLineSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectUnderline];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectUnderline];
 }
 
 - (void)strikeThroughSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectStrikeThrough];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectStrikeThrough];
 }
 
 - (void)bulletListSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectBulletListWithCaller:self];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectBulletListWithCaller:self];
 }
 
 - (void)paragraphIndentSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationIncrease];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationIncrease];
 }
 
 - (void)paragraphOutdentSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationDecrease];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationDecrease];
 }
 
 - (void)paragraphHeadIndentOutdentSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectParagraphFirstLineHeadIndent];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectParagraphFirstLineHeadIndent];
 }
 
 - (void)undoSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectUndo];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectUndo];
 }
 
 - (void)redoSelected:(UIButton *)sender
 {
-	[self.delegate richTextEditorToolbarDidSelectRedo];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectRedo];
 }
 
 - (void)dismissKeyboard:(UIButton *)sender
 {
-    [self.delegate richTextEditorToolbarDidSelectDismissKeyboard];
+    [self.toolbarDelegate richTextEditorToolbarDidSelectDismissKeyboard];
 }
 
 - (void)fontSizeSelected:(UIButton *)sender
@@ -259,7 +259,7 @@
 	else
 		textAlignment = NSTextAlignmentJustified;
 	
-	[self.delegate richTextEditorToolbarDidSelectTextAlignment:textAlignment];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectTextAlignment:textAlignment];
 }
 
 - (void)textAttachmentSelected:(UIButton *)sender
@@ -649,7 +649,7 @@
 		[self.popover dismissPopoverAnimated:YES];
 	}
 	
-	[self.delegate richTextEditorToolbarDidDismissViewController];
+	[self.toolbarDelegate richTextEditorToolbarDidDismissViewController];
 }
 
 #pragma mark - RichTextEditorColorPickerViewControllerDelegate & RichTextEditorColorPickerViewControllerDataSource Methods -
@@ -658,11 +658,11 @@
 {
 	if (action == RichTextEditorColorPickerActionTextBackgroundColor)
 	{
-		[self.delegate richTextEditorToolbarDidSelectTextBackgroundColor:color];
+		[self.toolbarDelegate richTextEditorToolbarDidSelectTextBackgroundColor:color];
 	}
 	else
 	{
-		[self.delegate richTextEditorToolbarDidSelectTextForegroundColor:color];
+		[self.toolbarDelegate richTextEditorToolbarDidSelectTextForegroundColor:color];
 	}
 	
 	[self dismissViewController];
@@ -682,7 +682,7 @@
 
 - (void)richTextEditorFontSizePickerViewControllerDidSelectFontSize:(NSNumber *)fontSize
 {
-	[self.delegate richTextEditorToolbarDidSelectFontSize:fontSize];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectFontSize:fontSize];
 	[self dismissViewController];
 }
 
@@ -705,7 +705,7 @@
 
 - (void)richTextEditorFontPickerViewControllerDidSelectFontWithName:(NSString *)fontName
 {
-	[self.delegate richTextEditorToolbarDidSelectFontWithName:fontName];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectFontWithName:fontName];
 	[self dismissViewController];
 }
 
@@ -729,7 +729,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-	[self.delegate richTextEditorToolbarDidSelectTextAttachment:image];
+	[self.toolbarDelegate richTextEditorToolbarDidSelectTextAttachment:image];
 	[self dismissViewController];
 }
 

@@ -40,16 +40,13 @@
 #define BULLET_STRING @"•\t"
 #define LEVELS_OF_UNDO 10
 
-@interface RichTextEditor() <RichTextEditorToolbarDelegate, RichTextEditorToolbarDataSource>
+@interface RichTextEditor() <RichTextEditorToolbarDelegate, RichTextEditorToolbarDataSource, UITextViewDelegate>
+
 @property (nonatomic, strong) RichTextEditorToolbar *toolBar;
 
 // Gets set to YES when the user starts changing attributes when there is no text selection (selecting bold, italic, etc)
 // Gets set to NO  when the user changes selection or starts typing
 @property (nonatomic, assign) BOOL typingAttributesInProgress;
-
-// The RTE will not be deallocated while the text observer is active. It is the RTE owner's
-// responsibility to call the removeTextObserverForDealloc function.
-@property id textObserver;
 
 @property float currSysVersion;
 
@@ -85,15 +82,8 @@
 	return self;
 }
 
-
-- (id)delegate {
-	return self.delegate_interceptor.receiver;
-}
-
 - (void)setDelegate:(id)newDelegate {
-	[super setDelegate:nil];
-	[self.delegate_interceptor setReceiver:newDelegate];
-	[super setDelegate:(id)self.delegate_interceptor];
+	self.delegate_interceptor.receiver = newDelegate;
 }
 
 - (void)commonInitialization {
@@ -126,16 +116,8 @@
 	[self updateToolbarState];
     if (self.dataSource && [self.dataSource respondsToSelector:@selector(levelsOfUndo)])
         [[self undoManager] setLevelsOfUndo:[self.dataSource levelsOfUndo]];
-    else [[self undoManager] setLevelsOfUndo:LEVELS_OF_UNDO];
-	
-	// When text changes check to see if we need to add bullet, or delete bullet on backspace/enter
-	_textObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidChangeNotification
-													  object:self
-													   queue:nil
-												  usingBlock:^(NSNotification *n){
-													  [self applyBulletListIfApplicable];
-													  [self deleteBulletListWhenApplicable];
-												  }];
+    else
+		[[self undoManager] setLevelsOfUndo:LEVELS_OF_UNDO];
     
     // http://stackoverflow.com/questions/26454037/uitextview-text-selection-and-highlight-jumping-in-ios-8
     self.currSysVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
@@ -144,16 +126,21 @@
 }
 
 -(void)dealloc {
+	self.delegate_interceptor.receiver = nil;
     self.toolBar = nil;
 }
 
--(void)removeTextObserverForDealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:_textObserver];
-    _textObserver = nil;
+- (void)textViewDidChange:(UITextView *)textView {
+	NSLog(@"Text view did change");
+	[self applyBulletListIfApplicable];
+	[self deleteBulletListWhenApplicable];
+	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChange:)]) {
+		[self.delegate_interceptor.receiver textViewDidChange:textView];
+	}
 }
 
 - (void)textViewDidChangeSelection:(UITextView *)textView {
-    //NSLog(@"[RTE] Changed selection to location: %lu, length: %lu", (unsigned long)textView.selectedRange.location, (unsigned long)textView.selectedRange.length);
+    NSLog(@"[RTE] Changed selection to location: %lu, length: %lu", (unsigned long)textView.selectedRange.location, (unsigned long)textView.selectedRange.length);
     [self updateToolbarState];
     [self setNeedsLayout];
     [self scrollRangeToVisible:self.selectedRange]; // fixes issue with cursor moving to top via keyboard and RTE not scrolling
@@ -162,8 +149,8 @@
 	BOOL currentParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:BULLET_STRING]) ? YES: NO;
     if (currentParagraphHasBullet)
         self.userInBulletList = YES;
-	if (self.delegate && [self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-		[self.delegate textViewDidChangeSelection:self];
+	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChangeSelection:)]) {
+		[self.delegate_interceptor.receiver textViewDidChangeSelection:self];
 	}
 }
 
@@ -184,7 +171,7 @@
 	{
 		self.inputAccessoryView = self.toolBar;
 		
-		// Redraw in case enabled features have changes
+		// Redraw in case enabled features have changed
 		[self.toolBar redraw];
 	}
 	else
@@ -192,7 +179,7 @@
 		self.inputAccessoryView = nil;
 	}
 	// changed to YES so that we can use keyboard shortcuts
-	return YES /*[super canBecomeFirstResponder]*/;
+	return YES; /*[super canBecomeFirstResponder]*/
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
@@ -1069,7 +1056,7 @@
 }
 
 #pragma mark - Keyboard Shortcuts
-
+/*
 - (NSArray *)keyCommands {
     return @[[UIKeyCommand keyCommandWithInput:@"B" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
 			 [UIKeyCommand keyCommandWithInput:@"b" modifierFlags:UIKeyModifierCommand action:@selector(keyboardKeyPressed:)],
@@ -1105,6 +1092,6 @@
         default:
             break;
     }
-}
+}*/
 
 @end

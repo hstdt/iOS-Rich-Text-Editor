@@ -8,6 +8,10 @@
 #import "WZProtocolInterceptor.h"
 #import  <objc/runtime.h>
 
+@interface WZProtocolInterceptor() <UITextViewDelegate>
+
+@end
+
 static inline BOOL selector_belongsToProtocol(SEL selector, Protocol * protocol);
 
 @implementation WZProtocolInterceptor
@@ -34,6 +38,7 @@ static inline BOOL selector_belongsToProtocol(SEL selector, Protocol * protocol)
 	
 	return [super respondsToSelector:aSelector];
 }
+
 
 - (instancetype)initWithInterceptedProtocol:(Protocol *)interceptedProtocol
 {
