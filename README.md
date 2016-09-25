@@ -3,9 +3,14 @@ RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-T
 
 **NOTE: This repo is in desperate need of some help. Code needs cleaned up, and there are some issues with the RTE depending on setting itself to its own delegate in order to make things work properly. I haven't gotten the chance to do this myself. Please help!**
 
-**There is an OS X branch of this repo that I (Deadpikle) have been building on for a work project. Much of the refactoring and fixes that took place there can be moved to the iOS editor (using NSTextStorage, no more self.delegate = self dumbness, etc.). If ANYONE has any time to help refactor here, that would be great!**
-
 -Forked by Deadpikle for additional fixes and features. Readme updates TODO. There have been many enhancements and improvements. Please bug me for an updated README if I forget, which I probably will. The code is by no means perfectly clean, but it does function! Be wary of using the stock undo/redo with bulleted lists —- it often fails. Also, I have no idea how CocoaPods updates with forks work, so if someone needs me to do that, please point me in the right direction…-
+
+### TODO
+- [ ] Drop WEPopover dependency and always present other screens modally.
+- [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.)
+- [ ] Add directions to the README.md about how to present the modal screens as popovers (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)).
+- [ ] Make use of iOS NSTextStorage
+- [ ] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
 
 RichTextEditor for iPhone &amp; iPad
 
@@ -38,7 +43,7 @@ Font size selection can be customized by implementing the following data source 
 ```objective-c
 - (NSArray *)fontSizeSelectionForRichTextEditor:(RichTextEditor *)richTextEditor
 {
-	// pas an array of NSNumbers
+	// pass an array of NSNumbers
 	return @[@5, @10, @20, @30];
 }
 ```
@@ -50,7 +55,7 @@ Font family selection can be customized by implementing the following data sourc
 ```objective-c
 - (NSArray *)fontFamilySelectionForRichTextEditor:(RichTextEditor *)richTextEditor
 {
-	// pas an array of Strings
+	// pass an array of Strings
   // Can be taken from [UIFont familyNames]
 	return @[@"Helvetica", @"Arial", @"Marion", @"Papyrus"];
 }
@@ -108,7 +113,7 @@ This can be usefull when you don't want the toolbar, instead you want to use the
 
 Enable/Disable UIMenuController Options
 -------------------------
-On default the UIMenuController options (bold, italic, underline, strikeThrough) are turned off. You can implement the follwing method if you want these features to be available through the UIMenuController along with copy/paste/selectAll etc.
+On default the UIMenuController options (bold, italic, underline, strikeThrough) are turned off. You can implement the following method if you want these features to be available through the UIMenuController along with copy/paste/selectAll etc.
 ```objective-c
 - (BOOL)shouldDisplayRichTextOptionsInMenuControllerForRichTextrEditor:(RichTextEditor *)richTextEdiotor
 {
