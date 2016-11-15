@@ -40,6 +40,8 @@
 #define ITEM_WITH 40
 
 @interface RichTextEditorToolbar() <RichTextEditorFontSizePickerViewControllerDelegate, RichTextEditorFontSizePickerViewControllerDataSource, RichTextEditorFontPickerViewControllerDelegate, RichTextEditorFontPickerViewControllerDataSource, RichTextEditorColorPickerViewControllerDataSource, RichTextEditorColorPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (weak) UIViewController *presentedViewController; // e.g. for color picker
 @property (nonatomic, strong) id <RichTextEditorPopover> popover;
 @property (nonatomic, strong) RichTextEditorToggleButton *btnDismissKeyboard;
 @property (nonatomic, strong) RichTextEditorToggleButton *btnBold;
@@ -61,6 +63,7 @@
 @property (nonatomic, strong) RichTextEditorToggleButton *btnTextAttachment;
 @property (nonatomic, strong) RichTextEditorToggleButton *btnTextUndo;
 @property (nonatomic, strong) RichTextEditorToggleButton *btnTextRedo;
+
 @end
 
 @implementation RichTextEditorToolbar
@@ -608,6 +611,7 @@
 		viewController.modalPresentationStyle = [self.dataSource modalPresentationStyleForRichTextEditorToolbar];
 		viewController.modalTransitionStyle = [self.dataSource modalTransitionStyleForRichTextEditorToolbar];
 		[[self.dataSource firstAvailableViewControllerForRichTextEditorToolbar] presentViewController:viewController animated:YES completion:nil];
+		self.presentedViewController = viewController;
 	}
 	else if ([self.dataSource presentationStyleForRichTextEditorToolbar] == RichTextEditorToolbarPresentationStylePopover)
 	{
@@ -642,7 +646,11 @@
 {
 	if ([self.dataSource presentationStyleForRichTextEditorToolbar] == RichTextEditorToolbarPresentationStyleModal)
 	{
-		[[self.dataSource firstAvailableViewControllerForRichTextEditorToolbar] dismissViewControllerAnimated:YES completion:nil];
+		if (self.presentedViewController)
+			[self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+		else
+			[[self.dataSource firstAvailableViewControllerForRichTextEditorToolbar] dismissViewControllerAnimated:YES completion:nil];
+		self.presentedViewController = nil; // it's already a weak pointer, but just for safety's sake...
 	}
 	else if ([self.dataSource presentationStyleForRichTextEditorToolbar] == RichTextEditorToolbarPresentationStylePopover)
 	{
