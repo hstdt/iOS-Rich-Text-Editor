@@ -6,9 +6,8 @@ RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-T
 -Forked by Deadpikle for additional fixes and features. Readme updates TODO. There have been many enhancements and improvements. Please bug me for an updated README if I forget, which I probably will. The code is by no means perfectly clean, but it does function! Be wary of using the stock undo/redo with bulleted lists —- it often fails. Also, I have no idea how CocoaPods updates with forks work, so if someone needs me to do that, please point me in the right direction…-
 
 ### TODO
-- [ ] Drop WEPopover dependency and always present other screens modally.
+- [ ] Drop WEPopover dependency and use native popovers on iPhone (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html).
 - [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.)
-- [ ] Add directions to the README.md about how to present the modal screens as popovers (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)).
 - [ ] Make use of iOS NSTextStorage
 - [ ] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
 - [ ] Convert this README file to use ## instead of ----- for h1/2/3/4/5 syntax
