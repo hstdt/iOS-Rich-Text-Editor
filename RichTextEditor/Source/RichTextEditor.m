@@ -113,8 +113,8 @@
     
 	[self setupMenuItems];
 	[self updateToolbarState];
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(levelsOfUndo)]) {
-		self.undoManager.levelsOfUndo = [self.dataSource levelsOfUndo];
+	if (self.rteDelegate && [self.rteDelegate respondsToSelector:@selector(levelsOfUndo)]) {
+		self.undoManager.levelsOfUndo = [self.rteDelegate levelsOfUndo];
 	}
 	else {
 		self.undoManager.levelsOfUndo = self.LEVELS_OF_UNDO;
@@ -385,8 +385,8 @@
         BOOL shouldUseUndoManager = YES;
         if ([self.dataSource respondsToSelector:@selector(handlesUndoRedoForText)])
         {
-            if ([self.dataSource handlesUndoRedoForText]) {
-                [self.dataSource userPerformedUndo];
+            if ([self.rteDelegate handlesUndoRedoForText]) {
+                [self.rteDelegate userPerformedUndo];
                 shouldUseUndoManager = NO;
             }
         }
@@ -405,8 +405,8 @@
         BOOL shouldUseUndoManager = YES;
         if ([self.dataSource respondsToSelector:@selector(handlesUndoRedoForText)])
         {
-            if ([self.dataSource handlesUndoRedoForText]) {
-                [self.dataSource userPerformedRedo];
+            if ([self.rteDelegate handlesUndoRedoForText]) {
+                [self.rteDelegate userPerformedRedo];
                 shouldUseUndoManager = NO;
             }
         }

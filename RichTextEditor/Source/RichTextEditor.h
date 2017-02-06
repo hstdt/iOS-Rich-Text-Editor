@@ -31,7 +31,9 @@
 
 @class RichTextEditor;
 @protocol RichTextEditorDataSource <NSObject>
+
 @optional
+
 - (NSArray *)fontSizeSelectionForRichTextEditor:(RichTextEditor *)richTextEditor;
 - (NSArray *)fontFamilySelectionForRichTextEditor:(RichTextEditor *)richTextEditor;
 - (RichTextEditorToolbarPresentationStyle)presentationStyleForRichTextEditor:(RichTextEditor *)richTextEditor;
@@ -43,15 +45,54 @@
 - (UIViewController <RichTextEditorColorPicker> *)colorPickerForRichTextEditor:(RichTextEditor *)richTextEditor withAction:(RichTextEditorColorPickerAction)action;
 - (UIViewController <RichTextEditorFontPicker> *)fontPickerForRichTextEditor:(RichTextEditor *)richTextEditor;
 - (UIViewController <RichTextEditorFontSizePicker> *)fontSizePickerForRichTextEditor:(RichTextEditor *)richTextEditor;
-- (NSUInteger)levelsOfUndo;
+
+@end
+
+typedef NS_ENUM(NSInteger, RichTextEditorPreviewChange) {
+	RichTextEditorPreviewChangeBold,
+	RichTextEditorPreviewChangeItalic,
+	RichTextEditorPreviewChangeUnderline,
+	RichTextEditorPreviewChangeFontResize,
+	RichTextEditorPreviewChangeHighlight,
+	RichTextEditorPreviewChangeFontSize,
+	RichTextEditorPreviewChangeFontColor,
+	RichTextEditorPreviewChangeIndentIncrease,
+	RichTextEditorPreviewChangeIndentDecrease,
+	RichTextEditorPreviewChangeCut,
+	RichTextEditorPreviewChangePaste,
+	RichTextEditorPreviewChangePageBreak,
+	RichTextEditorPreviewChangeSpace,
+	RichTextEditorPreviewChangeEnter,
+	RichTextEditorPreviewChangeBullet,
+	RichTextEditorPreviewChangeMouseDown,
+	RichTextEditorPreviewChangeArrowKey,
+	RichTextEditorPreviewChangeKeyDown,
+	RichTextEditorPreviewChangeDelete
+};
+
+@protocol RichTextEditorDelegate <NSObject>
+
+@required
+
+-(void)selectionForEditor:(RichTextEditor*)editor changedTo:(NSRange)range isBold:(BOOL)isBold isItalic:(BOOL)isItalic isUnderline:(BOOL)isUnderline isInBulletedList:(BOOL)isInBulletedList textBackgroundColor:(UIColor*)textBackgroundColor textColor:(UIColor*)textColor;
+
+@optional
+
+- (BOOL)richTextEditor:(RichTextEditor*)editor keyDownEvent:(UIEvent*)event; // return YES if handled by delegate, NO if RTE should process it
+- (void)richTextEditor:(RichTextEditor*)editor changeAboutToOccurOfType:(RichTextEditorPreviewChange)type;
+
 - (BOOL)handlesUndoRedoForText;
-- (void)userPerformedUndo;
-- (void)userPerformedRedo;
+- (void)userPerformedUndo; // TODO: remove?
+- (void)userPerformedRedo; // TODO: remove?
+- (NSUInteger)levelsOfUndo;
+
 @end
 
 @interface RichTextEditor : UITextView
 
-@property (nonatomic, weak) IBOutlet id <RichTextEditorDataSource> dataSource;
+@property (assign) IBOutlet id <RichTextEditorDataSource> dataSource;
+@property (assign) IBOutlet id <RichTextEditorDelegate> rteDelegate;
+
 @property (nonatomic, assign) CGFloat defaultIndentationSize;
 @property BOOL userInBulletList;
 
