@@ -5,7 +5,8 @@
 //  Created by Aryan Gh on 7/21/13.
 //  Copyright (c) 2013 Aryan Ghassemi. All rights reserved.
 //
-// https://github.com/aryaxt/iOS-Rich-Text-Editor
+//  Modified heavily by Deadpikle
+//  https://github.com/Deadpikle/iOS-Rich-Text-Editor
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal

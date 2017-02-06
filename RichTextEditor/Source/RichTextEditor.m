@@ -5,7 +5,8 @@
 //  Created by Aryan Gh on 7/21/13.
 //  Copyright (c) 2013 Aryan Ghassemi. All rights reserved.
 //
-// https://github.com/aryaxt/iOS-Rich-Text-Editor
+//  Modified heavily by Deadpikle
+//  https://github.com/Deadpikle/iOS-Rich-Text-Editor
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,9 +37,6 @@
 #import  <objc/runtime.h>
 
 #define RICHTEXTEDITOR_TOOLBAR_HEIGHT 40
-// removed first tab in lieu of using indents for bulleted lists
-#define BULLET_STRING @"•\t"
-#define LEVELS_OF_UNDO 10
 
 @interface RichTextEditor() <RichTextEditorToolbarDelegate, RichTextEditorToolbarDataSource, UITextViewDelegate>
 
@@ -49,8 +47,9 @@
 @property (nonatomic, assign) BOOL typingAttributesInProgress;
 
 @property float currSysVersion;
-
 @property WZProtocolInterceptor *delegate_interceptor;
+@property NSString *BULLET_STRING;
+@property NSUInteger LEVELS_OF_UNDO;
 
 @end
 
@@ -62,7 +61,6 @@
     if (self = [super init]) {
         [self commonInitialization];
     }
-	
     return self;
 }
 
@@ -70,7 +68,6 @@
     if (self = [super initWithFrame:frame]) {
         [self commonInitialization];
     }
-	
     return self;
 }
 
@@ -78,7 +75,6 @@
 	if (self = [super initWithCoder:aDecoder]) {
 		[self commonInitialization];
 	}
-	
 	return self;
 }
 
@@ -96,6 +92,8 @@
 	
     self.borderColor = [UIColor lightGrayColor];
     self.borderWidth = 1.0;
+	self.LEVELS_OF_UNDO = 15;
+	self.BULLET_STRING = @"•\u00A0"; // bullet is \u2022
     
 	self.toolBar = [[RichTextEditorToolbar alloc] initWithFrame:CGRectMake(0, 0, [self currentScreenBoundsDependOnOrientation].size.width, RICHTEXTEDITOR_TOOLBAR_HEIGHT)
 													   delegate:self
@@ -107,6 +105,7 @@
     // Instead of hard-coding the default indentation size, which can make bulleted lists look a little
     // odd when increasing/decreasing their indent, use a \t character width instead
     // The old defaultIndentationSize was 15
+	
     // TODO: readjust this defaultIndentationSize when font size changes? Might make things weird.
 	NSDictionary *dictionary = [self dictionaryAtIndex:self.selectedRange.location];
     CGSize expectedStringSize = [@"\t" sizeWithAttributes:dictionary];
@@ -114,15 +113,18 @@
     
 	[self setupMenuItems];
 	[self updateToolbarState];
-    if (self.dataSource && [self.dataSource respondsToSelector:@selector(levelsOfUndo)])
-        [[self undoManager] setLevelsOfUndo:[self.dataSource levelsOfUndo]];
-    else
-		[[self undoManager] setLevelsOfUndo:LEVELS_OF_UNDO];
-    
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(levelsOfUndo)]) {
+		self.undoManager.levelsOfUndo = [self.dataSource levelsOfUndo];
+	}
+	else {
+		self.undoManager.levelsOfUndo = self.LEVELS_OF_UNDO;
+	}
+	
     // http://stackoverflow.com/questions/26454037/uitextview-text-selection-and-highlight-jumping-in-ios-8
     self.currSysVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-    if (self.currSysVersion >= 8.0)
+	if (self.currSysVersion >= 8.0) {
         self.layoutManager.allowsNonContiguousLayout = NO;
+	}
 }
 
 -(void)dealloc {
@@ -146,7 +148,7 @@
     [self scrollRangeToVisible:self.selectedRange]; // fixes issue with cursor moving to top via keyboard and RTE not scrolling
     
 	NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
-	BOOL currentParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:BULLET_STRING]) ? YES: NO;
+	BOOL currentParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES: NO;
     if (currentParagraphHasBullet)
         self.userInBulletList = YES;
 	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChangeSelection:)]) {
@@ -529,7 +531,7 @@
 	NSRange initialSelectedRange = self.selectedRange;
 	NSArray *rangeOfParagraphsInSelectedText = [self.attributedText rangeOfParagraphsFromTextRange:self.selectedRange];
 	NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
-	BOOL firstParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:BULLET_STRING]) ? YES: NO;
+	BOOL firstParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES: NO;
     
     NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location-1, 0)];
     NSDictionary *prevParaDict = [self dictionaryAtIndex:rangeOfPreviousParagraph.location];
@@ -546,29 +548,29 @@
 		if (!paragraphStyle)
 			paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 		
-		BOOL currentParagraphHasBullet = ([[[currentAttributedString string] substringFromIndex:range.location] hasPrefix:BULLET_STRING]) ? YES : NO;
+		BOOL currentParagraphHasBullet = ([[[currentAttributedString string] substringFromIndex:range.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
 		
 		if (firstParagraphHasBullet != currentParagraphHasBullet)
 			return;
 		if (currentParagraphHasBullet)
 		{
             // User hit the bullet button and is in a bulleted list so we should get rid of the bullet
-			range = NSMakeRange(range.location, range.length - BULLET_STRING.length);
+			range = NSMakeRange(range.location, range.length - self.BULLET_STRING.length);
 			
-			[currentAttributedString deleteCharactersInRange:NSMakeRange(range.location, BULLET_STRING.length)];
+			[currentAttributedString deleteCharactersInRange:NSMakeRange(range.location, self.BULLET_STRING.length)];
 			
 			paragraphStyle.firstLineHeadIndent = 0;
 			paragraphStyle.headIndent = 0;
 			
-			rangeOffset = rangeOffset - BULLET_STRING.length;
+			rangeOffset = rangeOffset - self.BULLET_STRING.length;
             self.userInBulletList = NO;
 		}
 		else
         {
             // We are adding a bullet
-			range = NSMakeRange(range.location, range.length + BULLET_STRING.length);
+			range = NSMakeRange(range.location, range.length + self.BULLET_STRING.length);
 			
-			NSMutableAttributedString *bulletAttributedString = [[NSMutableAttributedString alloc] initWithString:BULLET_STRING attributes:nil];
+			NSMutableAttributedString *bulletAttributedString = [[NSMutableAttributedString alloc] initWithString:self.BULLET_STRING attributes:nil];
             /* I considered manually removing any bold/italic/underline/strikethrough from the text, but 
              // decided against it. If the user wants bold bullets, let them have bold bullets!
             UIFont *prevFont = [dictionary objectForKey:NSFontAttributeName];
@@ -578,15 +580,15 @@
             [bulletDict setObject:0 forKey:NSStrikethroughStyleAttributeName];
             [bulletDict setObject:0 forKey:NSUnderlineStyleAttributeName];
             */
-            [bulletAttributedString setAttributes:dictionary range:NSMakeRange(0, BULLET_STRING.length)];
+            [bulletAttributedString setAttributes:dictionary range:NSMakeRange(0, self.BULLET_STRING.length)];
 			
 			[self.textStorage insertAttributedString:bulletAttributedString atIndex:range.location];
 			
-			CGSize expectedStringSize = [BULLET_STRING sizeWithAttributes:dictionary];
+			CGSize expectedStringSize = [self.BULLET_STRING sizeWithAttributes:dictionary];
             
             // See if the previous paragraph has a bullet
             NSString *previousParagraph = [self.attributedText.string substringWithRange:rangeOfPreviousParagraph];
-            BOOL doesPrefixWithBullet = [previousParagraph hasPrefix:BULLET_STRING];
+            BOOL doesPrefixWithBullet = [previousParagraph hasPrefix:self.BULLET_STRING];
             
             // Look at the previous paragraph to see what the firstLineHeadIndent should be for the
             // current bullet
@@ -598,7 +600,7 @@
             
 			paragraphStyle.headIndent = expectedStringSize.width;
 			
-			rangeOffset = rangeOffset + BULLET_STRING.length;
+			rangeOffset = rangeOffset + self.BULLET_STRING.length;
             self.userInBulletList = YES;
 		}
 		[self.textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
@@ -608,7 +610,7 @@
     NSRange rangeForSelection;
 	if (rangeOfParagraphsInSelectedText.count == 1 && rangeOfCurrentParagraph.length == 0)
 	{
-        rangeForSelection = NSMakeRange(rangeOfCurrentParagraph.location + BULLET_STRING.length, 0);
+        rangeForSelection = NSMakeRange(rangeOfCurrentParagraph.location + self.BULLET_STRING.length, 0);
 	}
 	else
 	{
@@ -894,8 +896,8 @@
 	NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location-1, 0)];
     //NSLog(@"[RTE] Is the user in the bullet list? %d", self.userInBulletList);
     if (!self.userInBulletList) { // fixes issue with backspacing into bullet list adding a bullet
-		BOOL currentParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:BULLET_STRING]) ? YES : NO;
-		BOOL previousParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:BULLET_STRING]) ? YES : NO;
+		BOOL currentParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
+		BOOL previousParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
         BOOL isCurrParaBlank = [[self.attributedText.string substringWithRange:rangeOfCurrentParagraph] isEqualToString:@""];
         // if we don't check to see if the current paragraph is blank, bad bugs happen with
         // the current paragraph where the selected range doesn't let the user type O_o
@@ -920,7 +922,7 @@
     }
 	if (rangeOfCurrentParagraph.length != 0)
 		return;
-    if ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:BULLET_STRING])
+    if ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING])
         [self richTextEditorToolbarDidSelectBulletListWithCaller:self];
 }
 
@@ -930,12 +932,12 @@
 	// TODO: Clean up this code since a lot of it is "repeated"
 	if (range.location > 0)
 	{
-        NSString *checkString = BULLET_STRING;
+        NSString *checkString = self.BULLET_STRING;
         if ([checkString length] > 1) // chop off last letter and use that
             checkString = [checkString substringToIndex:[checkString length]-1];
         //else return;
         NSUInteger checkStringLength = [checkString length];
-        if (![self.attributedText.string isEqualToString:BULLET_STRING]) {
+        if (![self.attributedText.string isEqualToString:self.BULLET_STRING]) {
             if (((int)(range.location-checkStringLength) >= 0 &&
                  [[self.attributedText.string substringFromIndex:range.location-checkStringLength] hasPrefix:checkString])) {
                 NSLog(@"[RTE] Getting rid of a bullet due to backspace while in empty bullet paragraph.");
@@ -962,7 +964,7 @@
                     // If the following if statement is true, the user hit enter on a blank bullet list
                     // Basically, there is now a bullet \t \n bullet \t that we need to delete
                     // Since it gets here AFTER it adds a new bullet
-                    if ([[self.attributedText.string substringWithRange:rangeOfPreviousParagraph] hasSuffix:BULLET_STRING]) {
+                    if ([[self.attributedText.string substringWithRange:rangeOfPreviousParagraph] hasSuffix:self.BULLET_STRING]) {
                         //NSLog(@"[RTE] Getting rid of bullets due to user hitting enter.");
                         NSRange rangeToDelete = NSMakeRange(rangeOfPreviousParagraph.location, rangeOfPreviousParagraph.length+rangeOfCurrentParagraph.length+1);
 						[self.textStorage deleteCharactersInRange:rangeToDelete];
