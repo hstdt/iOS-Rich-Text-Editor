@@ -103,4 +103,6 @@ typedef NS_ENUM(NSInteger, RichTextEditorPreviewChange) {
 + (NSString *)htmlStringFromAttributedText:(NSAttributedString*)text;
 + (NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString;
 
++ (NSString *)convertPreviewChangeTypeToString:(RichTextEditorPreviewChange)changeType withNonSpecialChangeText:(BOOL)shouldReturnStringForNonSpecialType;
+
 @end

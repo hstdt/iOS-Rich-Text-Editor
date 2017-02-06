@@ -1057,6 +1057,56 @@
 	return [self firstAvailableViewController];
 }
 
++ (NSString *)convertPreviewChangeTypeToString:(RichTextEditorPreviewChange)changeType withNonSpecialChangeText:(BOOL)shouldReturnStringForNonSpecialType {
+	switch (changeType) {
+		case RichTextEditorPreviewChangeBold:
+			return NSLocalizedString(@"Bold", @"");
+		case RichTextEditorPreviewChangeCut:
+			return NSLocalizedString(@"Cut", @"");
+		case RichTextEditorPreviewChangePaste:
+			return NSLocalizedString(@"Paste", @"");
+		case RichTextEditorPreviewChangeBullet:
+			return NSLocalizedString(@"Bulleted List", @"");
+		case RichTextEditorPreviewChangeItalic:
+			return NSLocalizedString(@"Italic", @"");
+		case RichTextEditorPreviewChangeFontResize:
+		case RichTextEditorPreviewChangeFontSize:
+			return NSLocalizedString(@"Font Resize", @"");
+		case RichTextEditorPreviewChangeFontColor:
+			return NSLocalizedString(@"Font Color", @"");
+		case RichTextEditorPreviewChangeHighlight:
+			return NSLocalizedString(@"Text Highlight", @"");
+		case RichTextEditorPreviewChangePageBreak:
+			return NSLocalizedString(@"Insert Page Break", @"");
+		case RichTextEditorPreviewChangeUnderline:
+			return NSLocalizedString(@"Underline", @"");
+		case RichTextEditorPreviewChangeIndentDecrease:
+		case RichTextEditorPreviewChangeIndentIncrease:
+			return NSLocalizedString(@"Text Indent", @"");
+		case RichTextEditorPreviewChangeKeyDown:
+			if (shouldReturnStringForNonSpecialType)
+				return NSLocalizedString(@"Key Down", @"");
+		case RichTextEditorPreviewChangeEnter:
+			if (shouldReturnStringForNonSpecialType)
+				return NSLocalizedString(@"Enter [Return] Key", @"");
+		case RichTextEditorPreviewChangeSpace:
+			if (shouldReturnStringForNonSpecialType)
+				return NSLocalizedString(@"Space", @"");
+		case RichTextEditorPreviewChangeDelete:
+			if (shouldReturnStringForNonSpecialType)
+				return NSLocalizedString(@"Delete", @"");
+		case RichTextEditorPreviewChangeArrowKey:
+			if (shouldReturnStringForNonSpecialType)
+				return NSLocalizedString(@"Arrow Key Movement", @"");
+		case RichTextEditorPreviewChangeMouseDown:
+			if (shouldReturnStringForNonSpecialType)
+				return NSLocalizedString(@"Mouse Down", @"");
+		default:
+			break;
+	}
+	return @"";
+}
+
 #pragma mark - Keyboard Shortcuts
 /*
 - (NSArray *)keyCommands {
