@@ -121,7 +121,7 @@
 	}
 	
     // http://stackoverflow.com/questions/26454037/uitextview-text-selection-and-highlight-jumping-in-ios-8
-    self.currSysVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
+    self.currSysVersion = UIDevice.currentDevice.systemVersion.floatValue;
 	if (self.currSysVersion >= 8.0) {
         self.layoutManager.allowsNonContiguousLayout = NO;
 	}

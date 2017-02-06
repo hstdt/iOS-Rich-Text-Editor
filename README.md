@@ -12,6 +12,10 @@ RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-T
 - [ ] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
 - [ ] Convert this README file to use ## instead of ----- for h1/2/3/4/5 syntax
 
+### Breaking Change Warning!
+
+The BULLET_STRING was modified from '\u2022\t' to '\u2022\u00a0'. You may need to update your own code or saved rich text files accordingly.
+
 ## RichTextEditor for iPhone &amp; iPad
 
 **Requirements**: iOS 8.0 or higher 
