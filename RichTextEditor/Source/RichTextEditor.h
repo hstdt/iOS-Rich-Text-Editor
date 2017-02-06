@@ -94,7 +94,15 @@ typedef NS_ENUM(NSInteger, RichTextEditorPreviewChange) {
 @property (assign) IBOutlet id <RichTextEditorDelegate> rteDelegate;
 
 @property (nonatomic, assign) CGFloat defaultIndentationSize;
-@property BOOL userInBulletList;
+@property BOOL inBulletedList;
+
+// If YES, only pastes text as rich text if the copy operation came from this class.
+// Note: not this *object* -- this class (so other RichTextEditor boxes can paste
+// between each other). If the text did not come from a RichTextEditor box, then
+// pastes as plain text.
+// If NO, performs the default paste: operation.
+// Defaults to YES.
+@property BOOL allowsRichTextPasteOnlyFromThisClass;
 
 - (void)setBorderColor:(UIColor*)borderColor;
 - (void)setBorderWidth:(CGFloat)borderWidth;

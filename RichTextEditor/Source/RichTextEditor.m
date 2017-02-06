@@ -30,11 +30,13 @@
 
 #import "RichTextEditor.h"
 #import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
 #import "UIFont+RichTextEditor.h"
 #import "NSAttributedString+RichTextEditor.h"
 #import "UIView+RichTextEditor.h"
 #import "WZProtocolInterceptor.h"
-#import  <objc/runtime.h>
 
 #define RICHTEXTEDITOR_TOOLBAR_HEIGHT 40
 
@@ -51,9 +53,16 @@
 @property NSString *BULLET_STRING;
 @property NSUInteger LEVELS_OF_UNDO;
 
+@property BOOL justDeletedBackward;
+@property BOOL isInTextDidChange;
+
 @end
 
 @implementation RichTextEditor
+
++(NSString*)pasteboardDataType {
+	return @"iOSRichTextEditor27";
+}
 
 #pragma mark - Initialization -
 
@@ -100,7 +109,7 @@
 													 dataSource:self];
 	
 	self.typingAttributesInProgress = NO;
-    self.userInBulletList = NO;
+    self.inBulletedList = NO;
     
     // Instead of hard-coding the default indentation size, which can make bulleted lists look a little
     // odd when increasing/decreasing their indent, use a \t character width instead
@@ -125,6 +134,11 @@
 	if (self.currSysVersion >= 8.0) {
         self.layoutManager.allowsNonContiguousLayout = NO;
 	}
+	// make sure we start on a blank string if needed and at the top of the text box
+	self.selectedRange = NSMakeRange(0, 0);
+	if ([[self.textStorage.string stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] isEqualToString:@""]) {
+		[self.textStorage setAttributedString:[[NSAttributedString alloc] initWithString:@""]];
+	}
 }
 
 -(void)dealloc {
@@ -132,13 +146,40 @@
     self.toolBar = nil;
 }
 
+-(void)sendDelegatePreviewChangeOfType:(RichTextEditorPreviewChange)type {
+	if (self.rteDelegate && [self.rteDelegate respondsToSelector:@selector(richTextEditor:changeAboutToOccurOfType:)]) {
+		[self.rteDelegate richTextEditor:self changeAboutToOccurOfType:type];
+	}
+}
+
 - (void)textViewDidChange:(UITextView *)textView {
-	//NSLog(@"[RTE] Text view did change");
-	[self applyBulletListIfApplicable];
-	[self deleteBulletListWhenApplicable];
+	if (!self.isInTextDidChange){
+		self.isInTextDidChange = YES;
+		if (!self.justDeletedBackward) {
+			// fix for issue where deleting a char that isn't in a bulleted list right before a bulleted list added a bullet
+			[self applyBulletListIfApplicable];
+		}
+		[self deleteBulletListWhenApplicable];
+		self.isInTextDidChange = NO;
+	}
+	self.justDeletedBackward = NO;
 	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChange:)]) {
 		[self.delegate_interceptor.receiver textViewDidChange:textView];
 	}
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+	if ([text isEqualToString:@"\n"]) {
+		[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeEnter];
+		self.inBulletedList = [self isInBulletedList];
+	}
+	if ([text isEqualToString:@" "]) {
+		[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeSpace];
+	}
+	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
+		return [self.delegate_interceptor.receiver textView:textView shouldChangeTextInRange:range replacementText:text];
+	}
+	return YES;
 }
 
 - (void)textViewDidChangeSelection:(UITextView *)textView {
@@ -148,36 +189,107 @@
     [self scrollRangeToVisible:self.selectedRange]; // fixes issue with cursor moving to top via keyboard and RTE not scrolling
     
 	NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
-	BOOL currentParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES: NO;
-    if (currentParagraphHasBullet)
-        self.userInBulletList = YES;
+	BOOL currentParagraphHasBullet = [[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING];
+	if (currentParagraphHasBullet) {
+        self.inBulletedList = YES;
+	}
+	[self sendDelegateTypingAttrsUpdate];
 	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChangeSelection:)]) {
 		[self.delegate_interceptor.receiver textViewDidChangeSelection:self];
 	}
 }
 
+- (BOOL)isInBulletedList {
+	NSRange rangeOfCurrentParagraph = [self.textStorage firstParagraphRangeFromTextRange:self.selectedRange];
+	return [[self.textStorage.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING];
+}
+
+-(BOOL)isInEmptyBulletedListItem {
+	NSRange rangeOfCurrentParagraph = [self.textStorage firstParagraphRangeFromTextRange:self.selectedRange];
+	return [[self.textStorage.string substringFromIndex:rangeOfCurrentParagraph.location] isEqualToString:self.BULLET_STRING];
+}
+
+- (void)sendDelegateTypingAttrsUpdate {
+	if (self.rteDelegate) {
+		NSDictionary *attributes = [self typingAttributes];
+		UIFont *font = [attributes objectForKey:NSFontAttributeName];
+		UIColor *fontColor = [attributes objectForKey:NSForegroundColorAttributeName];
+		UIColor *backgroundColor = [attributes objectForKey:NSBackgroundColorAttributeName]; // may want NSBackgroundColorAttributeName
+		BOOL isInBulletedList = [self isInBulletedList];
+		[self.rteDelegate selectionForEditor:self changedTo:[self selectedRange] isBold:[font isBold] isItalic:[font isItalic] isUnderline:[self isCurrentFontUnderlined] isInBulletedList:isInBulletedList textBackgroundColor:backgroundColor textColor:fontColor];
+	}
+}
+
+- (BOOL)isCurrentFontUnderlined {
+	NSDictionary *dictionary = [self typingAttributes];
+	NSNumber *existingUnderlineStyle = [dictionary objectForKey:NSUnderlineStyleAttributeName];
+	
+	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone)
+		return NO;
+	return YES;
+}
+
+// see http://stackoverflow.com/a/25862878/3938401 for a discussion on deleteBackward bugs not working in iOS 8.0 up until 8.3
+- (void)deleteBackward {
+	self.justDeletedBackward = YES;
+	[super deleteBackward];
+}
+
 #pragma mark - Override Methods -
 
-- (void)setSelectedTextRange:(UITextRange *)selectedTextRange
-{
+- (void)paste:(id)sender {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangePaste];
+	if (self.allowsRichTextPasteOnlyFromThisClass)
+	{
+		if ([[UIPasteboard generalPasteboard] dataForPasteboardType:[RichTextEditor pasteboardDataType]])
+		{
+			[super paste:sender]; // just call paste so we don't have to bother doing the check again
+		}
+		else
+		{
+			[self pasteAsPlainText:(NSString*)[[UIPasteboard generalPasteboard] dataForPasteboardType:(NSString*)kUTTypeUTF8PlainText]];
+		}
+	}
+	else
+	{
+		[super paste:sender];
+	}
+}
+
+- (void)pasteAsPlainText:(NSString*)stringToPaste {
+	// 1) Delete current selection (a paste would overwrite it) at selectedRange
+	NSUInteger selectedLocation = self.selectedRange.location;
+	[self.textStorage deleteCharactersInRange:self.selectedRange];
+	// 2) Insert stringToPaste at selectedRange
+	[self.textStorage insertAttributedString:[[NSAttributedString alloc] initWithString:stringToPaste] atIndex:selectedLocation];
+}
+
+- (void)cut:(id)sender {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeCut];
+	[super cut:sender];
+}
+
+- (void)copy:(id)sender {
+	[super copy:sender];
+	UIPasteboard *currentPasteboard = [UIPasteboard generalPasteboard];
+	[currentPasteboard setData:[@"" dataUsingEncoding:NSUTF8StringEncoding] forPasteboardType:[RichTextEditor pasteboardDataType]];
+}
+
+- (void)setSelectedTextRange:(UITextRange *)selectedTextRange {
 	[super setSelectedTextRange:selectedTextRange];
-	
 	[self updateToolbarState];
 	self.typingAttributesInProgress = NO;
 }
 
-- (BOOL)canBecomeFirstResponder
-{
+- (BOOL)canBecomeFirstResponder {
 	if (![self.dataSource respondsToSelector:@selector(shouldDisplayToolbarForRichTextEditor:)] ||
-		[self.dataSource shouldDisplayToolbarForRichTextEditor:self])
-	{
+		[self.dataSource shouldDisplayToolbarForRichTextEditor:self]) {
 		self.inputAccessoryView = self.toolBar;
 		
 		// Redraw in case enabled features have changed
 		[self.toolBar redraw];
 	}
-	else
-	{
+	else {
 		self.inputAccessoryView = nil;
 	}
 	// changed to YES so that we can use keyboard shortcuts
@@ -289,8 +401,9 @@
                                      options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                                NSCharacterEncodingDocumentAttribute: [NSNumber numberWithInt:NSUTF8StringEncoding]}
                           documentAttributes:nil error:&error];
-	if (!error)
+	if (!error) {
 		return str;
+	}
 	NSLog(@"[RTE] Attributed string from HTML string %@", error);
     return nil;
 }
@@ -527,7 +640,7 @@
     if (self.currSysVersion < 8.0)
         self.scrollEnabled = NO;
     if (caller == self.toolBar)
-        self.userInBulletList = !self.userInBulletList;
+        self.inBulletedList = !self.inBulletedList;
 	NSRange initialSelectedRange = self.selectedRange;
 	NSArray *rangeOfParagraphsInSelectedText = [self.attributedText rangeOfParagraphsFromTextRange:self.selectedRange];
 	NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
@@ -563,7 +676,7 @@
 			paragraphStyle.headIndent = 0;
 			
 			rangeOffset = rangeOffset - self.BULLET_STRING.length;
-            self.userInBulletList = NO;
+            self.inBulletedList = NO;
 		}
 		else
         {
@@ -601,7 +714,7 @@
 			paragraphStyle.headIndent = expectedStringSize.width;
 			
 			rangeOffset = rangeOffset + self.BULLET_STRING.length;
-            self.userInBulletList = YES;
+            self.inBulletedList = YES;
 		}
 		[self.textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
 	}];
@@ -895,7 +1008,7 @@
         return; // there isn't a previous paragraph, so forget it. The user isn't in a bulleted list.
 	NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location-1, 0)];
     //NSLog(@"[RTE] Is the user in the bullet list? %d", self.userInBulletList);
-    if (!self.userInBulletList) { // fixes issue with backspacing into bullet list adding a bullet
+    if (!self.inBulletedList) { // fixes issue with backspacing into bullet list adding a bullet
 		BOOL currentParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
 		BOOL previousParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
         BOOL isCurrParaBlank = [[self.attributedText.string substringWithRange:rangeOfCurrentParagraph] isEqualToString:@""];
@@ -953,7 +1066,7 @@
                 paragraphStyle.firstLineHeadIndent = 0;
                 paragraphStyle.headIndent = 0;
                 [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfParagraph];
-                self.userInBulletList = NO;
+                self.inBulletedList = NO;
             }
             else {
                 // User may be needing to get out of a bulleted list due to hitting enter (return)
@@ -978,7 +1091,7 @@
                         paragraphStyle.firstLineHeadIndent = 0;
                         paragraphStyle.headIndent = 0;
                         [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfParagraph];
-                        self.userInBulletList = NO;
+                        self.inBulletedList = NO;
                     }
                 }                
             }
