@@ -56,6 +56,10 @@
 @property BOOL justDeletedBackward;
 @property BOOL isInTextDidChange;
 
+@property CGFloat fontSizeChangeAmount;
+@property CGFloat maxFontSize;
+@property CGFloat minFontSize;
+
 @end
 
 @implementation RichTextEditor
@@ -103,7 +107,10 @@
     self.borderWidth = 1.0;
 	self.LEVELS_OF_UNDO = 15;
 	self.BULLET_STRING = @"•\u00A0"; // bullet is \u2022
-    
+	self.fontSizeChangeAmount = 6.0f;
+	self.maxFontSize = 128.0f;
+	self.minFontSize = 8.0f;
+	
 	self.toolBar = [[RichTextEditorToolbar alloc] initWithFrame:CGRectMake(0, 0, [self currentScreenBoundsDependOnOrientation].size.width, RICHTEXTEDITOR_TOOLBAR_HEIGHT)
 													   delegate:self
 													 dataSource:self];
@@ -163,9 +170,7 @@
 		self.isInTextDidChange = NO;
 	}
 	self.justDeletedBackward = NO;
-	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChange:)]) {
-		[self.delegate_interceptor.receiver textViewDidChange:textView];
-	}
+	[self sendDelegateTVChanged];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -220,12 +225,19 @@
 	}
 }
 
+- (void)sendDelegateTVChanged {
+	if (self.delegate_interceptor.receiver && [self.delegate_interceptor.receiver respondsToSelector:@selector(textViewDidChange:)]) {
+		[self.delegate_interceptor.receiver textViewDidChange:self];
+	}
+}
+
 - (BOOL)isCurrentFontUnderlined {
 	NSDictionary *dictionary = [self typingAttributes];
 	NSNumber *existingUnderlineStyle = [dictionary objectForKey:NSUnderlineStyleAttributeName];
 	
-	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone)
+	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone) {
 		return NO;
+	}
 	return YES;
 }
 
@@ -239,19 +251,15 @@
 
 - (void)paste:(id)sender {
 	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangePaste];
-	if (self.allowsRichTextPasteOnlyFromThisClass)
-	{
-		if ([[UIPasteboard generalPasteboard] dataForPasteboardType:[RichTextEditor pasteboardDataType]])
-		{
+	if (self.allowsRichTextPasteOnlyFromThisClass) {
+		if ([[UIPasteboard generalPasteboard] dataForPasteboardType:[RichTextEditor pasteboardDataType]]) {
 			[super paste:sender]; // just call paste so we don't have to bother doing the check again
 		}
-		else
-		{
+		else {
 			[self pasteAsPlainText:(NSString*)[[UIPasteboard generalPasteboard] dataForPasteboardType:(NSString*)kUTTypeUTF8PlainText]];
 		}
 	}
-	else
-	{
+	else {
 		[super paste:sender];
 	}
 }
@@ -296,22 +304,17 @@
 	return YES; /*[super canBecomeFirstResponder]*/
 }
 
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
 	RichTextEditorFeature features = [self featuresEnabledForRichTextEditorToolbar];
 	
 	if ([self.dataSource respondsToSelector:@selector(shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:)] &&
-		[self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self])
-	{
+		[self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self]) {
 		if (action == @selector(richTextEditorToolbarDidSelectBold) && (features & RichTextEditorFeatureBold  || features & RichTextEditorFeatureAll))
 			return YES;
-		
 		if (action == @selector(richTextEditorToolbarDidSelectItalic) && (features & RichTextEditorFeatureItalic  || features & RichTextEditorFeatureAll))
 			return YES;
-		
 		if (action == @selector(richTextEditorToolbarDidSelectUnderline) && (features & RichTextEditorFeatureUnderline  || features & RichTextEditorFeatureAll))
 			return YES;
-		
 		if (action == @selector(richTextEditorToolbarDidSelectStrikeThrough) && (features & RichTextEditorFeatureStrikeThrough  || features & RichTextEditorFeatureAll))
 			return YES;
 	}
@@ -322,28 +325,24 @@
 	return [super canPerformAction:action withSender:sender];
 }
 
-- (void)setAttributedText:(NSAttributedString *)attributedText
-{
+- (void)setAttributedText:(NSAttributedString *)attributedText {
 	[super setAttributedText:attributedText];
 	[self updateToolbarState];
 }
 
-- (void)setText:(NSString *)text
-{
+- (void)setText:(NSString *)text {
 	[super setText:text];
 	[self updateToolbarState];
 }
 
-- (void)setFont:(UIFont *)font
-{
+- (void)setFont:(UIFont *)font {
 	[super setFont:font];
 	[self updateToolbarState];
 }
 
 #pragma mark - MenuController Methods -
 
-- (void)setupMenuItems
-{
+- (void)setupMenuItems {
 	UIMenuItem *selectParagraph = [[UIMenuItem alloc] initWithTitle:@"Select Paragraph" action:@selector(selectParagraph:)];
 	UIMenuItem *boldItem = [[UIMenuItem alloc] initWithTitle:@"Bold" action:@selector(richTextEditorToolbarDidSelectBold)];
 	UIMenuItem *italicItem = [[UIMenuItem alloc] initWithTitle:@"Italic" action:@selector(richTextEditorToolbarDidSelectItalic)];
@@ -353,8 +352,7 @@
 	[[UIMenuController sharedMenuController] setMenuItems:@[selectParagraph, boldItem, italicItem, underlineItem]];
 }
 
-- (void)selectParagraph:(id)sender
-{
+- (void)selectParagraph:(id)sender {
 	NSRange range = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
 	[self setSelectedRange:range];
     
@@ -364,8 +362,7 @@
 
 #pragma mark - Public Methods -
 
-- (void)setHtmlString:(NSString *)htmlString
-{
+- (void)setHtmlString:(NSString *)htmlString {
 	NSMutableAttributedString *attr = [[RichTextEditor attributedStringFromHTMLString:htmlString] mutableCopy];
 	if (attr) {
 		if ([attr.string hasSuffix:@"\n"]) {
@@ -375,32 +372,27 @@
 	}
 }
 
-- (NSString *)htmlString
-{
+- (NSString *)htmlString {
     return [RichTextEditor htmlStringFromAttributedText:self.attributedText];
 }
 
-+(NSString *)htmlStringFromAttributedText:(NSAttributedString*)text
-{
-	
++(NSString *)htmlStringFromAttributedText:(NSAttributedString*)text {
 	NSData *data = [text dataFromRange:NSMakeRange(0, text.length)
                     documentAttributes:
                         @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                         NSCharacterEncodingDocumentAttribute: [NSNumber numberWithInt:NSUTF8StringEncoding]}
                     error:nil];
-	
 	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
-+(NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString
-{
-	NSError *error ;
++(NSAttributedString*)attributedStringFromHTMLString:(NSString *)htmlString {
+	NSError *error;
 	NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
 	NSAttributedString *str =
-    [[NSAttributedString alloc] initWithData:data
-                                     options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                               NSCharacterEncodingDocumentAttribute: [NSNumber numberWithInt:NSUTF8StringEncoding]}
-                          documentAttributes:nil error:&error];
+		[[NSAttributedString alloc] initWithData:data
+										 options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+												   NSCharacterEncodingDocumentAttribute: [NSNumber numberWithInt:NSUTF8StringEncoding]}
+							  documentAttributes:nil error:&error];
 	if (!error) {
 		return str;
 	}
@@ -408,127 +400,159 @@
     return nil;
 }
 
-- (void)setBorderColor:(UIColor *)borderColor
-{
+- (void)setBorderColor:(UIColor *)borderColor {
     self.layer.borderColor = borderColor.CGColor;
 }
 
-- (void)setBorderWidth:(CGFloat)borderWidth
-{
+- (void)setBorderWidth:(CGFloat)borderWidth {
     self.layer.borderWidth = borderWidth;
 }
 
 #pragma mark - RichTextEditorToolbarDelegate Methods -
 
-- (void)richTextEditorToolbarDidDismissViewController
-{
-	if (![self isFirstResponder])
+- (void)richTextEditorToolbarDidDismissViewController {
+	if (!self.isFirstResponder) {
 		[self becomeFirstResponder];
+	}
 }
 
 // To fix the toolbar issues, may just want to set self.typingAttributesInProgress to YES instead
-- (void)richTextEditorToolbarDidSelectBold
-{
-    UIFont *font = [[self typingAttributes] objectForKey:NSFontAttributeName];
+- (void)richTextEditorToolbarDidSelectBold {
+	UIFont *font = [[self typingAttributes] objectForKey:NSFontAttributeName];
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBold];
 	[self applyFontAttributesToSelectedRangeWithBoldTrait:[NSNumber numberWithBool:![font isBold]] italicTrait:nil fontName:nil fontSize:nil];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
 }
 
-- (void)richTextEditorToolbarDidSelectItalic
-{
-    UIFont *font = [[self typingAttributes] objectForKey:NSFontAttributeName];
+- (void)richTextEditorToolbarDidSelectItalic {
+	UIFont *font = [[self typingAttributes] objectForKey:NSFontAttributeName];
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeItalic];
 	[self applyFontAttributesToSelectedRangeWithBoldTrait:nil italicTrait:[NSNumber numberWithBool:![font isItalic]] fontName:nil fontSize:nil];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
 }
 
-- (void)richTextEditorToolbarDidSelectFontSize:(NSNumber *)fontSize
-{
-	[self applyFontAttributesToSelectedRangeWithBoldTrait:nil italicTrait:nil fontName:nil fontSize:fontSize];
-}
-
-- (void)richTextEditorToolbarDidSelectFontWithName:(NSString *)fontName
-{
-	[self applyFontAttributesToSelectedRangeWithBoldTrait:nil italicTrait:nil fontName:fontName fontSize:nil];
-}
-
-- (void)richTextEditorToolbarDidSelectTextBackgroundColor:(UIColor *)color
-{
-	if (color)
-		[self applyAttributesToSelectedRange:color forKey:NSBackgroundColorAttributeName];
-	else
-		[self removeAttributeForKeyFromSelectedRange:NSBackgroundColorAttributeName];
-}
-
-- (void)richTextEditorToolbarDidSelectTextForegroundColor:(UIColor *)color
-{
-	if (color)
-		[self applyAttributesToSelectedRange:color forKey:NSForegroundColorAttributeName];
-	else
-		[self removeAttributeForKeyFromSelectedRange:NSForegroundColorAttributeName];
-}
-
-- (void)richTextEditorToolbarDidSelectUnderline
-{
-    NSDictionary *dictionary = [self typingAttributes];
+- (void)richTextEditorToolbarDidSelectUnderline {
+	NSDictionary *dictionary = [self typingAttributes];
 	NSNumber *existingUnderlineStyle = [dictionary objectForKey:NSUnderlineStyleAttributeName];
-	
-	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone)
+	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone) {
 		existingUnderlineStyle = [NSNumber numberWithInteger:NSUnderlineStyleSingle];
-	else
+	}
+	else {
 		existingUnderlineStyle = [NSNumber numberWithInteger:NSUnderlineStyleNone];
+	}
 	
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeUnderline];
 	[self applyAttributesToSelectedRange:existingUnderlineStyle forKey:NSUnderlineStyleAttributeName];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
 }
 
-- (void)richTextEditorToolbarDidSelectStrikeThrough
-{
+- (void)richTextEditorToolbarDidSelectFontSize:(NSNumber *)fontSize {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeFontSize];
+	[self applyFontAttributesToSelectedRangeWithBoldTrait:nil italicTrait:nil fontName:nil fontSize:fontSize];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
+}
+
+- (void)richTextEditorToolbarDidSelectFontWithName:(NSString *)fontName {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeFontName];
+	[self applyFontAttributesToSelectedRangeWithBoldTrait:nil italicTrait:nil fontName:fontName fontSize:nil];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
+}
+
+- (void)richTextEditorToolbarDidSelectTextBackgroundColor:(UIColor *)color {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeHighlight];
+	NSRange selectedRange = [self selectedRange];
+	if (color) {
+		[self applyAttributesToSelectedRange:color forKey:NSBackgroundColorAttributeName];
+	}
+	else {
+		[self removeAttributeForKeyFromSelectedRange:NSBackgroundColorAttributeName];
+	}
+	[self setSelectedRange:NSMakeRange(selectedRange.location + selectedRange.length, 0)];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
+}
+
+-(void)userSelectedIncreaseIndent {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeIndentIncrease];
+	[self richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationIncrease];
+	[self sendDelegateTVChanged];
+}
+
+-(void)userSelectedDecreaseIndent {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeIndentDecrease];
+	[self richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationDecrease];
+	[self sendDelegateTVChanged];
+}
+
+- (void)richTextEditorToolbarDidSelectTextForegroundColor:(UIColor *)color {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeFontColor];
+	NSRange selectedRange = [self selectedRange];
+	if (color) {
+		[self applyAttributesToSelectedRange:color forKey:NSForegroundColorAttributeName];
+	}
+	else {
+		[self removeAttributeForKeyFromSelectedRange:NSForegroundColorAttributeName];
+	}
+	[self setSelectedRange:NSMakeRange(selectedRange.location + selectedRange.length, 0)];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
+}
+
+- (void)richTextEditorToolbarDidSelectStrikeThrough {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeStrikethrough];
     NSDictionary *dictionary = [self typingAttributes];
 	NSNumber *existingUnderlineStyle = [dictionary objectForKey:NSStrikethroughStyleAttributeName];
-	
-	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone)
+	if (!existingUnderlineStyle || existingUnderlineStyle.intValue == NSUnderlineStyleNone) {
 		existingUnderlineStyle = [NSNumber numberWithInteger:NSUnderlineStyleSingle];
-	else
+	}
+	else {
 		existingUnderlineStyle = [NSNumber numberWithInteger:NSUnderlineStyleNone];
-	
+	}
 	[self applyAttributesToSelectedRange:existingUnderlineStyle forKey:NSStrikethroughStyleAttributeName];
+	[self sendDelegateTypingAttrsUpdate];
+	[self sendDelegateTVChanged];
 }
 
 // try/catch blocks on undo/redo because it doesn't work right with bulleted lists when BULLET_STRING has more than 1 character
-- (void)richTextEditorToolbarDidSelectUndo
-{
+- (void)richTextEditorToolbarDidSelectUndo {
     @try {
         BOOL shouldUseUndoManager = YES;
-        if ([self.dataSource respondsToSelector:@selector(handlesUndoRedoForText)])
-        {
+        if ([self.dataSource respondsToSelector:@selector(handlesUndoRedoForText)]) {
             if ([self.rteDelegate handlesUndoRedoForText]) {
                 [self.rteDelegate userPerformedUndo];
                 shouldUseUndoManager = NO;
             }
         }
-        if (shouldUseUndoManager && [[self undoManager] canUndo])
-            [[self undoManager] undo];
+		if (shouldUseUndoManager && [[self undoManager] canUndo]) {
+            [self.undoManager undo];
+		}
     }
     @catch (NSException *e) {
         NSLog(@"[RTE] Couldn't perform undo: %@", [e description]);
-        [[self undoManager] removeAllActions];
+        [self.undoManager removeAllActions];
     }
 }
 
-- (void)richTextEditorToolbarDidSelectRedo
-{
+- (void)richTextEditorToolbarDidSelectRedo {
     @try {
         BOOL shouldUseUndoManager = YES;
-        if ([self.dataSource respondsToSelector:@selector(handlesUndoRedoForText)])
-        {
+        if ([self.dataSource respondsToSelector:@selector(handlesUndoRedoForText)]) {
             if ([self.rteDelegate handlesUndoRedoForText]) {
                 [self.rteDelegate userPerformedRedo];
                 shouldUseUndoManager = NO;
             }
         }
         if (shouldUseUndoManager && [[self undoManager] canRedo])
-            [[self undoManager] redo];
+            [self.undoManager redo];
     }
     @catch (NSException *e) {
         NSLog(@"[RTE] Couldn't perform redo: %@", [e description]);
-        [[self undoManager] removeAllActions];
+        [self.undoManager removeAllActions];
     }
 }
 
@@ -536,31 +560,30 @@
     [self resignFirstResponder];
 }
 
-- (void)richTextEditorToolbarDidSelectParagraphIndentation:(ParagraphIndentation)paragraphIndentation
-{
+- (void)richTextEditorToolbarDidSelectParagraphIndentation:(ParagraphIndentation)paragraphIndentation {
     __block NSDictionary *dictionary;
     __block NSMutableParagraphStyle *paragraphStyle;
-	[self enumarateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
+	[self enumerateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
         dictionary = [self dictionaryAtIndex:paragraphRange.location];
         paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
-		if (!paragraphStyle)
+		if (!paragraphStyle) {
 			paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-
-		if (paragraphIndentation == ParagraphIndentationIncrease)
-		{
+		}
+		if (paragraphIndentation == ParagraphIndentationIncrease) {
 			paragraphStyle.headIndent += self.defaultIndentationSize;
 			paragraphStyle.firstLineHeadIndent += self.defaultIndentationSize;
 		}
-		else if (paragraphIndentation == ParagraphIndentationDecrease)
-		{
+		else if (paragraphIndentation == ParagraphIndentationDecrease) {
 			paragraphStyle.headIndent -= self.defaultIndentationSize;
 			paragraphStyle.firstLineHeadIndent -= self.defaultIndentationSize;
 			
-			if (paragraphStyle.headIndent < 0)
-				paragraphStyle.headIndent = 0; // this is the right cursor placement
+			if (paragraphStyle.headIndent < 0) {
+				paragraphStyle.headIndent = 0; // this is the right (as opposed to left) cursor placement
+			}
 
-			if (paragraphStyle.firstLineHeadIndent < 0)
-				paragraphStyle.firstLineHeadIndent = 0; // this affects left cursor placement 
+			if (paragraphStyle.firstLineHeadIndent < 0) {
+				paragraphStyle.firstLineHeadIndent = 0; // this affects left cursor placement
+			}
 		}
 		[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:paragraphRange];
 	}];
@@ -572,8 +595,7 @@
     // Check to see if the current paragraph is blank. If it is, manually get the cursor to move with a weird hack.
     NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
 	BOOL currParagraphIsBlank = [[self.attributedText.string substringWithRange:rangeOfCurrentParagraph] isEqualToString:@""] ? YES: NO;
-    if (currParagraphIsBlank)
-    {
+    if (currParagraphIsBlank) {
         [self setIndentationWithAttributes:dictionary paragraphStyle:paragraphStyle atRange:rangeOfCurrentParagraph];
     }
 }
@@ -581,105 +603,105 @@
 // Manually moves the cursor to the correct location. Ugly work around and weird but it works (at least in iOS 7).
 // Basically what I do is add a " " with the correct indentation then delete it. For some reason with that
 // and applying that attribute to the current typing attributes it moves the cursor to the right place.
--(void)setIndentationWithAttributes:(NSDictionary*)attributes paragraphStyle:(NSMutableParagraphStyle*)paragraphStyle atRange:(NSRange)range
-{
-    NSMutableAttributedString *attributedText = [self.attributedText mutableCopy];
+-(void)setIndentationWithAttributes:(NSDictionary*)attributes paragraphStyle:(NSMutableParagraphStyle*)paragraphStyle atRange:(NSRange)range {
     NSMutableAttributedString *space = [[NSMutableAttributedString alloc] initWithString:@" " attributes:attributes];
     [space addAttributes:[NSDictionary dictionaryWithObject:paragraphStyle forKey:NSParagraphStyleAttributeName] range:NSMakeRange(0, 1)];
-    [attributedText insertAttributedString:space atIndex:range.location];
 	[self.textStorage insertAttributedString:space atIndex:range.location];
     [self setSelectedRange:NSMakeRange(range.location, 1)];
     [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:NSMakeRange(self.selectedRange.location+self.selectedRange.length-1, 1)];
     [self setSelectedRange:NSMakeRange(range.location, 0)];
-	[attributedText deleteCharactersInRange:NSMakeRange(range.location, 1)];
 	[self.textStorage deleteCharactersInRange:NSMakeRange(range.location, 1)];
     [self applyAttributeToTypingAttribute:paragraphStyle forKey:NSParagraphStyleAttributeName];
 }
 
-- (void)richTextEditorToolbarDidSelectParagraphFirstLineHeadIndent
-{
-	[self enumarateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
+- (void)richTextEditorToolbarDidSelectParagraphFirstLineHeadIndent {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeParagraphFirstLineHeadIndent];
+	[self enumerateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
 		NSDictionary *dictionary = [self dictionaryAtIndex:paragraphRange.location];
 		NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
-		
-		if (!paragraphStyle)
+		if (!paragraphStyle) {
 			paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-		
-		if (paragraphStyle.headIndent == paragraphStyle.firstLineHeadIndent)
-		{
+		}
+		if (paragraphStyle.headIndent == paragraphStyle.firstLineHeadIndent) {
 			paragraphStyle.firstLineHeadIndent += self.defaultIndentationSize;
 		}
-		else
-		{
+		else {
 			paragraphStyle.firstLineHeadIndent = paragraphStyle.headIndent;
 		}
-		
 		[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:paragraphRange];
 	}];
+	[self sendDelegateTVChanged];
 }
 
-- (void)richTextEditorToolbarDidSelectTextAlignment:(NSTextAlignment)textAlignment
-{
-	[self enumarateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
+- (void)richTextEditorToolbarDidSelectTextAlignment:(NSTextAlignment)textAlignment {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeTextAlignment];
+	[self enumerateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
 		NSDictionary *dictionary = [self dictionaryAtIndex:paragraphRange.location];
 		NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
-		
-		if (!paragraphStyle)
+		if (!paragraphStyle) {
 			paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-		
+		}
 		paragraphStyle.alignment = textAlignment;
-		
 		[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:paragraphRange];
         [self setIndentationWithAttributes:dictionary paragraphStyle:paragraphStyle atRange:paragraphRange];
 	}];
-    [self updateToolbarState];
+	[self updateToolbarState];
+	[self sendDelegateTVChanged];
 }
 
-- (void)richTextEditorToolbarDidSelectBulletListWithCaller:(id)caller
-{
-    if (self.currSysVersion < 8.0)
+-(void)setAttributedString:(NSAttributedString*)attributedString {
+	[self.textStorage setAttributedString:attributedString];
+}
+
+- (void)richTextEditorToolbarDidSelectBulletListWithCaller:(id)caller {
+	if (self.currSysVersion < 8.0) {
         self.scrollEnabled = NO;
-    if (caller == self.toolBar)
+	}
+	if (!self.isEditable)
+		return;
+	if (!self.isInTextDidChange) {
+		[self sendDelegateTVChanged];
+	}
+	if (caller == self.toolBar) {
         self.inBulletedList = !self.inBulletedList;
+	}
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBullet];
 	NSRange initialSelectedRange = self.selectedRange;
 	NSArray *rangeOfParagraphsInSelectedText = [self.attributedText rangeOfParagraphsFromTextRange:self.selectedRange];
 	NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
-	BOOL firstParagraphHasBullet = ([[[self.attributedText string] substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES: NO;
+	BOOL firstParagraphHasBullet = [[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING];
     
     NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location-1, 0)];
     NSDictionary *prevParaDict = [self dictionaryAtIndex:rangeOfPreviousParagraph.location];
     NSMutableParagraphStyle *prevParaStyle = [prevParaDict objectForKey:NSParagraphStyleAttributeName];
 	
 	__block NSInteger rangeOffset = 0;
+	__block BOOL mustDecreaseIndentAfterRemovingBullet = NO;
+	__block BOOL isInBulletedList = self.inBulletedList;
 	
-	[self enumarateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
+	[self enumerateThroughParagraphsInRange:self.selectedRange withBlock:^(NSRange paragraphRange){
 		NSRange range = NSMakeRange(paragraphRange.location + rangeOffset, paragraphRange.length);
-		NSMutableAttributedString *currentAttributedString = [self.attributedText mutableCopy];
 		NSDictionary *dictionary = [self dictionaryAtIndex:MAX((int)range.location-1, 0)];
 		NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
 		
-		if (!paragraphStyle)
+		if (!paragraphStyle) {
 			paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-		
-		BOOL currentParagraphHasBullet = ([[[currentAttributedString string] substringFromIndex:range.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
-		
-		if (firstParagraphHasBullet != currentParagraphHasBullet)
+		}
+		BOOL currentParagraphHasBullet = [[self.attributedText.string substringFromIndex:range.location] hasPrefix:self.BULLET_STRING];
+		if (firstParagraphHasBullet != currentParagraphHasBullet) {
 			return;
-		if (currentParagraphHasBullet)
-		{
+		}
+		if (currentParagraphHasBullet){
             // User hit the bullet button and is in a bulleted list so we should get rid of the bullet
 			range = NSMakeRange(range.location, range.length - self.BULLET_STRING.length);
-			
-			[currentAttributedString deleteCharactersInRange:NSMakeRange(range.location, self.BULLET_STRING.length)];
-			
+			[self.textStorage deleteCharactersInRange:NSMakeRange(range.location, self.BULLET_STRING.length)];
 			paragraphStyle.firstLineHeadIndent = 0;
 			paragraphStyle.headIndent = 0;
-			
 			rangeOffset = rangeOffset - self.BULLET_STRING.length;
-            self.inBulletedList = NO;
+			mustDecreaseIndentAfterRemovingBullet = YES;
+			isInBulletedList = NO;
 		}
-		else
-        {
+		else {
             // We are adding a bullet
 			range = NSMakeRange(range.location, range.length + self.BULLET_STRING.length);
 			
@@ -707,220 +729,184 @@
             // current bullet
             // if the previous paragraph has a bullet, use that paragraph's indent
             // if not, then use defaultIndentation size
-            if (!doesPrefixWithBullet)
+			if (!doesPrefixWithBullet) {
                 paragraphStyle.firstLineHeadIndent = self.defaultIndentationSize;
-            else paragraphStyle.firstLineHeadIndent = prevParaStyle.firstLineHeadIndent;
-            
+			}
+			else {
+				paragraphStyle.firstLineHeadIndent = prevParaStyle.firstLineHeadIndent;
+			}
 			paragraphStyle.headIndent = expectedStringSize.width;
 			
 			rangeOffset = rangeOffset + self.BULLET_STRING.length;
-            self.inBulletedList = YES;
+			isInBulletedList = YES;
 		}
 		[self.textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
 	}];
 	
 	// If paragraph is empty move cursor to front of bullet, so the user can start typing right away
     NSRange rangeForSelection;
-	if (rangeOfParagraphsInSelectedText.count == 1 && rangeOfCurrentParagraph.length == 0)
-	{
+	if (rangeOfParagraphsInSelectedText.count == 1 && rangeOfCurrentParagraph.length == 0 && isInBulletedList) {
         rangeForSelection = NSMakeRange(rangeOfCurrentParagraph.location + self.BULLET_STRING.length, 0);
 	}
-	else
-	{
-		if (initialSelectedRange.length == 0)
-        {
+	else {
+		if (initialSelectedRange.length == 0) {
             rangeForSelection = NSMakeRange(initialSelectedRange.location+rangeOffset, 0);
 		}
-		else
-        {
+		else {
 			NSRange fullRange = [self fullRangeFromArrayOfParagraphRanges:rangeOfParagraphsInSelectedText];
             rangeForSelection = NSMakeRange(fullRange.location, fullRange.length+rangeOffset);
 		}
-    }
+	}
+	if (mustDecreaseIndentAfterRemovingBullet) { // remove the extra indentation added by the bullet
+		[self richTextEditorToolbarDidSelectParagraphIndentation:ParagraphIndentationDecrease];
+	}
     //NSLog(@"[RTE] Range for end of bullet: %lu, %lu", (unsigned long)rangeForSelection.location, (unsigned long)rangeForSelection.length);
     if (self.currSysVersion < 8.0)
 		self.scrollEnabled = YES;
 	self.selectedRange = rangeForSelection;
 }
 
-- (void)richTextEditorToolbarDidSelectTextAttachment:(UIImage *)textAttachment
-{
+- (void)richTextEditorToolbarDidSelectTextAttachment:(UIImage *)textAttachment {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeTextAttachment];
 	NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
 	[attachment setImage:textAttachment];
 	NSAttributedString *attributedStringAttachment = [NSAttributedString attributedStringWithAttachment:attachment];
-	
 	NSDictionary *previousAttributes = [self dictionaryAtIndex:self.selectedRange.location];
-	
-	NSMutableAttributedString *attributedString = [self.attributedText mutableCopy];
-	[attributedString insertAttributedString:attributedStringAttachment atIndex:self.selectedRange.location];
-	[attributedString addAttributes:previousAttributes range:NSMakeRange(self.selectedRange.location, 1)];
-	self.attributedText = attributedString;
+	[self.textStorage insertAttributedString:attributedStringAttachment atIndex:self.selectedRange.location];
+	[self.textStorage addAttributes:previousAttributes range:NSMakeRange(self.selectedRange.location, 1)];
+	[self sendDelegateTVChanged];
 }
 
-- (UIViewController <RichTextEditorColorPicker> *)colorPickerForRichTextEditorToolbarWithAction:(RichTextEditorColorPickerAction)action
-{
+- (UIViewController <RichTextEditorColorPicker> *)colorPickerForRichTextEditorToolbarWithAction:(RichTextEditorColorPickerAction)action {
 	if ([self.dataSource respondsToSelector:@selector(colorPickerForRichTextEditor:withAction:)]) { // changed "forAction" to "withAction"
 		return [self.dataSource colorPickerForRichTextEditor:self withAction:action];
     }
-	
 	return nil;
 }
 
-- (UIViewController <RichTextEditorFontPicker> *)fontPickerForRichTextEditorToolbar
-{
-	if ([self.dataSource respondsToSelector:@selector(fontPickerForRichTextEditor:)])
+- (UIViewController <RichTextEditorFontPicker> *)fontPickerForRichTextEditorToolbar {
+	if ([self.dataSource respondsToSelector:@selector(fontPickerForRichTextEditor:)]) {
 		return [self.dataSource fontPickerForRichTextEditor:self];
-	
+	}
 	return nil;
 }
 
-- (UIViewController <RichTextEditorFontSizePicker> *)fontSizePickerForRichTextEditorToolbar
-{
-	if ([self.dataSource respondsToSelector:@selector(fontSizePickerForRichTextEditor:)])
+- (UIViewController <RichTextEditorFontSizePicker> *)fontSizePickerForRichTextEditorToolbar {
+	if ([self.dataSource respondsToSelector:@selector(fontSizePickerForRichTextEditor:)]) {
 		return [self.dataSource fontSizePickerForRichTextEditor:self];
-	
+	}
 	return nil;
 }
 
 #pragma mark - Private Methods -
 
-- (CGRect)frameOfTextAtRange:(NSRange)range
-{
-	UITextRange *selectionRange = [self selectedTextRange];
+- (CGRect)frameOfTextAtRange:(NSRange)range {
+	UITextRange *selectionRange = self.selectedTextRange;
 	NSArray *selectionRects = [self selectionRectsForRange:selectionRange];
 	CGRect completeRect = CGRectNull;
-	
-	for (UITextSelectionRect *selectionRect in selectionRects)
-	{
-		completeRect = (CGRectIsNull(completeRect))
-        ? selectionRect.rect
-        : CGRectUnion(completeRect,selectionRect.rect);
+	for (UITextSelectionRect *selectionRect in selectionRects) {
+		completeRect = (CGRectIsNull(completeRect)) ? selectionRect.rect : CGRectUnion(completeRect, selectionRect.rect);
 	}
-	
 	return completeRect;
 }
 
-- (void)enumarateThroughParagraphsInRange:(NSRange)range withBlock:(void (^)(NSRange paragraphRange))block
-{
+- (void)enumerateThroughParagraphsInRange:(NSRange)range withBlock:(void (^)(NSRange paragraphRange))block {
 	NSArray *rangeOfParagraphsInSelectedText = [self.attributedText rangeOfParagraphsFromTextRange:self.selectedRange];
-	
-	for (int i=0 ; i<rangeOfParagraphsInSelectedText.count ; i++)
-	{
-		NSValue *value = [rangeOfParagraphsInSelectedText objectAtIndex:i];
-		NSRange paragraphRange = [value rangeValue];
+	for (int i = 0; i < rangeOfParagraphsInSelectedText.count; i++) {
+		NSValue *value = rangeOfParagraphsInSelectedText[i];
+		NSRange paragraphRange = value.rangeValue;
 		block(paragraphRange);
 	}
-	
 	NSRange fullRange = [self fullRangeFromArrayOfParagraphRanges:rangeOfParagraphsInSelectedText];
-	[self setSelectedRange:fullRange];
+	self.selectedRange = fullRange;
 }
 
-- (void)updateToolbarState
-{
-	
+- (void)updateToolbarState {
 	// If no text exists or typing attributes is in progress update toolbar using typing attributes instead of selected text
-	if (self.typingAttributesInProgress || ![self hasText])
-	{
+	if (self.typingAttributesInProgress || !self.hasText) {
 		[self.toolBar updateStateWithAttributes:self.typingAttributes];
 	}
-	else
-	{
+	else {
 		NSInteger location = 0;
-		
-		if (self.selectedRange.location != NSNotFound)
-		{
-			location = (self.selectedRange.length == 0) ? MAX((int)self.selectedRange.location-1, 0)
+		if (self.selectedRange.location != NSNotFound) {
+			location = (self.selectedRange.length == 0) ? MAX((int)self.selectedRange.location - 1, 0)
                                                         : (int)self.selectedRange.location;
 		}
-		
 		NSDictionary *attributes = [self.attributedText attributesAtIndex:location effectiveRange:nil];
 		[self.toolBar updateStateWithAttributes:attributes];
 	}
 }
 
-- (NSRange)fullRangeFromArrayOfParagraphRanges:(NSArray *)paragraphRanges
-{
-	if (!paragraphRanges.count)
+- (NSRange)fullRangeFromArrayOfParagraphRanges:(NSArray *)paragraphRanges {
+	if (!paragraphRanges.count) {
 		return NSMakeRange(0, 0);
-	
-	NSRange firstRange = [[paragraphRanges objectAtIndex:0] rangeValue];
-	NSRange lastRange = [[paragraphRanges lastObject] rangeValue];
+	}
+	NSRange firstRange = [paragraphRanges.firstObject rangeValue];
+	NSRange lastRange = [paragraphRanges.lastObject rangeValue];
 	return NSMakeRange(firstRange.location, lastRange.location + lastRange.length - firstRange.location);
 }
 
-- (UIFont *)fontAtIndex:(NSInteger)index
-{
+- (UIFont *)fontAtIndex:(NSInteger)index {
     return [[self dictionaryAtIndex:index] objectForKey:NSFontAttributeName];
 }
 
-- (NSDictionary *)dictionaryAtIndex:(NSInteger)index
-{
-    if (![self hasText] || index == self.attributedText.string.length)
+- (NSDictionary *)dictionaryAtIndex:(NSInteger)index {
+	if (!self.hasText || index == self.attributedText.string.length) {
         return self.typingAttributes; // end of string, use whatever we're currently using
-    else
+	}
+	else {
         return [self.attributedText attributesAtIndex:index effectiveRange:nil];
+	}
 }
 
-- (void)applyAttributeToTypingAttribute:(id)attribute forKey:(NSString *)key
-{
+- (void)applyAttributeToTypingAttribute:(id)attribute forKey:(NSString *)key {
 	NSMutableDictionary *dictionary = [self.typingAttributes mutableCopy];
 	[dictionary setObject:attribute forKey:key];
-	[self setTypingAttributes:dictionary];
+	self.typingAttributes = dictionary;
 }
 
-- (void)applyAttributes:(id)attribute forKey:(NSString *)key atRange:(NSRange)range
-{
+- (void)applyAttributes:(id)attribute forKey:(NSString *)key atRange:(NSRange)range {
 	// If any text selected apply attributes to text
-	if (range.length > 0)
-	{
-		NSMutableAttributedString *attributedString = [self.attributedText mutableCopy];
-		
+	if (range.length > 0) {
         // Workaround for when there is only one paragraph,
 		// sometimes the attributedString is actually longer by one then the displayed text,
 		// and this results in not being able to set to lef align anymore.
-        if (range.length == attributedString.length-1 && range.length == self.text.length)
+		if (range.length == self.textStorage.length - 1 && range.length == self.text.length) {
             ++range.length;
-        
-		[attributedString addAttributes:[NSDictionary dictionaryWithObject:attribute forKey:key] range:range];
-		
-		[self setAttributedText:attributedString];
-        if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+		}
+		[self.textStorage addAttributes:[NSDictionary dictionaryWithObject:attribute forKey:key] range:range];
+		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
             [self setSelectedRange:range];
+			self.selectedRange = range;
+		}
 	}
 	// If no text is selected apply attributes to typingAttribute
-	else
-	{
+	else {
 		self.typingAttributesInProgress = YES;
 		[self applyAttributeToTypingAttribute:attribute forKey:key];
 	}
-	
 	[self updateToolbarState];
 }
 
-- (void)removeAttributeForKey:(NSString *)key atRange:(NSRange)range
-{
+- (void)removeAttributeForKey:(NSString *)key atRange:(NSRange)range {
 	NSRange initialRange = self.selectedRange;
 	[self.textStorage removeAttribute:key range:range];
-	[self setSelectedRange:initialRange];
+	self.selectedRange = initialRange;
 }
 
-- (void)removeAttributeForKeyFromSelectedRange:(NSString *)key
-{
+- (void)removeAttributeForKeyFromSelectedRange:(NSString *)key {
 	[self removeAttributeForKey:key atRange:self.selectedRange];
 }
 
-- (void)applyAttributesToSelectedRange:(id)attribute forKey:(NSString *)key
-{
+- (void)applyAttributesToSelectedRange:(id)attribute forKey:(NSString *)key {
 	[self applyAttributes:attribute forKey:key atRange:self.selectedRange];
 }
 
-- (void)applyFontAttributesToSelectedRangeWithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize
-{
+- (void)applyFontAttributesToSelectedRangeWithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize {
 	[self applyFontAttributesWithBoldTrait:isBold italicTrait:isItalic fontName:fontName fontSize:fontSize toTextAtRange:self.selectedRange];
 }
 
-- (void)applyFontAttributesWithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize toTextAtRange:(NSRange)range
-{
+- (void)applyFontAttributesWithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize toTextAtRange:(NSRange)range {
 	// If any text selected apply attributes to text
 	if (range.length > 0)
 	{
@@ -939,78 +925,146 @@
 												  [self.textStorage addAttributes:[NSDictionary dictionaryWithObject:newFont forKey:NSFontAttributeName] range:range];
 										  }];
 		[self.textStorage endEditing];
-		
-		[self setSelectedRange:range];
+		self.selectedRange = range;
 	}
 	// If no text is selected apply attributes to typingAttribute
-	else
-	{
+	else {
 		self.typingAttributesInProgress = YES;
-		
 		UIFont *newFont = [self fontwithBoldTrait:isBold
 									  italicTrait:isItalic
 										 fontName:fontName
 										 fontSize:fontSize
 								   fromDictionary:self.typingAttributes];
-		if (newFont)
+		if (newFont) {
             [self applyAttributeToTypingAttribute:newFont forKey:NSFontAttributeName];
+		}
 	}
-	
 	[self updateToolbarState];
+}
+
+-(BOOL)hasSelection {
+	return self.selectedRange.length > 0;
+}
+
+// By default, if this function is called with nothing selected, it will resize all text.
+-(void)changeFontSizeWithOperation:(CGFloat(^)(CGFloat currFontSize))operation {
+	[self.textStorage beginEditing];
+	NSRange range = self.selectedRange;
+	if (range.length == 0)
+		range = NSMakeRange(0, [self.textStorage length]);
+	[self.textStorage enumerateAttributesInRange:range
+										 options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+									  usingBlock:^(NSDictionary *dictionary, NSRange range, BOOL *stop){
+										  // Get current font size
+										  UIFont *currFont = [dictionary objectForKey:NSFontAttributeName];
+										  if (currFont)
+										  {
+											  CGFloat currFontSize = currFont.pointSize;
+											  
+											  CGFloat nextFontSize = operation(currFontSize);
+											  if ((currFontSize < nextFontSize && nextFontSize <= self.maxFontSize) || // sizing up
+												  (currFontSize > nextFontSize && self.minFontSize <= nextFontSize)) { // sizing down
+												  UIFont *newFont = [self fontwithBoldTrait:[NSNumber numberWithBool:[currFont isBold]]
+																				italicTrait:[NSNumber numberWithBool:[currFont isItalic]]
+																				   fontName:currFont.fontName
+																				   fontSize:[NSNumber numberWithFloat:nextFontSize]
+																			 fromDictionary:dictionary];
+												  if (newFont) {
+													  [self.textStorage addAttributes:[NSDictionary dictionaryWithObject:newFont forKey:NSFontAttributeName] range:range];
+												  }
+											  }
+										  }
+									  }];
+	[self.textStorage endEditing];
+	[self updateToolbarState];
+}
+
+
+- (void)decreaseFontSize {
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeFontSize];
+	if (self.selectedRange.length == 0) {
+		NSMutableDictionary *typingAttributes = [self.typingAttributes mutableCopy];
+		UIFont *font = [typingAttributes valueForKey:NSFontAttributeName];
+		CGFloat nextFontSize = font.pointSize - self.fontSizeChangeAmount;
+		if (nextFontSize < self.minFontSize) {
+			nextFontSize = self.minFontSize;
+		}
+		UIFont *nextFont = [font fontWithSize:nextFontSize];
+		[typingAttributes setValue:nextFont forKey:NSFontAttributeName];
+		self.typingAttributes = typingAttributes;
+	}
+	else {
+		[self changeFontSizeWithOperation:^CGFloat (CGFloat currFontSize) {
+			return currFontSize - self.fontSizeChangeAmount;
+		}];
+		[self sendDelegateTVChanged]; // only send if the actual text changes -- if no text selected, no text has actually changed
+	}
+}
+
+- (void)increaseFontSize
+{
+	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeFontSize];
+	if (self.selectedRange.length == 0) {
+		NSMutableDictionary *typingAttributes = [self.typingAttributes mutableCopy];
+		UIFont *font = [typingAttributes valueForKey:NSFontAttributeName];
+		CGFloat nextFontSize = font.pointSize + self.fontSizeChangeAmount;
+		if (nextFontSize > self.maxFontSize) {
+			nextFontSize = self.maxFontSize;
+		}
+		UIFont *nextFont = [font fontWithSize:nextFontSize];
+		[typingAttributes setValue:nextFont forKey:NSFontAttributeName];
+		self.typingAttributes = typingAttributes;
+	}
+	else {
+		[self changeFontSizeWithOperation:^CGFloat (CGFloat currFontSize) {
+			return currFontSize + self.fontSizeChangeAmount;
+		}];
+		[self sendDelegateTVChanged]; // only send if the actual text changes -- if no text selected, no text has actually changed
+	}
 }
 
 // TODO: Fix this function. You can't create a font that isn't bold from a dictionary that has a bold attribute currently, since if you send isBold 0 [nil], it'll use the dictionary, which is bold!
 // In other words, this function has logical errors.
 // Returns a font with given attributes. For any missing parameter takes the attribute from a given dictionary
-- (UIFont *)fontwithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize fromDictionary:(NSDictionary *)dictionary
-{
+- (UIFont *)fontwithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize fromDictionary:(NSDictionary *)dictionary {
 	UIFont *newFont = nil;
 	UIFont *font = [dictionary objectForKey:NSFontAttributeName];
 	BOOL newBold = (isBold) ? isBold.intValue : [font isBold];
 	BOOL newItalic = (isItalic) ? isItalic.intValue : [font isItalic];
 	CGFloat newFontSize = (fontSize) ? fontSize.floatValue : font.pointSize;
-	
-	if (fontName)
-	{
+	if (fontName) {
 		newFont = [UIFont fontWithName:fontName size:newFontSize boldTrait:newBold italicTrait:newItalic];
 	}
-	else
-	{
+	else {
 		newFont = [font fontWithBoldTrait:newBold italicTrait:newItalic andSize:newFontSize];
 	}
-	
 	return newFont;
 }
 
-- (CGRect)currentScreenBoundsDependOnOrientation
-{
+- (CGRect)currentScreenBoundsDependOnOrientation {
     CGRect screenBounds = [UIScreen mainScreen].bounds ;
     CGFloat width = CGRectGetWidth(screenBounds)  ;
     CGFloat height = CGRectGetHeight(screenBounds) ;
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-	
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
-	{
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
         screenBounds.size = CGSizeMake(width, height);
     }
-	else if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
-	{
+	else if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         screenBounds.size = CGSizeMake(height, width);
     }
-	
-    return screenBounds ;
+    return screenBounds;
 }
 
-- (void)applyBulletListIfApplicable
-{
+- (void)applyBulletListIfApplicable {
 	NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
-    if (rangeOfCurrentParagraph.location == 0)
+	if (rangeOfCurrentParagraph.location == 0) {
         return; // there isn't a previous paragraph, so forget it. The user isn't in a bulleted list.
+	}
 	NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location-1, 0)];
     //NSLog(@"[RTE] Is the user in the bullet list? %d", self.userInBulletList);
     if (!self.inBulletedList) { // fixes issue with backspacing into bullet list adding a bullet
-		BOOL currentParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
-		BOOL previousParagraphHasBullet = ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) ? YES : NO;
+		BOOL currentParagraphHasBullet = [[self.attributedText.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING];
+		BOOL previousParagraphHasBullet = [[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING];
         BOOL isCurrParaBlank = [[self.attributedText.string substringWithRange:rangeOfCurrentParagraph] isEqualToString:@""];
         // if we don't check to see if the current paragraph is blank, bad bugs happen with
         // the current paragraph where the selected range doesn't let the user type O_o
@@ -1029,71 +1083,75 @@
             NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
             paragraphStyle.firstLineHeadIndent = 0;
             paragraphStyle.headIndent = 0;
-            [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfCurrentParagraph];
+			[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfCurrentParagraph];
+			[self setIndentationWithAttributes:dictionary paragraphStyle:paragraphStyle atRange:rangeOfCurrentParagraph];
         }
         return;
     }
-	if (rangeOfCurrentParagraph.length != 0)
+	if (rangeOfCurrentParagraph.length != 0) {
 		return;
-    if ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING])
+	}
+	if ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) {
         [self richTextEditorToolbarDidSelectBulletListWithCaller:self];
+	}
+}
+
+- (void)removeBulletIndentation:(NSRange)firstParagraphRange {
+	NSRange rangeOfParagraph = [self.attributedText firstParagraphRangeFromTextRange:firstParagraphRange];
+	NSDictionary *dictionary = [self dictionaryAtIndex:rangeOfParagraph.location];
+	NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
+	paragraphStyle.firstLineHeadIndent = 0;
+	paragraphStyle.headIndent = 0;
+	[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfParagraph];
+	[self setIndentationWithAttributes:dictionary paragraphStyle:paragraphStyle atRange:firstParagraphRange];
 }
 
 - (void)deleteBulletListWhenApplicable
 {
 	NSRange range = self.selectedRange;
 	// TODO: Clean up this code since a lot of it is "repeated"
-	if (range.location > 0)
-	{
+	if (range.location > 0) {
         NSString *checkString = self.BULLET_STRING;
-        if ([checkString length] > 1) // chop off last letter and use that
+		if ([checkString length] > 1) { // chop off last letter and use that
             checkString = [checkString substringToIndex:[checkString length]-1];
+		}
         //else return;
         NSUInteger checkStringLength = [checkString length];
         if (![self.attributedText.string isEqualToString:self.BULLET_STRING]) {
-            if (((int)(range.location-checkStringLength) >= 0 &&
+            if (((int)(range.location - checkStringLength) >= 0 &&
                  [[self.attributedText.string substringFromIndex:range.location-checkStringLength] hasPrefix:checkString])) {
                 NSLog(@"[RTE] Getting rid of a bullet due to backspace while in empty bullet paragraph.");
+				// Get rid of bullet string
+				[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBullet];
+				//NSLog(@"[RTE] Getting rid of a bullet due to backspace while in empty bullet paragraph.");
 				// Get rid of bullet string
 				[self.textStorage deleteCharactersInRange:NSMakeRange(range.location-checkStringLength, checkStringLength)];
 				NSRange newRange = NSMakeRange(range.location-checkStringLength, 0);
 				self.selectedRange = newRange;
 				
-                // Get rid of bullet indentation
-                NSRange rangeOfParagraph = [self.attributedText firstParagraphRangeFromTextRange:newRange];
-                NSDictionary *dictionary = [self dictionaryAtIndex:rangeOfParagraph.location];
-                NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
-                paragraphStyle.firstLineHeadIndent = 0;
-                paragraphStyle.headIndent = 0;
-                [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfParagraph];
-                self.inBulletedList = NO;
+				// Get rid of bullet indentation
+				[self removeBulletIndentation:newRange];
             }
             else {
                 // User may be needing to get out of a bulleted list due to hitting enter (return)
                 NSRange rangeOfCurrentParagraph = [self.attributedText firstParagraphRangeFromTextRange:self.selectedRange];
                 NSInteger prevParaLocation = rangeOfCurrentParagraph.location-1;
-                if (prevParaLocation >= 0) {
-                    NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location-1, 0)];
-                    // If the following if statement is true, the user hit enter on a blank bullet list
-                    // Basically, there is now a bullet \t \n bullet \t that we need to delete
-                    // Since it gets here AFTER it adds a new bullet
-                    if ([[self.attributedText.string substringWithRange:rangeOfPreviousParagraph] hasSuffix:self.BULLET_STRING]) {
-                        //NSLog(@"[RTE] Getting rid of bullets due to user hitting enter.");
-                        NSRange rangeToDelete = NSMakeRange(rangeOfPreviousParagraph.location, rangeOfPreviousParagraph.length+rangeOfCurrentParagraph.length+1);
+				if (prevParaLocation >= 0) {
+					NSRange rangeOfPreviousParagraph = [self.attributedText firstParagraphRangeFromTextRange:NSMakeRange(rangeOfCurrentParagraph.location - 1, 0)];
+					// If the following if statement is true, the user hit enter on a blank bullet list
+					// Basically, there is now a bullet ' ' \n bullet ' ' that we need to delete (' ' == space)
+					// Since it gets here AFTER it adds a new bullet
+					if ([[self.attributedText.string substringWithRange:rangeOfPreviousParagraph] hasSuffix:self.BULLET_STRING]){
+						[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBullet];
+						//NSLog(@"[RTE] Getting rid of bullets due to user hitting enter.");
+						NSRange rangeToDelete = NSMakeRange(rangeOfPreviousParagraph.location, rangeOfPreviousParagraph.length+rangeOfCurrentParagraph.length + 1);
 						[self.textStorage deleteCharactersInRange:rangeToDelete];
 						NSRange newRange = NSMakeRange(rangeOfPreviousParagraph.location, 0);
 						self.selectedRange = newRange;
-						
-                        // Get rid of bullet indentation
-                        NSRange rangeOfParagraph = [self.attributedText firstParagraphRangeFromTextRange:newRange];
-                        NSDictionary *dictionary = [self dictionaryAtIndex:newRange.location];
-                        NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
-                        paragraphStyle.firstLineHeadIndent = 0;
-                        paragraphStyle.headIndent = 0;
-                        [self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfParagraph];
-                        self.inBulletedList = NO;
-                    }
-                }                
+						// Get rid of bullet indentation
+						[self removeBulletIndentation:newRange];
+					}
+                }
             }
         }
 	}
@@ -1101,72 +1159,53 @@
 
 #pragma mark - RichTextEditorToolbarDataSource Methods -
 
-- (NSArray *)fontFamilySelectionForRichTextEditorToolbar
-{
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(fontFamilySelectionForRichTextEditor:)])
-	{
+- (NSArray *)fontFamilySelectionForRichTextEditorToolbar {
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(fontFamilySelectionForRichTextEditor:)]) {
 		return [self.dataSource fontFamilySelectionForRichTextEditor:self];
 	}
-	
 	return nil;
 }
 
-- (NSArray *)fontSizeSelectionForRichTextEditorToolbar
-{
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(fontSizeSelectionForRichTextEditor:)])
-	{
+- (NSArray *)fontSizeSelectionForRichTextEditorToolbar {
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(fontSizeSelectionForRichTextEditor:)]) {
 		return [self.dataSource fontSizeSelectionForRichTextEditor:self];
 	}
-	
 	return nil;
 }
 
-- (RichTextEditorToolbarPresentationStyle)presentationStyleForRichTextEditorToolbar
-{
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(presentationStyleForRichTextEditor:)])
-	{
+- (RichTextEditorToolbarPresentationStyle)presentationStyleForRichTextEditorToolbar {
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(presentationStyleForRichTextEditor:)]) {
 		return [self.dataSource presentationStyleForRichTextEditor:self];
 	}
-    
 	return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     ? RichTextEditorToolbarPresentationStylePopover
     : RichTextEditorToolbarPresentationStyleModal;
 }
 
-- (UIModalPresentationStyle)modalPresentationStyleForRichTextEditorToolbar
-{
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(modalPresentationStyleForRichTextEditor:)])
-	{
+- (UIModalPresentationStyle)modalPresentationStyleForRichTextEditorToolbar {
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(modalPresentationStyleForRichTextEditor:)]) {
 		return [self.dataSource modalPresentationStyleForRichTextEditor:self];
 	}
-	
 	return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     ? UIModalPresentationFormSheet
     : UIModalPresentationFullScreen;
 }
 
-- (UIModalTransitionStyle)modalTransitionStyleForRichTextEditorToolbar
-{
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(modalTransitionStyleForRichTextEditor:)])
-	{
+- (UIModalTransitionStyle)modalTransitionStyleForRichTextEditorToolbar {
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(modalTransitionStyleForRichTextEditor:)]) {
 		return [self.dataSource modalTransitionStyleForRichTextEditor:self];
 	}
-	
 	return UIModalTransitionStyleCoverVertical;
 }
 
-- (RichTextEditorFeature)featuresEnabledForRichTextEditorToolbar
-{
-	if (self.dataSource && [self.dataSource respondsToSelector:@selector(featuresEnabledForRichTextEditor:)])
-	{
+- (RichTextEditorFeature)featuresEnabledForRichTextEditorToolbar {
+	if (self.dataSource && [self.dataSource respondsToSelector:@selector(featuresEnabledForRichTextEditor:)]){
 		return [self.dataSource featuresEnabledForRichTextEditor:self];
 	}
-	
 	return RichTextEditorFeatureAll;
 }
 
-- (UIViewController *)firstAvailableViewControllerForRichTextEditorToolbar
-{
+- (UIViewController *)firstAvailableViewControllerForRichTextEditorToolbar {
 	return [self firstAvailableViewController];
 }
 
@@ -1185,6 +1224,8 @@
 		case RichTextEditorPreviewChangeFontResize:
 		case RichTextEditorPreviewChangeFontSize:
 			return NSLocalizedString(@"Font Resize", @"");
+		case RichTextEditorPreviewChangeFontName:
+			return NSLocalizedString(@"Font Name", @"");
 		case RichTextEditorPreviewChangeFontColor:
 			return NSLocalizedString(@"Font Color", @"");
 		case RichTextEditorPreviewChangeHighlight:
@@ -1193,9 +1234,17 @@
 			return NSLocalizedString(@"Insert Page Break", @"");
 		case RichTextEditorPreviewChangeUnderline:
 			return NSLocalizedString(@"Underline", @"");
+		case RichTextEditorPreviewChangeStrikethrough:
+			return NSLocalizedString(@"Strikethrough", @"");
 		case RichTextEditorPreviewChangeIndentDecrease:
 		case RichTextEditorPreviewChangeIndentIncrease:
 			return NSLocalizedString(@"Text Indent", @"");
+		case RichTextEditorPreviewChangeParagraphFirstLineHeadIndent:
+			return NSLocalizedString(@"First Line Head Indent", @"");
+		case RichTextEditorPreviewChangeTextAlignment:
+			return NSLocalizedString(@"Text Alignment", @"");
+		case RichTextEditorPreviewChangeTextAttachment:
+			return NSLocalizedString(@"Text Attachment", @"");
 		case RichTextEditorPreviewChangeKeyDown:
 			if (shouldReturnStringForNonSpecialType)
 				return NSLocalizedString(@"Key Down", @"");
