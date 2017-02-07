@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="j1L-Vy-Map">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Data Source-->
+        <scene sceneID="5">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jaW-Eb-ws1"/>
+                        <viewControllerLayoutGuide type="bottom" id="UYd-MI-Zkw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogf-QZ-Hbn" customClass="RichTextEditor">
+                                <rect key="frame" x="0.0" y="64" width="375" height="273"/>
+                                <color key="backgroundColor" red="0.89763790369033813" green="0.91156262159347534" blue="0.92627823352813721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="2" id="0g5-59-77a"/>
+                                    <outlet property="delegate" destination="2" id="Qnf-uv-mef"/>
+                                </connections>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ogf-QZ-Hbn" secondAttribute="trailing" id="8pk-xN-9fV"/>
+                            <constraint firstItem="UYd-MI-Zkw" firstAttribute="top" secondItem="ogf-QZ-Hbn" secondAttribute="bottom" constant="330" id="OQb-aB-SgK"/>
+                            <constraint firstItem="ogf-QZ-Hbn" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="h7V-1g-v5M"/>
+                            <constraint firstItem="ogf-QZ-Hbn" firstAttribute="top" secondItem="jaW-Eb-ws1" secondAttribute="bottom" id="zRG-au-0nS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Rich Text Editor Demo" id="ICl-US-U7N"/>
+                    <connections>
+                        <outlet property="richTextEditor" destination="ogf-QZ-Hbn" id="RLK-j5-Hy1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="575" y="-726"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="pDa-DU-jXI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="j1L-Vy-Map" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xvj-zs-kPd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2" kind="relationship" relationship="rootViewController" id="doj-uB-4zV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rbB-pW-yz0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="25.5" y="-725.5"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

@@ -10,6 +10,8 @@
 
 @interface ViewController ()
 
+@property (assign) IBOutlet RichTextEditor *richTextEditor;
+
 @end
 
 @implementation ViewController
@@ -18,12 +20,19 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	
+	
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.richTextEditor scrollRangeToVisible:NSMakeRange(0, 0)];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	self.richTextEditor.selectedRange = NSMakeRange(0, 0);
+	[self.richTextEditor scrollRangeToVisible:NSMakeRange(0, 0)];
 }
 
 /*- (NSArray *)fontSizeSelectionForRichTextEditor:(RichTextEditor *)richTextEditor

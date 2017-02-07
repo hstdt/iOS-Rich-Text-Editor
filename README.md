@@ -41,7 +41,11 @@ In order to intercept delegate messages, this class uses WZProtocolInterceptor. 
 
 ### Installing
 
-Add the sources to your project, then add `-fno-objc-arc` to the compiler flags for `WETouchableView.m`, `WEPopoverController.m`, and `WEPopoverContainerView.m`. (Yes, that library really needs to be updated.) Make sure to link the MobileCoreServices framework.
+Make sure to link the MobileCoreServices framework.
+
+### Note
+
+If text is set before the view is fully shown, the text may start scrolled to the bottom. Look [here](http://stackoverflow.com/a/27769359/3938401) for solutions. 
 
 ### Custom Font Size Selection
 
