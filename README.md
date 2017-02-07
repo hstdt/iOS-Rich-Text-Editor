@@ -1,13 +1,19 @@
 #RichTextEditor-iOS [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Rich-Text-Editor/badge.png)](http://cocoadocs.org/docsets/iOS-Rich-Text-Editor)
 
--Forked by Deadpikle for additional fixes and features. Readme updates TODO. There have been many enhancements and improvements. Please bug me for an updated README if I forget, which I probably will. The code is by no means perfectly clean, but it does function! Be wary of using the stock undo/redo with bulleted lists —- it often fails. Also, I have no idea how CocoaPods updates with forks work, so if someone needs me to do that, please point me in the right direction…-
+~Forked by Deadpikle for additional fixes and features~
 
 ### TODO
-- [ ] Drop WEPopover dependency and use native popovers on iPhone (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)).
-- [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.)
+- [x] Drop WEPopover dependency and use native popovers on iPhone (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)). -- Dropped dependency but decided not to use popovers on iPhone per [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/ui-views/popovers/). 
+- [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.) -- This is now done in RichTextEditor.m but not other files
+- [ ] Bug fixing/checking
+- [ ] Make the toolbar more pretty
+- [ ] New screenshots for this readme
 - [x] Make use of iOS NSTextStorage
 - [x] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
 - [x] Convert this README file to use ## instead of ----- for h1/2/3/4/5 syntax
+
+#### 1.0 TODO
+- [ ] Support numbered lists
 
 ### Breaking Change Warning!
 
@@ -30,14 +36,9 @@ Features:
 - Text alignment
 - Paragraph Indent/Outdent
 
-![alt tag](https://raw.github.com/aryaxt/iOS-Rich-Text-Editor/master/ipadScreenShot.png)
-
-![alt tag](https://raw.github.com/aryaxt/iOS-Rich-Text-Editor/master/iphoneScreenshot.png)
-
 ### Delegate Warning!
 
 In order to intercept delegate messages, this class uses WZProtocolInterceptor. If you call `self.textView.delegate`, you will get the WZProtocolInterceptor object, *not* the original delegate that you set earlier with `self.textView.delegate = ...`! If you need to get the delegate that you set, call `self.textView.delegate.receiver`. 
-
 
 ### Installing
 
@@ -128,5 +129,4 @@ On default the UIMenuController options (bold, italic, underline, strikeThrough)
 
 ### Credits
 
-iPhone popover by werner77
-https://github.com/werner77/WEPopover
+Original Rich Text Editor code by aryaxt at [iOS Rich Text Editor](https://github.com/aryaxt/iOS-Rich-Text-Editor).
