@@ -465,7 +465,7 @@
 
 - (void)richTextEditorToolbarDidSelectTextBackgroundColor:(UIColor *)color {
 	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeHighlight];
-	NSRange selectedRange = [self selectedRange];
+	NSRange selectedRange = self.selectedRange;
 	if (color) {
 		[self applyAttributesToSelectedRange:color forKey:NSBackgroundColorAttributeName];
 	}
