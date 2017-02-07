@@ -10,25 +10,6 @@
 		153F958A179F9953005B2487 /* NSAttributedString+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F955C179F9953005B2487 /* NSAttributedString+RichTextEditor.m */; };
 		153F958B179F9953005B2487 /* UIFont+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F955E179F9953005B2487 /* UIFont+RichTextEditor.m */; };
 		153F958C179F9953005B2487 /* UIView+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9560179F9953005B2487 /* UIView+RichTextEditor.m */; };
-		153F958D179F9953005B2487 /* popoverArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9563179F9953005B2487 /* popoverArrowDown.png */; };
-		153F958E179F9953005B2487 /* popoverArrowDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9564179F9953005B2487 /* popoverArrowDown@2x.png */; };
-		153F958F179F9953005B2487 /* popoverArrowDownSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9565179F9953005B2487 /* popoverArrowDownSimple.png */; };
-		153F9590179F9953005B2487 /* popoverArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9566179F9953005B2487 /* popoverArrowLeft.png */; };
-		153F9591179F9953005B2487 /* popoverArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9567179F9953005B2487 /* popoverArrowLeft@2x.png */; };
-		153F9592179F9953005B2487 /* popoverArrowLeftSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9568179F9953005B2487 /* popoverArrowLeftSimple.png */; };
-		153F9593179F9953005B2487 /* popoverArrowRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9569179F9953005B2487 /* popoverArrowRight.png */; };
-		153F9594179F9953005B2487 /* popoverArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F956A179F9953005B2487 /* popoverArrowRight@2x.png */; };
-		153F9595179F9953005B2487 /* popoverArrowRightSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F956B179F9953005B2487 /* popoverArrowRightSimple.png */; };
-		153F9596179F9953005B2487 /* popoverArrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F956C179F9953005B2487 /* popoverArrowUp.png */; };
-		153F9597179F9953005B2487 /* popoverArrowUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F956D179F9953005B2487 /* popoverArrowUp@2x.png */; };
-		153F9598179F9953005B2487 /* popoverArrowUpSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F956E179F9953005B2487 /* popoverArrowUpSimple.png */; };
-		153F9599179F9953005B2487 /* popoverBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F956F179F9953005B2487 /* popoverBg.png */; };
-		153F959A179F9953005B2487 /* popoverBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9570179F9953005B2487 /* popoverBg@2x.png */; };
-		153F959B179F9953005B2487 /* popoverBgSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 153F9571179F9953005B2487 /* popoverBgSimple.png */; };
-		153F959C179F9953005B2487 /* UIBarButtonItem+WEPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9573179F9953005B2487 /* UIBarButtonItem+WEPopover.m */; };
-		153F959D179F9953005B2487 /* WEPopoverContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9575179F9953005B2487 /* WEPopoverContainerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		153F959E179F9953005B2487 /* WEPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9577179F9953005B2487 /* WEPopoverController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		153F959F179F9953005B2487 /* WETouchableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957A179F9953005B2487 /* WETouchableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		153F95A0179F9953005B2487 /* RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957C179F9953005B2487 /* RichTextEditor.m */; };
 		153F95A1179F9953005B2487 /* RichTextEditorColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957E179F9953005B2487 /* RichTextEditorColorPickerViewController.m */; };
 		153F95A2179F9953005B2487 /* RichTextEditorFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9580179F9953005B2487 /* RichTextEditorFontPickerViewController.m */; };
@@ -133,30 +114,6 @@
 		153F955E179F9953005B2487 /* UIFont+RichTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+RichTextEditor.m"; sourceTree = "<group>"; };
 		153F955F179F9953005B2487 /* UIView+RichTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RichTextEditor.h"; sourceTree = "<group>"; };
 		153F9560179F9953005B2487 /* UIView+RichTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RichTextEditor.m"; sourceTree = "<group>"; };
-		153F9563179F9953005B2487 /* popoverArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowDown.png; sourceTree = "<group>"; };
-		153F9564179F9953005B2487 /* popoverArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowDown@2x.png"; sourceTree = "<group>"; };
-		153F9565179F9953005B2487 /* popoverArrowDownSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowDownSimple.png; sourceTree = "<group>"; };
-		153F9566179F9953005B2487 /* popoverArrowLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowLeft.png; sourceTree = "<group>"; };
-		153F9567179F9953005B2487 /* popoverArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowLeft@2x.png"; sourceTree = "<group>"; };
-		153F9568179F9953005B2487 /* popoverArrowLeftSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowLeftSimple.png; sourceTree = "<group>"; };
-		153F9569179F9953005B2487 /* popoverArrowRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowRight.png; sourceTree = "<group>"; };
-		153F956A179F9953005B2487 /* popoverArrowRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowRight@2x.png"; sourceTree = "<group>"; };
-		153F956B179F9953005B2487 /* popoverArrowRightSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowRightSimple.png; sourceTree = "<group>"; };
-		153F956C179F9953005B2487 /* popoverArrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowUp.png; sourceTree = "<group>"; };
-		153F956D179F9953005B2487 /* popoverArrowUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowUp@2x.png"; sourceTree = "<group>"; };
-		153F956E179F9953005B2487 /* popoverArrowUpSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowUpSimple.png; sourceTree = "<group>"; };
-		153F956F179F9953005B2487 /* popoverBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverBg.png; sourceTree = "<group>"; };
-		153F9570179F9953005B2487 /* popoverBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverBg@2x.png"; sourceTree = "<group>"; };
-		153F9571179F9953005B2487 /* popoverBgSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverBgSimple.png; sourceTree = "<group>"; };
-		153F9572179F9953005B2487 /* UIBarButtonItem+WEPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WEPopover.h"; sourceTree = "<group>"; };
-		153F9573179F9953005B2487 /* UIBarButtonItem+WEPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WEPopover.m"; sourceTree = "<group>"; };
-		153F9574179F9953005B2487 /* WEPopoverContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverContainerView.h; sourceTree = "<group>"; };
-		153F9575179F9953005B2487 /* WEPopoverContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverContainerView.m; sourceTree = "<group>"; };
-		153F9576179F9953005B2487 /* WEPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverController.h; sourceTree = "<group>"; };
-		153F9577179F9953005B2487 /* WEPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverController.m; sourceTree = "<group>"; };
-		153F9578179F9953005B2487 /* WEPopoverParentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverParentView.h; sourceTree = "<group>"; };
-		153F9579179F9953005B2487 /* WETouchableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WETouchableView.h; sourceTree = "<group>"; };
-		153F957A179F9953005B2487 /* WETouchableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WETouchableView.m; sourceTree = "<group>"; };
 		153F957B179F9953005B2487 /* RichTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditor.h; sourceTree = "<group>"; };
 		153F957C179F9953005B2487 /* RichTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichTextEditor.m; sourceTree = "<group>"; };
 		153F957D179F9953005B2487 /* RichTextEditorColorPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorColorPickerViewController.h; sourceTree = "<group>"; };
@@ -290,7 +247,6 @@
 				153F9555179F9953005B2487 /* Assets */,
 				153F955A179F9953005B2487 /* Categories */,
 				3402F2681D98224E0066F4BE /* Helpers */,
-				153F9561179F9953005B2487 /* iphone Popover */,
 				153F957B179F9953005B2487 /* RichTextEditor.h */,
 				153F957C179F9953005B2487 /* RichTextEditor.m */,
 				153F9584179F9953005B2487 /* RichTextEditorToolbar.h */,
@@ -377,45 +333,6 @@
 				153F9560179F9953005B2487 /* UIView+RichTextEditor.m */,
 			);
 			path = Categories;
-			sourceTree = "<group>";
-		};
-		153F9561179F9953005B2487 /* iphone Popover */ = {
-			isa = PBXGroup;
-			children = (
-				153F9562179F9953005B2487 /* Assets */,
-				153F9572179F9953005B2487 /* UIBarButtonItem+WEPopover.h */,
-				153F9573179F9953005B2487 /* UIBarButtonItem+WEPopover.m */,
-				153F9574179F9953005B2487 /* WEPopoverContainerView.h */,
-				153F9575179F9953005B2487 /* WEPopoverContainerView.m */,
-				153F9576179F9953005B2487 /* WEPopoverController.h */,
-				153F9577179F9953005B2487 /* WEPopoverController.m */,
-				153F9578179F9953005B2487 /* WEPopoverParentView.h */,
-				153F9579179F9953005B2487 /* WETouchableView.h */,
-				153F957A179F9953005B2487 /* WETouchableView.m */,
-			);
-			path = "iphone Popover";
-			sourceTree = "<group>";
-		};
-		153F9562179F9953005B2487 /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				153F9563179F9953005B2487 /* popoverArrowDown.png */,
-				153F9564179F9953005B2487 /* popoverArrowDown@2x.png */,
-				153F9565179F9953005B2487 /* popoverArrowDownSimple.png */,
-				153F9566179F9953005B2487 /* popoverArrowLeft.png */,
-				153F9567179F9953005B2487 /* popoverArrowLeft@2x.png */,
-				153F9568179F9953005B2487 /* popoverArrowLeftSimple.png */,
-				153F9569179F9953005B2487 /* popoverArrowRight.png */,
-				153F956A179F9953005B2487 /* popoverArrowRight@2x.png */,
-				153F956B179F9953005B2487 /* popoverArrowRightSimple.png */,
-				153F956C179F9953005B2487 /* popoverArrowUp.png */,
-				153F956D179F9953005B2487 /* popoverArrowUp@2x.png */,
-				153F956E179F9953005B2487 /* popoverArrowUpSimple.png */,
-				153F956F179F9953005B2487 /* popoverBg.png */,
-				153F9570179F9953005B2487 /* popoverBg@2x.png */,
-				153F9571179F9953005B2487 /* popoverBgSimple.png */,
-			);
-			path = Assets;
 			sourceTree = "<group>";
 		};
 		158389031735A5D7006DE713 = {
@@ -601,11 +518,6 @@
 				D2ECA7721A321FE900C57F03 /* undo@2x.png in Resources */,
 				D2ECA76C1A321FE900C57F03 /* removeformat.png in Resources */,
 				D2ECA7611A321FE900C57F03 /* justifyright@2x.png in Resources */,
-				153F959A179F9953005B2487 /* popoverBg@2x.png in Resources */,
-				153F958E179F9953005B2487 /* popoverArrowDown@2x.png in Resources */,
-				153F958F179F9953005B2487 /* popoverArrowDownSimple.png in Resources */,
-				153F9591179F9953005B2487 /* popoverArrowLeft@2x.png in Resources */,
-				153F958D179F9953005B2487 /* popoverArrowDown.png in Resources */,
 				D2ECA76B1A321FE900C57F03 /* redoOlder@2x.png in Resources */,
 				D2ECA74D1A321FE900C57F03 /* colorsOld.jpg in Resources */,
 				D2ECA7711A321FE900C57F03 /* undo.png in Resources */,
@@ -616,35 +528,29 @@
 				D2ECA7571A321FE900C57F03 /* indent@2x.png in Resources */,
 				D2ECA75E1A321FE900C57F03 /* justifyleft.png in Resources */,
 				D2ECA7441A321FE900C57F03 /* buttonleft.png in Resources */,
-				153F9593179F9953005B2487 /* popoverArrowRight.png in Resources */,
 				D2ECA7411A321FE900C57F03 /* button.png in Resources */,
 				D2ECA76A1A321FE900C57F03 /* redoOlder.png in Resources */,
 				D2ECA75F1A321FE900C57F03 /* justifyleft@2x.png in Resources */,
 				D2ECA76F1A321FE900C57F03 /* underline.png in Resources */,
 				158389251735A5D7006DE713 /* Default.png in Resources */,
 				D2ECA75C1A321FE900C57F03 /* justifyfull.png in Resources */,
-				153F9597179F9953005B2487 /* popoverArrowUp@2x.png in Resources */,
 				D2ECA7431A321FE900C57F03 /* buttoncenterSelected.png in Resources */,
 				D2ECA7581A321FE900C57F03 /* italic.png in Resources */,
 				D2ECA7651A321FE900C57F03 /* outdent.png in Resources */,
-				153F9592179F9953005B2487 /* popoverArrowLeftSimple.png in Resources */,
 				D2ECA7751A321FE900C57F03 /* undoOlder@2x.png in Resources */,
 				D2ECA75B1A321FE900C57F03 /* justifycenter@2x.png in Resources */,
 				158389271735A5D7006DE713 /* Default@2x.png in Resources */,
 				D2ECA74C1A321FE900C57F03 /* colors.jpg in Resources */,
-				153F9594179F9953005B2487 /* popoverArrowRight@2x.png in Resources */,
 				D2ECA73F1A321FE900C57F03 /* bullist.png in Resources */,
 				D2ECA74E1A321FE900C57F03 /* dismiss_keyboard.png in Resources */,
 				D2ECA7511A321FE900C57F03 /* file.png in Resources */,
 				D2ECA7701A321FE900C57F03 /* underline@2x.png in Resources */,
 				D2ECA7501A321FE900C57F03 /* email.png in Resources */,
-				153F9596179F9953005B2487 /* popoverArrowUp.png in Resources */,
 				158389291735A5D7006DE713 /* Default-568h@2x.png in Resources */,
 				1583892C1735A5D7006DE713 /* MainStoryboard_iPhone.storyboard in Resources */,
 				D2ECA7491A321FE900C57F03 /* dropDownTriangle.png in Resources */,
 				D2ECA7761A321FE900C57F03 /* unlink.png in Resources */,
 				D2ECA7591A321FE900C57F03 /* italic@2x.png in Resources */,
-				153F9599179F9953005B2487 /* popoverBg.png in Resources */,
 				D2ECA7681A321FE900C57F03 /* redo@2x.png in Resources */,
 				D2ECA7531A321FE900C57F03 /* firstLineIndent@2x.png in Resources */,
 				D2ECA73D1A321FE900C57F03 /* bold.png in Resources */,
@@ -665,14 +571,10 @@
 				D2ECA74F1A321FE900C57F03 /* dismiss_keyboard@2x.png in Resources */,
 				D2ECA7641A321FE900C57F03 /* numlist@2x.png in Resources */,
 				D2ECA74B1A321FE900C57F03 /* code.png in Resources */,
-				153F9590179F9953005B2487 /* popoverArrowLeft.png in Resources */,
-				153F9598179F9953005B2487 /* popoverArrowUpSimple.png in Resources */,
 				D28387081A7EE1340093AF3E /* OtherLicenses.txt in Resources */,
 				D2ECA7691A321FE900C57F03 /* redoOld.png in Resources */,
-				153F959B179F9953005B2487 /* popoverBgSimple.png in Resources */,
 				D2ECA7541A321FE900C57F03 /* forecolor.png in Resources */,
 				D2ECA7461A321FE900C57F03 /* buttonright.png in Resources */,
-				153F9595179F9953005B2487 /* popoverArrowRightSimple.png in Resources */,
 				D2ECA7401A321FE900C57F03 /* bullist@2x.png in Resources */,
 				D2ECA7731A321FE900C57F03 /* undoOld.png in Resources */,
 				1583892F1735A5D7006DE713 /* MainStoryboard_iPad.storyboard in Resources */,
@@ -711,17 +613,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				153F959D179F9953005B2487 /* WEPopoverContainerView.m in Sources */,
 				153F95A4179F9953005B2487 /* RichTextEditorToolbar.m in Sources */,
-				153F959C179F9953005B2487 /* UIBarButtonItem+WEPopover.m in Sources */,
 				153F95A3179F9953005B2487 /* RichTextEditorFontSizePickerViewController.m in Sources */,
 				153F958B179F9953005B2487 /* UIFont+RichTextEditor.m in Sources */,
 				1583891F1735A5D7006DE713 /* main.m in Sources */,
-				153F959E179F9953005B2487 /* WEPopoverController.m in Sources */,
 				153F95A2179F9953005B2487 /* RichTextEditorFontPickerViewController.m in Sources */,
 				153F95A0179F9953005B2487 /* RichTextEditor.m in Sources */,
 				153F958C179F9953005B2487 /* UIView+RichTextEditor.m in Sources */,
-				153F959F179F9953005B2487 /* WETouchableView.m in Sources */,
 				158389231735A5D7006DE713 /* AppDelegate.m in Sources */,
 				158389321735A5D7006DE713 /* ViewController.m in Sources */,
 				153F95A1179F9953005B2487 /* RichTextEditorColorPickerViewController.m in Sources */,
