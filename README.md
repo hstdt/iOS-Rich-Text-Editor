@@ -5,9 +5,9 @@
 ### TODO
 - [ ] Drop WEPopover dependency and use native popovers on iPhone (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)).
 - [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.)
-- [*] Make use of iOS NSTextStorage
-- [*] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
-- [*] Convert this README file to use ## instead of ----- for h1/2/3/4/5 syntax
+- [x] Make use of iOS NSTextStorage
+- [x] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
+- [x] Convert this README file to use ## instead of ----- for h1/2/3/4/5 syntax
 
 ### Breaking Change Warning!
 
