@@ -160,12 +160,13 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
+	NSLog(@"Change");
 	if (!self.isInTextDidChange){
 		self.isInTextDidChange = YES;
-		if (!self.justDeletedBackward) {
+		//if (!self.justDeletedBackward) {
 			// fix for issue where deleting a char that isn't in a bulleted list right before a bulleted list added a bullet
 			[self applyBulletListIfApplicable];
-		}
+		//}
 		[self deleteBulletListWhenApplicable];
 		self.isInTextDidChange = NO;
 	}
@@ -209,7 +210,7 @@
 	return [[self.textStorage.string substringFromIndex:rangeOfCurrentParagraph.location] hasPrefix:self.BULLET_STRING];
 }
 
--(BOOL)isInEmptyBulletedListItem {
+- (BOOL)isInEmptyBulletedListItem {
 	NSRange rangeOfCurrentParagraph = [self.textStorage firstParagraphRangeFromTextRange:self.selectedRange];
 	return [[self.textStorage.string substringFromIndex:rangeOfCurrentParagraph.location] isEqualToString:self.BULLET_STRING];
 }
@@ -293,7 +294,6 @@
 	if (![self.dataSource respondsToSelector:@selector(shouldDisplayToolbarForRichTextEditor:)] ||
 		[self.dataSource shouldDisplayToolbarForRichTextEditor:self]) {
 		self.inputAccessoryView = self.toolBar;
-		
 		// Redraw in case enabled features have changed
 		[self.toolBar redraw];
 	}
@@ -908,8 +908,7 @@
 
 - (void)applyFontAttributesWithBoldTrait:(NSNumber *)isBold italicTrait:(NSNumber *)isItalic fontName:(NSString *)fontName fontSize:(NSNumber *)fontSize toTextAtRange:(NSRange)range {
 	// If any text selected apply attributes to text
-	if (range.length > 0)
-	{
+	if (range.length > 0) {
 		[self.textStorage beginEditing];
 		[self.textStorage enumerateAttributesInRange:range
 											 options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
@@ -950,15 +949,15 @@
 -(void)changeFontSizeWithOperation:(CGFloat(^)(CGFloat currFontSize))operation {
 	[self.textStorage beginEditing];
 	NSRange range = self.selectedRange;
-	if (range.length == 0)
+	if (range.length == 0) {
 		range = NSMakeRange(0, [self.textStorage length]);
+	}
 	[self.textStorage enumerateAttributesInRange:range
 										 options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
 									  usingBlock:^(NSDictionary *dictionary, NSRange range, BOOL *stop){
 										  // Get current font size
 										  UIFont *currFont = [dictionary objectForKey:NSFontAttributeName];
-										  if (currFont)
-										  {
+										  if (currFont) {
 											  CGFloat currFontSize = currFont.pointSize;
 											  
 											  CGFloat nextFontSize = operation(currFontSize);
@@ -1001,8 +1000,7 @@
 	}
 }
 
-- (void)increaseFontSize
-{
+- (void)increaseFontSize {
 	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeFontSize];
 	if (self.selectedRange.length == 0) {
 		NSMutableDictionary *typingAttributes = [self.typingAttributes mutableCopy];
@@ -1091,7 +1089,8 @@
 	if (rangeOfCurrentParagraph.length != 0) {
 		return;
 	}
-	if ([[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) {
+	if (!self.justDeletedBackward &&
+		[[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) {
         [self richTextEditorToolbarDidSelectBulletListWithCaller:self];
 	}
 }
@@ -1106,10 +1105,8 @@
 	[self setIndentationWithAttributes:dictionary paragraphStyle:paragraphStyle atRange:firstParagraphRange];
 }
 
-- (void)deleteBulletListWhenApplicable
-{
+- (void)deleteBulletListWhenApplicable {
 	NSRange range = self.selectedRange;
-	// TODO: Clean up this code since a lot of it is "repeated"
 	if (range.location > 0) {
         NSString *checkString = self.BULLET_STRING;
 		if ([checkString length] > 1) { // chop off last letter and use that
