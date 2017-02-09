@@ -6,6 +6,7 @@
 - [x] Drop WEPopover dependency and use native popovers on iPhone (see [here](https://rbnsn.me/ios-8-popover-presentations) and [here](https://richardallen.me/2014/11/28/popovers.html)). -- Dropped dependency but decided not to use popovers on iPhone per [interface guidelines](https://developer.apple.com/ios/human-interface-guidelines/ui-views/popovers/). 
 - [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.) -- This is now done in RichTextEditor.m but not other files
 - [ ] Bug fixing/checking
+- [ ] Fix undo/redo when using bulleted lists
 - [ ] Make the toolbar more pretty
 - [ ] New screenshots for this readme
 - [x] Make use of iOS NSTextStorage
