@@ -291,18 +291,24 @@
     
     self.hidden = (features == RichTextEditorFeatureNone);
 	
-	if (self.hidden)
+	if (self.hidden) {
 		return;
+	}
 	
     // If iPhone device, allow for keyboard dismissal
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone &&
         ((features & RichTextEditorFeatureDismissKeyboard) || (features & RichTextEditorFeatureAll))) {
-        UIView *separatorView = [self separatorView];
-        [self addView:self.btnDismissKeyboard afterView:lastAddedView withSpacing:YES];
-        [self addView:separatorView afterView:self.btnDismissKeyboard withSpacing:YES];
-        lastAddedView = separatorView;
+        lastAddedView = [self addView:self.btnDismissKeyboard afterView:lastAddedView withSpacing:YES];
+        lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
     }
-    
+	
+	if ((features & RichTextEditorFeatureUndoRedo || features & RichTextEditorFeatureAll) && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+	{
+		lastAddedView = [self addView:self.btnTextUndo afterView:lastAddedView withSpacing:YES];
+		lastAddedView = [self addView:self.btnTextRedo afterView:lastAddedView withSpacing:YES];
+		lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
+	}
+	
 	// Font selection
 	if (features & RichTextEditorFeatureFont || features & RichTextEditorFeatureAll)
 	{
@@ -312,165 +318,131 @@
 		rect.size.width = MAX(size.width + 25, 120);
 		self.btnFont.frame = rect;
 		
-		[self addView:self.btnFont afterView:lastAddedView withSpacing:YES];
-		[self addView:separatorView afterView:self.btnFont withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:self.btnFont afterView:lastAddedView withSpacing:YES];
+		lastAddedView = [self addView:separatorView afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Font size
 	if (features & RichTextEditorFeatureFontSize || features & RichTextEditorFeatureAll)
 	{
 		UIView *separatorView = [self separatorView];
-		[self addView:self.btnFontSize afterView:lastAddedView withSpacing:YES];
-		[self addView:separatorView afterView:self.btnFontSize withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:self.btnFontSize afterView:lastAddedView withSpacing:YES];
+		lastAddedView = [self addView:separatorView afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Bold
 	if (features & RichTextEditorFeatureBold || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnBold afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnBold;
+		lastAddedView = [self addView:self.btnBold afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Italic
 	if (features & RichTextEditorFeatureItalic || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnItalic afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnItalic;
+		lastAddedView = [self addView:self.btnItalic afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Underline
 	if (features & RichTextEditorFeatureUnderline || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnUnderline afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnUnderline;
+		lastAddedView = [self addView:self.btnUnderline afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Strikethrough
 	if (features & RichTextEditorFeatureStrikeThrough || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnStrikeThrough afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnStrikeThrough;
+		lastAddedView = [self addView:self.btnStrikeThrough afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Separator view after font properties.
 	if (features & RichTextEditorFeatureBold || features & RichTextEditorFeatureItalic || features & RichTextEditorFeatureUnderline || features & RichTextEditorFeatureStrikeThrough || features & RichTextEditorFeatureAll)
 	{
-		UIView *separatorView = [self separatorView];
-		[self addView:separatorView afterView:lastAddedView withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Align left
 	if (features & RichTextEditorFeatureTextAlignmentLeft || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnTextAlignmentLeft afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnTextAlignmentLeft;
+		lastAddedView = [self addView:self.btnTextAlignmentLeft afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Align center
 	if (features & RichTextEditorFeatureTextAlignmentCenter || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnTextAlignmentCenter afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnTextAlignmentCenter;
+		lastAddedView = [self addView:self.btnTextAlignmentCenter afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Align right
 	if (features & RichTextEditorFeatureTextAlignmentRight || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnTextAlignmentRight afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnTextAlignmentRight;
+		lastAddedView = [self addView:self.btnTextAlignmentRight afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Align justified
 	if (features & RichTextEditorFeatureTextAlignmentJustified || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnTextAlignmentJustified afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnTextAlignmentJustified;
+		lastAddedView = [self addView:self.btnTextAlignmentJustified afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Separator view after alignment section
 	if (features & RichTextEditorFeatureTextAlignmentLeft || features & RichTextEditorFeatureTextAlignmentCenter || features & RichTextEditorFeatureTextAlignmentRight || features & RichTextEditorFeatureTextAlignmentJustified || features & RichTextEditorFeatureAll)
 	{
-		UIView *separatorView = [self separatorView];
-		[self addView:separatorView afterView:lastAddedView withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Paragraph indentation
 	if (features & RichTextEditorFeatureParagraphIndentation || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnParagraphOutdent afterView:lastAddedView  withSpacing:YES];
-		[self addView:self.btnParagraphIndent afterView:self.btnParagraphOutdent withSpacing:YES];
-		lastAddedView = self.btnParagraphIndent;
+		lastAddedView = [self addView:self.btnParagraphOutdent afterView:lastAddedView  withSpacing:YES];
+		lastAddedView = [self addView:self.btnParagraphIndent afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Paragraph first line indentation
 	if (features & RichTextEditorFeatureParagraphFirstLineIndentation || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnParagraphFirstLineHeadIndent afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnParagraphFirstLineHeadIndent;
+		lastAddedView = [self addView:self.btnParagraphFirstLineHeadIndent afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Separator view after Indentation
 	if (features & RichTextEditorFeatureParagraphIndentation || features & RichTextEditorFeatureParagraphFirstLineIndentation || features & RichTextEditorFeatureAll)
 	{
-		UIView *separatorView = [self separatorView];
-		[self addView:separatorView afterView:lastAddedView withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Background color
 	if (features & RichTextEditorFeatureTextBackgroundColor || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnBackgroundColor afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnBackgroundColor;
+		lastAddedView = [self addView:self.btnBackgroundColor afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Text color
 	if (features & RichTextEditorFeatureTextForegroundColor || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnForegroundColor afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnForegroundColor;
+		lastAddedView = [self addView:self.btnForegroundColor afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Separator view after color section
 	if (features & RichTextEditorFeatureTextBackgroundColor || features & RichTextEditorFeatureTextForegroundColor || features & RichTextEditorFeatureAll)
 	{
-		UIView *separatorView = [self separatorView];
-		[self addView:separatorView afterView:lastAddedView withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Bullet List
 	if (features & RichTextEditorFeatureBulletList || features & RichTextEditorFeatureAll)
 	{
-		[self addView:self.btnBulletList afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnBulletList;
+		lastAddedView = [self addView:self.btnBulletList afterView:lastAddedView withSpacing:YES];
 	}
 	
 	// Separator view after color section
 	if (features & RichTextEditorFeatureBulletList || features & RichTextEditorFeatureAll)
 	{
-		UIView *separatorView = [self separatorView];
-		[self addView:separatorView afterView:lastAddedView withSpacing:YES];
-		lastAddedView = separatorView;
+		lastAddedView = [self addView:[self separatorView] afterView:lastAddedView withSpacing:YES];
 	}
 	
-    // I think he wanted TextAttachment here, not BulletList
+	// I think he wanted TextAttachment here, not BulletList
 	if ((features & RichTextEditorTextAttachment || features & RichTextEditorFeatureAll) && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
 	{
-		[self addView:self.btnTextAttachment afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnTextAttachment;
-	}
-    
-	if ((features & RichTextEditorFeatureUndoRedo || features & RichTextEditorFeatureAll) && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-	{
-		[self addView:self.btnTextUndo afterView:lastAddedView withSpacing:YES];
-		lastAddedView = self.btnTextUndo;
-		[self addView:self.btnTextRedo afterView:lastAddedView withSpacing:YES];
-		//lastAddedView = self.btnTextRedo;
+		lastAddedView = [self addView:self.btnTextAttachment afterView:lastAddedView withSpacing:YES];
 	}
 	
 	[self scrollRectToVisible:visibleRect animated:NO];
@@ -546,13 +518,13 @@
 }
 
 
-- (void)enableUndoToolbarButton:(BOOL)shouldEnable {
+- (void)enableUndoButton:(BOOL)shouldEnable {
 	if (self.btnTextUndo) {
 		self.btnTextUndo.enabled = shouldEnable;
 	}
 }
 
-- (void)enableRedoToolbarButton:(BOOL)shouldEnable {
+- (void)enableRedoButton:(BOOL)shouldEnable {
 	if (self.btnTextRedo) {
 		self.btnTextRedo.enabled = shouldEnable;
 	}
@@ -584,7 +556,8 @@
 	return view;
 }
 
-- (void)addView:(UIView *)view afterView:(UIView *)otherView withSpacing:(BOOL)space
+// @return Returns the added view.
+- (UIView*)addView:(UIView *)view afterView:(UIView *)otherView withSpacing:(BOOL)space
 {
 	CGRect otherViewRect = (otherView) ? otherView.frame : CGRectZero;
 	CGRect rect = view.frame;
@@ -599,6 +572,7 @@
 	
 	[self addSubview:view];
 	[self updateContentSize];
+	return view;
 }
 
 - (void)updateContentSize
