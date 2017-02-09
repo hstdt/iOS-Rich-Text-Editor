@@ -879,7 +879,6 @@
 }
 
 - (void)applyAttributes:(id)attribute forKey:(NSString *)key atRange:(NSRange)range {
-	[self.textStorage beginEditing];
 	// If any text selected apply attributes to text
 	if (range.length > 0) {
         // Workaround for when there is only one paragraph,
@@ -900,7 +899,6 @@
 		[self applyAttributeToTypingAttribute:attribute forKey:key];
 	}
 	[self updateToolbarState];
-	[self.textStorage endEditing];
 }
 
 - (void)removeAttributeForKey:(NSString *)key atRange:(NSRange)range {
