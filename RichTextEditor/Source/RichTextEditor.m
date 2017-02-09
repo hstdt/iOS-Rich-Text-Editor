@@ -171,10 +171,7 @@
 	NSLog(@"Change");
 	if (!self.isInTextDidChange){
 		self.isInTextDidChange = YES;
-		//if (!self.justDeletedBackward) {
-			// fix for issue where deleting a char that isn't in a bulleted list right before a bulleted list added a bullet
-			[self applyBulletListIfApplicable];
-		//}
+		[self applyBulletListIfApplicable];
 		[self deleteBulletListWhenApplicable];
 		self.isInTextDidChange = NO;
 	}
@@ -673,7 +670,6 @@
 	if (caller == self.toolBar) {
         self.inBulletedList = !self.inBulletedList;
 	}
-	[self.textStorage beginEditing];
 	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBullet];
 	NSRange initialSelectedRange = self.selectedRange;
 	NSArray *rangeOfParagraphsInSelectedText = [self.attributedText rangeOfParagraphsFromTextRange:self.selectedRange];
@@ -774,11 +770,9 @@
 		self.scrollEnabled = YES;
 	}
 	self.selectedRange = rangeForSelection;
-	[self.textStorage endEditing];
 }
 
 - (void)richTextEditorToolbarDidSelectTextAttachment:(UIImage *)textAttachment {
-	[self.textStorage beginEditing];
 	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeTextAttachment];
 	NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
 	[attachment setImage:textAttachment];
@@ -787,7 +781,6 @@
 	[self.textStorage insertAttributedString:attributedStringAttachment atIndex:self.selectedRange.location];
 	[self.textStorage addAttributes:previousAttributes range:NSMakeRange(self.selectedRange.location, 1)];
 	[self.textStorage endEditing];
-	[self sendDelegateTVChanged];
 }
 
 - (UIViewController <RichTextEditorColorPicker> *)colorPickerForRichTextEditorToolbarWithAction:(RichTextEditorColorPickerAction)action {
@@ -902,11 +895,9 @@
 }
 
 - (void)removeAttributeForKey:(NSString *)key atRange:(NSRange)range {
-	[self.textStorage beginEditing];
 	NSRange initialRange = self.selectedRange;
 	[self.textStorage removeAttribute:key range:range];
 	self.selectedRange = initialRange;
-	[self.textStorage endEditing];
 }
 
 - (void)removeAttributeForKeyFromSelectedRange:(NSString *)key {
@@ -1092,14 +1083,12 @@
              Where | is the cursor on a blank line. User hits backspace. Without fixing the 
              indentation, the cursor ends up indented at the same indentation as the bullet.
              */
-			[self.textStorage beginEditing];
             NSDictionary *dictionary = [self dictionaryAtIndex:rangeOfCurrentParagraph.location];
             NSMutableParagraphStyle *paragraphStyle = [[dictionary objectForKey:NSParagraphStyleAttributeName] mutableCopy];
             paragraphStyle.firstLineHeadIndent = 0;
             paragraphStyle.headIndent = 0;
 			[self applyAttributes:paragraphStyle forKey:NSParagraphStyleAttributeName atRange:rangeOfCurrentParagraph];
 			[self setIndentationWithAttributes:dictionary paragraphStyle:paragraphStyle atRange:rangeOfCurrentParagraph];
-			[self.textStorage endEditing];
         }
         return;
     }
@@ -1108,9 +1097,7 @@
 	}
 	if (!self.justDeletedBackward &&
 		[[self.attributedText.string substringFromIndex:rangeOfPreviousParagraph.location] hasPrefix:self.BULLET_STRING]) {
-		[self.textStorage beginEditing];
         [self richTextEditorToolbarDidSelectBulletListWithCaller:self];
-		[self.textStorage endEditing];
 	}
 }
 
@@ -1138,7 +1125,6 @@
                  [[self.attributedText.string substringFromIndex:range.location-checkStringLength] hasPrefix:checkString])) {
                 NSLog(@"[RTE] Getting rid of a bullet due to backspace while in empty bullet paragraph.");
 				// Get rid of bullet string
-				[self.textStorage beginEditing];
 				[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBullet];
 				//NSLog(@"[RTE] Getting rid of a bullet due to backspace while in empty bullet paragraph.");
 				// Get rid of bullet string
@@ -1148,7 +1134,6 @@
 				
 				// Get rid of bullet indentation
 				[self removeBulletIndentation:newRange];
-				[self.textStorage endEditing];
             }
             else {
                 // User may be needing to get out of a bulleted list due to hitting enter (return)
@@ -1160,7 +1145,6 @@
 					// Basically, there is now a bullet ' ' \n bullet ' ' that we need to delete (' ' == space)
 					// Since it gets here AFTER it adds a new bullet
 					if ([[self.attributedText.string substringWithRange:rangeOfPreviousParagraph] hasSuffix:self.BULLET_STRING]) {
-						[self.textStorage beginEditing];
 						[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeBullet];
 						//NSLog(@"[RTE] Getting rid of bullets due to user hitting enter.");
 						NSRange rangeToDelete = NSMakeRange(rangeOfPreviousParagraph.location, rangeOfPreviousParagraph.length+rangeOfCurrentParagraph.length + 1);
@@ -1169,7 +1153,6 @@
 						self.selectedRange = newRange;
 						// Get rid of bullet indentation
 						[self removeBulletIndentation:newRange];
-						[self.textStorage endEditing];
 					}
                 }
             }
