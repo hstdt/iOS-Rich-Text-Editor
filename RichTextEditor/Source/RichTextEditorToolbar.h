@@ -107,4 +107,7 @@ typedef NS_OPTIONS(NSUInteger, RichTextEditorFeature) {
 - (void)updateStateWithAttributes:(NSDictionary *)attributes;
 - (void)redraw;
 
+- (void)enableUndoToolbarButton:(BOOL)shouldEnable;
+- (void)enableRedoToolbarButton:(BOOL)shouldEnable;
+
 @end

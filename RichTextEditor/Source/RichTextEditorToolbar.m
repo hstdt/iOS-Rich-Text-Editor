@@ -545,6 +545,19 @@
     self.btnDismissKeyboard = [self buttonWithImageNamed:@"dismiss_keyboard.png" andSelector:@selector(dismissKeyboard:)];
 }
 
+
+- (void)enableUndoToolbarButton:(BOOL)shouldEnable {
+	if (self.btnTextUndo) {
+		self.btnTextUndo.enabled = shouldEnable;
+	}
+}
+
+- (void)enableRedoToolbarButton:(BOOL)shouldEnable {
+	if (self.btnTextRedo) {
+		self.btnTextRedo.enabled = shouldEnable;
+	}
+}
+
 - (RichTextEditorToggleButton *)buttonWithImageNamed:(NSString *)image width:(NSInteger)width andSelector:(SEL)selector
 {
 	RichTextEditorToggleButton *button = [[RichTextEditorToggleButton alloc] init];

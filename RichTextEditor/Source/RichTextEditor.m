@@ -153,6 +153,14 @@
     self.toolBar = nil;
 }
 
+- (void)enableUndoToolbarButton:(BOOL)shouldEnable {
+	[self.toolBar enableUndoToolbarButton:shouldEnable];
+}
+
+- (void)enableRedoToolbarButton:(BOOL)shouldEnable {
+	[self.toolBar enableRedoToolbarButton:shouldEnable];
+}
+
 -(void)sendDelegatePreviewChangeOfType:(RichTextEditorPreviewChange)type {
 	if (self.rteDelegate && [self.rteDelegate respondsToSelector:@selector(richTextEditor:changeAboutToOccurOfType:)]) {
 		[self.rteDelegate richTextEditor:self changeAboutToOccurOfType:type];
@@ -649,7 +657,7 @@
 	[self sendDelegateTVChanged];
 }
 
--(void)setAttributedString:(NSAttributedString*)attributedString {
+- (void)setAttributedString:(NSAttributedString*)attributedString {
 	[self.textStorage setAttributedString:attributedString];
 }
 

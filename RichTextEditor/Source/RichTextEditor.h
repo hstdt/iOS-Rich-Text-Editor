@@ -118,4 +118,7 @@ typedef NS_ENUM(NSInteger, RichTextEditorPreviewChange) {
 
 + (NSString *)convertPreviewChangeTypeToString:(RichTextEditorPreviewChange)changeType withNonSpecialChangeText:(BOOL)shouldReturnStringForNonSpecialType;
 
+- (void)enableUndoToolbarButton:(BOOL)shouldEnable;
+- (void)enableRedoToolbarButton:(BOOL)shouldEnable;
+
 @end
