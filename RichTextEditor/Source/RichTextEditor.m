@@ -154,11 +154,11 @@
 }
 
 - (void)enableUndoToolbarButton:(BOOL)shouldEnable {
-	[self.toolBar enableUndoToolbarButton:shouldEnable];
+	[self.toolBar enableUndoButton:shouldEnable];
 }
 
 - (void)enableRedoToolbarButton:(BOOL)shouldEnable {
-	[self.toolBar enableRedoToolbarButton:shouldEnable];
+	[self.toolBar enableRedoButton:shouldEnable];
 }
 
 -(void)sendDelegatePreviewChangeOfType:(RichTextEditorPreviewChange)type {
@@ -1196,21 +1196,25 @@
 }
 
 - (RichTextEditorToolbarPresentationStyle)presentationStyleForRichTextEditorToolbar {
+	BOOL isUsingiPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
 	if (self.dataSource && [self.dataSource respondsToSelector:@selector(presentationStyleForRichTextEditor:)]) {
-		return [self.dataSource presentationStyleForRichTextEditor:self];
+		RichTextEditorToolbarPresentationStyle style = [self.dataSource presentationStyleForRichTextEditor:self];
+		if (!isUsingiPad && style == RichTextEditorToolbarPresentationStylePopover) {
+			return RichTextEditorToolbarPresentationStyleModal;
+		}
+		else {
+			return style;
+		}
 	}
-	return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    ? RichTextEditorToolbarPresentationStylePopover
-    : RichTextEditorToolbarPresentationStyleModal;
+	return isUsingiPad ? RichTextEditorToolbarPresentationStylePopover : RichTextEditorToolbarPresentationStyleModal;
 }
 
 - (UIModalPresentationStyle)modalPresentationStyleForRichTextEditorToolbar {
+	BOOL isUsingiPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
 	if (self.dataSource && [self.dataSource respondsToSelector:@selector(modalPresentationStyleForRichTextEditor:)]) {
 		return [self.dataSource modalPresentationStyleForRichTextEditor:self];
 	}
-	return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    ? UIModalPresentationFormSheet
-    : UIModalPresentationFullScreen;
+	return isUsingiPad ? UIModalPresentationFormSheet : UIModalPresentationFullScreen;
 }
 
 - (UIModalTransitionStyle)modalTransitionStyleForRichTextEditorToolbar {
