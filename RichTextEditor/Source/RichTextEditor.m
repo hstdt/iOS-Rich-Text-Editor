@@ -172,7 +172,6 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-	NSLog(@"Change");
 	if (!self.isInTextDidChange){
 		self.isInTextDidChange = YES;
 		[self applyBulletListIfApplicable];
