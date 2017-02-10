@@ -161,6 +161,10 @@
 	[self.toolBar enableRedoButton:shouldEnable];
 }
 
+- (void)changeToAttributedString:(NSAttributedString*)string {
+	[self.textStorage setAttributedString:string];
+}
+
 -(void)sendDelegatePreviewChangeOfType:(RichTextEditorPreviewChange)type {
 	if (self.rteDelegate && [self.rteDelegate respondsToSelector:@selector(richTextEditor:changeAboutToOccurOfType:)]) {
 		[self.rteDelegate richTextEditor:self changeAboutToOccurOfType:type];
