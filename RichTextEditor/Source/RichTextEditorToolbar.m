@@ -450,44 +450,53 @@
 
 - (void)initializeButtons
 {
-	self.btnFont = [self buttonWithImageNamed:@"dropDownTriangle.png"
+	self.btnFont = [self buttonWithImageNamed:@"keyboard-arrow-up"
 										width:120
 								  andSelector:@selector(fontSelected:)];
 	[self.btnFont setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
 	[self.btnFont setTitle:@"Font" forState:UIControlStateNormal];
+	// Put the image on the right side -- http://stackoverflow.com/a/32174204/3938401
+	self.btnFont.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	self.btnFont.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	self.btnFont.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
 	
-	self.btnFontSize = [self buttonWithImageNamed:@"dropDownTriangle.png"
+	self.btnFontSize = [self buttonWithImageNamed:@"keyboard-arrow-up"
 											width:50
 									  andSelector:@selector(fontSizeSelected:)];
 	[self.btnFontSize setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
 	[self.btnFontSize setTitle:@"14" forState:UIControlStateNormal];
-	self.btnBold = [self buttonWithImageNamed:@"bold.png"
+	// Put the image on the right side -- http://stackoverflow.com/a/32174204/3938401
+	self.btnFontSize.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	self.btnFontSize.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	self.btnFontSize.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	
+	self.btnBold = [self buttonWithImageNamed:@"format-bold"
 								  andSelector:@selector(boldSelected:)];
 	
 	
-	self.btnItalic = [self buttonWithImageNamed:@"italic.png"
+	self.btnItalic = [self buttonWithImageNamed:@"format-italic"
 									andSelector:@selector(italicSelected:)];
 	
 	
-	self.btnUnderline = [self buttonWithImageNamed:@"underline.png"
+	self.btnUnderline = [self buttonWithImageNamed:@"format-underlined"
 									   andSelector:@selector(underLineSelected:)];
 	
-	self.btnStrikeThrough = [self buttonWithImageNamed:@"strikethrough"
+	self.btnStrikeThrough = [self buttonWithImageNamed:@"format-strikethrough"
 										   andSelector:@selector(strikeThroughSelected:)];
 	
 	
-	self.btnTextAlignmentLeft = [self buttonWithImageNamed:@"justifyleft.png"
+	self.btnTextAlignmentLeft = [self buttonWithImageNamed:@"format-align-left"
 											   andSelector:@selector(textAlignmentSelected:)];
 	
 	
-	self.btnTextAlignmentCenter = [self buttonWithImageNamed:@"justifycenter.png"
+	self.btnTextAlignmentCenter = [self buttonWithImageNamed:@"format-align-center"
 												 andSelector:@selector(textAlignmentSelected:)];
 	
 	
-	self.btnTextAlignmentRight = [self buttonWithImageNamed:@"justifyright.png"
+	self.btnTextAlignmentRight = [self buttonWithImageNamed:@"format-align-right"
 												andSelector:@selector(textAlignmentSelected:)];
 	
-	self.btnTextAlignmentJustified = [self buttonWithImageNamed:@"justifyfull.png"
+	self.btnTextAlignmentJustified = [self buttonWithImageNamed:@"format-align-justify"
 													andSelector:@selector(textAlignmentSelected:)];
 	
 	self.btnForegroundColor = [self buttonWithImageNamed:@"format-color"
@@ -496,25 +505,25 @@
 	self.btnBackgroundColor = [self buttonWithImageNamed:@"format-color-fill"
 											 andSelector:@selector(textBackgroundColorSelected:)];
 	
-	self.btnBulletList = [self buttonWithImageNamed:@"bullist.png"
+	self.btnBulletList = [self buttonWithImageNamed:@"format-list-bulleted"
 										 andSelector:@selector(bulletListSelected:)];
 	
-	self.btnParagraphIndent = [self buttonWithImageNamed:@"indent.png"
+	self.btnParagraphIndent = [self buttonWithImageNamed:@"indent-increase"
 											 andSelector:@selector(paragraphIndentSelected:)];
 	
-	self.btnParagraphOutdent = [self buttonWithImageNamed:@"outdent.png"
+	self.btnParagraphOutdent = [self buttonWithImageNamed:@"indent-decrease"
 											  andSelector:@selector(paragraphOutdentSelected:)];
 	
-	self.btnParagraphFirstLineHeadIndent = [self buttonWithImageNamed:@"firstLineIndent.png"
+	self.btnParagraphFirstLineHeadIndent = [self buttonWithImageNamed:@"format-first-line-indent"
 														  andSelector:@selector(paragraphHeadIndentOutdentSelected:)];
 	
-	self.btnTextAttachment = [self buttonWithImageNamed:@"image.png"
+	self.btnTextAttachment = [self buttonWithImageNamed:@"insert-photo"
                                             andSelector:@selector(textAttachmentSelected:)];
-	self.btnTextUndo = [self buttonWithImageNamed:@"undo.png"
+	self.btnTextUndo = [self buttonWithImageNamed:@"undo"
                                       andSelector:@selector(undoSelected:)];
-	self.btnTextRedo = [self buttonWithImageNamed:@"redo.png"
+	self.btnTextRedo = [self buttonWithImageNamed:@"redo"
                                       andSelector:@selector(redoSelected:)];
-    self.btnDismissKeyboard = [self buttonWithImageNamed:@"dismiss_keyboard.png" andSelector:@selector(dismissKeyboard:)];
+    self.btnDismissKeyboard = [self buttonWithImageNamed:@"keyboard-hide" andSelector:@selector(dismissKeyboard:)];
 }
 
 
