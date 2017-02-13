@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import <RichTextEditor/RichTextEditor.h>
+#import <RichTextEditor/RichTextEditorFramework.h>
 
 @interface ViewController () <RichTextEditorDataSource, UITextViewDelegate>
 

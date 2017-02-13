@@ -34,10 +34,10 @@
 		34BF6A4C1E5140C500A736BB /* RichTextEditorColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957E179F9953005B2487 /* RichTextEditorColorPickerViewController.m */; };
 		34BF6A4D1E5140C500A736BB /* RichTextEditorFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9580179F9953005B2487 /* RichTextEditorFontPickerViewController.m */; };
 		34BF6A4E1E5140C500A736BB /* RichTextEditorFontSizePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9582179F9953005B2487 /* RichTextEditorFontSizePickerViewController.m */; };
-		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; };
-		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; };
-		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; };
-		34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */; };
 		34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957B179F9953005B2487 /* RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9584179F9953005B2487 /* RichTextEditorToolbar.h */; };
 		34BF6A551E5140D500A736BB /* RichTextEditorToggleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 15B6E20D17A4C2820015867C /* RichTextEditorToggleButton.h */; };
@@ -280,6 +280,7 @@
 		153F9554179F9953005B2487 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				34BF6A281E51409400A736BB /* RichTextEditorFramework */,
 				153F9555179F9953005B2487 /* Assets */,
 				153F955A179F9953005B2487 /* Categories */,
 				3402F2681D98224E0066F4BE /* Helpers */,
@@ -373,7 +374,6 @@
 			children = (
 				158389181735A5D7006DE713 /* RichTextEditor */,
 				1583893F1735A5D7006DE713 /* RichTextEditorTests */,
-				34BF6A281E51409400A736BB /* RichTextEditorFramework */,
 				158389111735A5D7006DE713 /* Frameworks */,
 				1583890F1735A5D7006DE713 /* Products */,
 			);
@@ -464,7 +464,8 @@
 				34BF6A291E51409400A736BB /* RichTextEditorFramework.h */,
 				34BF6A2A1E51409400A736BB /* Info.plist */,
 			);
-			path = RichTextEditorFramework;
+			name = RichTextEditorFramework;
+			path = ../../RichTextEditorFramework;
 			sourceTree = "<group>";
 		};
 		D2ECA7051A321FE900C57F03 /* buttons */ = {
@@ -492,11 +493,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				34BF6A391E51409500A736BB /* RichTextEditorFramework.h in Headers */,
-				34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */,
 				34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */,
 				34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */,
 				34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */,
 				34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */,
+				34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */,
 				34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */,
 				34BF6A551E5140D500A736BB /* RichTextEditorToggleButton.h in Headers */,
 				34BF6A561E5140D500A736BB /* RichTextEditorColorPickerViewController.h in Headers */,
@@ -1020,6 +1021,7 @@
 				34BF6A401E51409500A736BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
