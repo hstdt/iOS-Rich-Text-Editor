@@ -7,7 +7,7 @@
 - [ ] Change style to have starting brackets on the same line as if statements & function calls (etc.) -- This is now done in RichTextEditor.m but not other files
 - [ ] Bug fixing/checking
 - [ ] Fix NSUndoManager undo/redo when using bulleted lists
-- [ ] Make the toolbar more pretty
+- [x] Make the toolbar more pretty
 - [x] Framework output
 - [ ] New screenshots for this readme
 - [x] Make use of iOS NSTextStorage
