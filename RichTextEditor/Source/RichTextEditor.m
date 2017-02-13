@@ -95,6 +95,10 @@
 	self.delegate_interceptor.receiver = newDelegate;
 }
 
+- (id)delegate {
+	return self.delegate_interceptor.receiver;
+}
+
 - (void)commonInitialization {
 	// Prevent the use of self.delegate = self
 	// http://stackoverflow.com/questions/3498158/intercept-objective-c-delegate-messages-within-a-subclass

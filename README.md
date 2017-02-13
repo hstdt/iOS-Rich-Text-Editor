@@ -40,10 +40,6 @@ Features:
 - Text alignment
 - Paragraph Indent/Outdent
 
-### Delegate Warning!
-
-In order to intercept delegate messages, this class uses WZProtocolInterceptor. If you call `self.textView.delegate`, you will get the WZProtocolInterceptor object, *not* the original delegate that you set earlier with `self.textView.delegate = ...`! If you need to get the delegate that you set, call `self.textView.delegate.receiver`. 
-
 ### Installing
 
 Make sure to link the MobileCoreServices framework.

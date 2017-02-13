@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import <RichTextEditor/RichTextEditor.h>
 
-@interface ViewController () <RichTextEditorDataSource>
+@interface ViewController () <RichTextEditorDataSource, UITextViewDelegate>
 
 @property (assign) IBOutlet RichTextEditor *richTextEditor;
 
@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	self.richTextEditor.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
