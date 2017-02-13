@@ -35,7 +35,7 @@
 	{
 		self.on = NO;
 		NSBundle *frameWorkBundle = [NSBundle bundleForClass:[self class]];
-		UIImage *image = [UIImage imageNamed:@"buttonSelected.png" inBundle:frameWorkBundle compatibleWithTraitCollection:nil];
+		UIImage *image = [UIImage imageNamed:@"button-selected" inBundle:frameWorkBundle compatibleWithTraitCollection:nil];
 		[self setBackgroundImage:image forState:UIControlStateHighlighted];
 	}
 	
@@ -52,7 +52,7 @@
 - (UIImage *)imageForState
 {
 	NSBundle *frameWorkBundle = [NSBundle bundleForClass:[self class]];
-	UIImage *image = [UIImage imageNamed:@"buttonSelected.png" inBundle:frameWorkBundle compatibleWithTraitCollection:nil];
+	UIImage *image = [UIImage imageNamed:@"button-selected" inBundle:frameWorkBundle compatibleWithTraitCollection:nil];
 	return (self.on) ? image :nil;
 }
 

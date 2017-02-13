@@ -44,16 +44,10 @@
 		34BF6A571E5140D500A736BB /* RichTextEditorFontPickerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957F179F9953005B2487 /* RichTextEditorFontPickerViewController.h */; };
 		34BF6A581E5140D500A736BB /* RichTextEditorFontSizePickerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9581179F9953005B2487 /* RichTextEditorFontSizePickerViewController.h */; };
 		34BF6A591E5140D500A736BB /* RichTextEditorPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9583179F9953005B2487 /* RichTextEditorPopover.h */; };
-		34BF6A5A1E5142C500A736BB /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7061A321FE900C57F03 /* button.png */; };
-		34BF6A5B1E5142C500A736BB /* buttoncenter.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7071A321FE900C57F03 /* buttoncenter.png */; };
-		34BF6A5C1E5142C500A736BB /* buttoncenterSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7081A321FE900C57F03 /* buttoncenterSelected.png */; };
-		34BF6A5D1E5142C500A736BB /* buttonleft.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7091A321FE900C57F03 /* buttonleft.png */; };
-		34BF6A5E1E5142C500A736BB /* buttonleftSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70A1A321FE900C57F03 /* buttonleftSelected.png */; };
-		34BF6A5F1E5142C500A736BB /* buttonright.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70B1A321FE900C57F03 /* buttonright.png */; };
-		34BF6A601E5142C500A736BB /* buttonrightSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70C1A321FE900C57F03 /* buttonrightSelected.png */; };
-		34BF6A611E5142C500A736BB /* buttonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70D1A321FE900C57F03 /* buttonSelected.png */; };
-		34BF6A621E5142C500A736BB /* dropDownTriangle.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70E1A321FE900C57F03 /* dropDownTriangle.png */; };
-		34BF6A631E5142C500A736BB /* dropDownTriangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70F1A321FE900C57F03 /* dropDownTriangle@2x.png */; };
+		34BF6A5C1E5142C500A736BB /* button-center-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7081A321FE900C57F03 /* button-center-selected.png */; };
+		34BF6A5E1E5142C500A736BB /* button-left-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70A1A321FE900C57F03 /* button-left-selected.png */; };
+		34BF6A601E5142C500A736BB /* button-right-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70C1A321FE900C57F03 /* button-right-selected.png */; };
+		34BF6A611E5142C500A736BB /* button-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA70D1A321FE900C57F03 /* button-selected.png */; };
 		34BF6A691E5142C500A736BB /* colors.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7111A321FE900C57F03 /* colors.jpg */; };
 		34BF6A711E5142C500A736BB /* format-color-fill.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6A181E513F2500A736BB /* format-color-fill.png */; };
 		34BF6A721E5142C500A736BB /* format-color-fill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6A191E513F2500A736BB /* format-color-fill@2x.png */; };
@@ -196,6 +190,12 @@
 		34BF6B701E52147A00A736BB /* format-first-line-indent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B6A1E52147A00A736BB /* format-first-line-indent@3x.png */; };
 		34BF6B721E5214CF00A736BB /* format-color@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B711E5214CF00A736BB /* format-color@3x.png */; };
 		34BF6B731E5214CF00A736BB /* format-color@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B711E5214CF00A736BB /* format-color@3x.png */; };
+		34BF6B771E52166800A736BB /* keyboard-arrow-up.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B741E52166800A736BB /* keyboard-arrow-up.png */; };
+		34BF6B781E52166800A736BB /* keyboard-arrow-up.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B741E52166800A736BB /* keyboard-arrow-up.png */; };
+		34BF6B791E52166800A736BB /* keyboard-arrow-up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B751E52166800A736BB /* keyboard-arrow-up@2x.png */; };
+		34BF6B7A1E52166800A736BB /* keyboard-arrow-up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B751E52166800A736BB /* keyboard-arrow-up@2x.png */; };
+		34BF6B7B1E52166800A736BB /* keyboard-arrow-up@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B761E52166800A736BB /* keyboard-arrow-up@3x.png */; };
+		34BF6B7C1E52166800A736BB /* keyboard-arrow-up@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6B761E52166800A736BB /* keyboard-arrow-up@3x.png */; };
 		D28387081A7EE1340093AF3E /* OtherLicenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = D28387071A7EE1340093AF3E /* OtherLicenses.txt */; };
 /* End PBXBuildFile section */
 
@@ -352,17 +352,14 @@
 		34BF6B691E52147A00A736BB /* format-first-line-indent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-first-line-indent@2x.png"; sourceTree = "<group>"; };
 		34BF6B6A1E52147A00A736BB /* format-first-line-indent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-first-line-indent@3x.png"; sourceTree = "<group>"; };
 		34BF6B711E5214CF00A736BB /* format-color@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-color@3x.png"; sourceTree = "<group>"; };
+		34BF6B741E52166800A736BB /* keyboard-arrow-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard-arrow-up.png"; sourceTree = "<group>"; };
+		34BF6B751E52166800A736BB /* keyboard-arrow-up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard-arrow-up@2x.png"; sourceTree = "<group>"; };
+		34BF6B761E52166800A736BB /* keyboard-arrow-up@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard-arrow-up@3x.png"; sourceTree = "<group>"; };
 		D28387071A7EE1340093AF3E /* OtherLicenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OtherLicenses.txt; sourceTree = "<group>"; };
-		D2ECA7061A321FE900C57F03 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
-		D2ECA7071A321FE900C57F03 /* buttoncenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttoncenter.png; sourceTree = "<group>"; };
-		D2ECA7081A321FE900C57F03 /* buttoncenterSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttoncenterSelected.png; sourceTree = "<group>"; };
-		D2ECA7091A321FE900C57F03 /* buttonleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonleft.png; sourceTree = "<group>"; };
-		D2ECA70A1A321FE900C57F03 /* buttonleftSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonleftSelected.png; sourceTree = "<group>"; };
-		D2ECA70B1A321FE900C57F03 /* buttonright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonright.png; sourceTree = "<group>"; };
-		D2ECA70C1A321FE900C57F03 /* buttonrightSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonrightSelected.png; sourceTree = "<group>"; };
-		D2ECA70D1A321FE900C57F03 /* buttonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonSelected.png; sourceTree = "<group>"; };
-		D2ECA70E1A321FE900C57F03 /* dropDownTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropDownTriangle.png; sourceTree = "<group>"; };
-		D2ECA70F1A321FE900C57F03 /* dropDownTriangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropDownTriangle@2x.png"; sourceTree = "<group>"; };
+		D2ECA7081A321FE900C57F03 /* button-center-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-center-selected.png"; sourceTree = "<group>"; };
+		D2ECA70A1A321FE900C57F03 /* button-left-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-left-selected.png"; sourceTree = "<group>"; };
+		D2ECA70C1A321FE900C57F03 /* button-right-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-right-selected.png"; sourceTree = "<group>"; };
+		D2ECA70D1A321FE900C57F03 /* button-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-selected.png"; sourceTree = "<group>"; };
 		D2ECA7111A321FE900C57F03 /* colors.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = colors.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -621,16 +618,13 @@
 		D2ECA7051A321FE900C57F03 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
-				D2ECA7061A321FE900C57F03 /* button.png */,
-				D2ECA7071A321FE900C57F03 /* buttoncenter.png */,
-				D2ECA7081A321FE900C57F03 /* buttoncenterSelected.png */,
-				D2ECA7091A321FE900C57F03 /* buttonleft.png */,
-				D2ECA70A1A321FE900C57F03 /* buttonleftSelected.png */,
-				D2ECA70B1A321FE900C57F03 /* buttonright.png */,
-				D2ECA70C1A321FE900C57F03 /* buttonrightSelected.png */,
-				D2ECA70D1A321FE900C57F03 /* buttonSelected.png */,
-				D2ECA70E1A321FE900C57F03 /* dropDownTriangle.png */,
-				D2ECA70F1A321FE900C57F03 /* dropDownTriangle@2x.png */,
+				34BF6B741E52166800A736BB /* keyboard-arrow-up.png */,
+				34BF6B751E52166800A736BB /* keyboard-arrow-up@2x.png */,
+				34BF6B761E52166800A736BB /* keyboard-arrow-up@3x.png */,
+				D2ECA7081A321FE900C57F03 /* button-center-selected.png */,
+				D2ECA70A1A321FE900C57F03 /* button-left-selected.png */,
+				D2ECA70C1A321FE900C57F03 /* button-right-selected.png */,
+				D2ECA70D1A321FE900C57F03 /* button-selected.png */,
 			);
 			path = buttons;
 			sourceTree = "<group>";
@@ -775,6 +769,7 @@
 				34BF6B531E52139000A736BB /* undo@2x.png in Resources */,
 				34BF6ABA1E520DA300A736BB /* indent-increase@2x.png in Resources */,
 				34BF6B701E52147A00A736BB /* format-first-line-indent@3x.png in Resources */,
+				34BF6B7C1E52166800A736BB /* keyboard-arrow-up@3x.png in Resources */,
 				34BF6B091E520F9B00A736BB /* format-italic.png in Resources */,
 				34BF6ACC1E520DED00A736BB /* format-align-justify@2x.png in Resources */,
 				1583891D1735A5D7006DE713 /* InfoPlist.strings in Resources */,
@@ -782,11 +777,13 @@
 				34BF6B551E52139000A736BB /* undo@3x.png in Resources */,
 				34BF6ACA1E520DED00A736BB /* format-align-justify.png in Resources */,
 				34BF6AB31E520D8200A736BB /* indent-decrease@2x.png in Resources */,
+				34BF6B7A1E52166800A736BB /* keyboard-arrow-up@2x.png in Resources */,
 				34BF6B361E52127900A736BB /* format-clear.png in Resources */,
 				34BF6AC11E520DCD00A736BB /* format-align-center.png in Resources */,
 				34BF6AD71E520E0300A736BB /* format-align-left@3x.png in Resources */,
 				34BF6B6C1E52147A00A736BB /* format-first-line-indent.png in Resources */,
 				34BF6AB11E520D8200A736BB /* indent-decrease.png in Resources */,
+				34BF6B781E52166800A736BB /* keyboard-arrow-up.png in Resources */,
 				34BF6B431E52130A00A736BB /* keyboard-hide@3x.png in Resources */,
 				34BF6ADC1E520E2300A736BB /* format-align-right.png in Resources */,
 				34BF6B261E52118300A736BB /* format-list-numbered@2x.png in Resources */,
@@ -846,36 +843,32 @@
 				34BF6B401E52130A00A736BB /* keyboard-hide@2x.png in Resources */,
 				34BF6B421E52130A00A736BB /* keyboard-hide@3x.png in Resources */,
 				34BF6B151E52111C00A736BB /* insert-photo@3x.png in Resources */,
-				34BF6A5A1E5142C500A736BB /* button.png in Resources */,
-				34BF6A5B1E5142C500A736BB /* buttoncenter.png in Resources */,
 				34BF6AB71E520DA300A736BB /* indent-increase.png in Resources */,
-				34BF6A5C1E5142C500A736BB /* buttoncenterSelected.png in Resources */,
-				34BF6A5D1E5142C500A736BB /* buttonleft.png in Resources */,
+				34BF6A5C1E5142C500A736BB /* button-center-selected.png in Resources */,
 				34BF6AE61E520E3C00A736BB /* format-bold@2x.png in Resources */,
 				34BF6B3E1E52130A00A736BB /* keyboard-hide.png in Resources */,
 				34BF6B391E52127900A736BB /* format-clear@3x.png in Resources */,
-				34BF6A5E1E5142C500A736BB /* buttonleftSelected.png in Resources */,
+				34BF6A5E1E5142C500A736BB /* button-left-selected.png in Resources */,
 				34BF6B641E5213E600A736BB /* code@2x.png in Resources */,
+				34BF6B791E52166800A736BB /* keyboard-arrow-up@2x.png in Resources */,
 				34BF6B2E1E52121500A736BB /* attach-file@2x.png in Resources */,
-				34BF6A5F1E5142C500A736BB /* buttonright.png in Resources */,
 				34BF6AE81E520E3C00A736BB /* format-bold@3x.png in Resources */,
 				34BF6AB91E520DA300A736BB /* indent-increase@2x.png in Resources */,
 				34BF6B371E52127900A736BB /* format-clear@2x.png in Resources */,
 				34BF6AED1E520EFF00A736BB /* format-list-bulleted.png in Resources */,
-				34BF6A601E5142C500A736BB /* buttonrightSelected.png in Resources */,
-				34BF6A611E5142C500A736BB /* buttonSelected.png in Resources */,
-				34BF6A621E5142C500A736BB /* dropDownTriangle.png in Resources */,
+				34BF6A601E5142C500A736BB /* button-right-selected.png in Resources */,
+				34BF6A611E5142C500A736BB /* button-selected.png in Resources */,
 				34BF6B111E52111C00A736BB /* insert-photo.png in Resources */,
 				34BF6B4B1E52136600A736BB /* redo@3x.png in Resources */,
 				34BF6B6B1E52147A00A736BB /* format-first-line-indent.png in Resources */,
 				34BF6AC01E520DCD00A736BB /* format-align-center.png in Resources */,
-				34BF6A631E5142C500A736BB /* dropDownTriangle@2x.png in Resources */,
 				34BF6B0C1E520F9B00A736BB /* format-italic@3x.png in Resources */,
 				34BF6B541E52139000A736BB /* undo@3x.png in Resources */,
 				34BF6B231E52118300A736BB /* format-list-numbered.png in Resources */,
 				34BF6B6F1E52147A00A736BB /* format-first-line-indent@3x.png in Resources */,
 				34BF6AC91E520DED00A736BB /* format-align-justify.png in Resources */,
 				34BF6B0A1E520F9B00A736BB /* format-italic@2x.png in Resources */,
+				34BF6B7B1E52166800A736BB /* keyboard-arrow-up@3x.png in Resources */,
 				34BF6A691E5142C500A736BB /* colors.jpg in Resources */,
 				34BF6B501E52139000A736BB /* undo.png in Resources */,
 				34BF6B081E520F9B00A736BB /* format-italic.png in Resources */,
@@ -913,6 +906,7 @@
 				34BF6B301E52121500A736BB /* attach-file@3x.png in Resources */,
 				34BF6B1E1E52116000A736BB /* insert-link@3x.png in Resources */,
 				34BF6AE41E520E3C00A736BB /* format-bold.png in Resources */,
+				34BF6B771E52166800A736BB /* keyboard-arrow-up.png in Resources */,
 				34BF6B591E5213B700A736BB /* email.png in Resources */,
 				34BF6AB21E520D8200A736BB /* indent-decrease@2x.png in Resources */,
 				34BF6B721E5214CF00A736BB /* format-color@3x.png in Resources */,
