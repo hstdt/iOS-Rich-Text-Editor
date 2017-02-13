@@ -530,7 +530,7 @@
 	}
 }
 
-- (RichTextEditorToggleButton *)buttonWithImageNamed:(NSString *)image width:(NSInteger)width andSelector:(SEL)selector
+- (RichTextEditorToggleButton *)buttonWithImageNamed:(NSString *)imageName width:(NSInteger)width andSelector:(SEL)selector
 {
 	RichTextEditorToggleButton *button = [[RichTextEditorToggleButton alloc] init];
 	[button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
@@ -538,7 +538,10 @@
 	[button.titleLabel setFont:[UIFont boldSystemFontOfSize:10]];
 	[button.titleLabel setTextColor:[UIColor blackColor]];
 	[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+	
+	NSBundle *frameWorkBundle = [NSBundle bundleForClass:[self class]];
+	UIImage *image = [UIImage imageNamed:imageName inBundle:frameWorkBundle compatibleWithTraitCollection:nil];
+	[button setImage:image forState:UIControlStateNormal];
 	
 	return button;
 }
