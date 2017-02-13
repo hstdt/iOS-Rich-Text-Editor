@@ -453,22 +453,22 @@
 	self.btnFont = [self buttonWithImageNamed:@"keyboard-arrow-up"
 										width:120
 								  andSelector:@selector(fontSelected:)];
-	[self.btnFont setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
 	[self.btnFont setTitle:@"Font" forState:UIControlStateNormal];
 	// Put the image on the right side -- http://stackoverflow.com/a/32174204/3938401
 	self.btnFont.transform = CGAffineTransformMakeScale(-1.0, 1.0);
 	self.btnFont.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
 	self.btnFont.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	self.btnFont.titleLabel.font = [self.btnFont.titleLabel.font fontWithSize:13];
 	
 	self.btnFontSize = [self buttonWithImageNamed:@"keyboard-arrow-up"
 											width:50
 									  andSelector:@selector(fontSizeSelected:)];
-	[self.btnFontSize setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
 	[self.btnFontSize setTitle:@"14" forState:UIControlStateNormal];
 	// Put the image on the right side -- http://stackoverflow.com/a/32174204/3938401
 	self.btnFontSize.transform = CGAffineTransformMakeScale(-1.0, 1.0);
 	self.btnFontSize.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
 	self.btnFontSize.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+	self.btnFontSize.titleLabel.font = [self.btnFont.titleLabel.font fontWithSize:16];
 	
 	self.btnBold = [self buttonWithImageNamed:@"format-bold"
 								  andSelector:@selector(boldSelected:)];
