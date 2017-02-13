@@ -21,7 +21,6 @@
 		158389471735A5D7006DE713 /* RichTextEditorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 158389461735A5D7006DE713 /* RichTextEditorTests.m */; };
 		1583895A1735D7F4006DE713 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158389591735D7F4006DE713 /* CoreText.framework */; };
 		3459D71A1E4A1F7B00B6B0ED /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3459D7191E4A1F7B00B6B0ED /* MobileCoreServices.framework */; };
-		34BF6A391E51409500A736BB /* RichTextEditorFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 34BF6A291E51409400A736BB /* RichTextEditorFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34BF6A3C1E51409500A736BB /* RichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF6A271E51409400A736BB /* RichTextEditor.framework */; };
 		34BF6A3D1E51409500A736BB /* RichTextEditor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF6A271E51409400A736BB /* RichTextEditor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		34BF6A451E5140C500A736BB /* NSAttributedString+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F955C179F9953005B2487 /* NSAttributedString+RichTextEditor.m */; };
@@ -34,9 +33,9 @@
 		34BF6A4C1E5140C500A736BB /* RichTextEditorColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957E179F9953005B2487 /* RichTextEditorColorPickerViewController.m */; };
 		34BF6A4D1E5140C500A736BB /* RichTextEditorFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9580179F9953005B2487 /* RichTextEditorFontPickerViewController.m */; };
 		34BF6A4E1E5140C500A736BB /* RichTextEditorFontSizePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9582179F9953005B2487 /* RichTextEditorFontSizePickerViewController.m */; };
-		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */; };
 		34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957B179F9953005B2487 /* RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9584179F9953005B2487 /* RichTextEditorToolbar.h */; };
@@ -191,7 +190,6 @@
 		34BF6A1B1E513F2500A736BB /* format-color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-color.png"; sourceTree = "<group>"; };
 		34BF6A1C1E513F2500A736BB /* format-color@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-color@2x.png"; sourceTree = "<group>"; };
 		34BF6A271E51409400A736BB /* RichTextEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RichTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		34BF6A291E51409400A736BB /* RichTextEditorFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RichTextEditorFramework.h; sourceTree = "<group>"; };
 		34BF6A2A1E51409400A736BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34BF6AA31E514AA500A736BB /* RichTextEditorColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorColorPicker.h; sourceTree = "<group>"; };
 		34BF6AA41E514AA500A736BB /* RichTextEditorFontPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorFontPicker.h; sourceTree = "<group>"; };
@@ -470,7 +468,6 @@
 		34BF6A281E51409400A736BB /* RichTextEditorFramework */ = {
 			isa = PBXGroup;
 			children = (
-				34BF6A291E51409400A736BB /* RichTextEditorFramework.h */,
 				34BF6A2A1E51409400A736BB /* Info.plist */,
 			);
 			name = RichTextEditorFramework;
@@ -501,7 +498,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34BF6A391E51409500A736BB /* RichTextEditorFramework.h in Headers */,
 				34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */,
 				34BF6AA81E514AA500A736BB /* RichTextEditorFontSizePicker.h in Headers */,
 				34BF6AA71E514AA500A736BB /* RichTextEditorFontPicker.h in Headers */,
@@ -606,9 +602,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				34BF6A261E51409400A736BB /* RichTextEditor */,
 				1583890D1735A5D7006DE713 /* RichTextEditorDemo */,
 				158389371735A5D7006DE713 /* RichTextEditorTests */,
-				34BF6A261E51409400A736BB /* RichTextEditor */,
 			);
 		};
 /* End PBXProject section */
