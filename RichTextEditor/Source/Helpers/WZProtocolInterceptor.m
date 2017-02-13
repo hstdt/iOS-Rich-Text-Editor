@@ -8,7 +8,7 @@
 #import "WZProtocolInterceptor.h"
 #import  <objc/runtime.h>
 
-@interface WZProtocolInterceptor() <UITextViewDelegate>
+@interface WZProtocolInterceptor()
 
 @end
 
