@@ -97,7 +97,14 @@
 	self.delegate_interceptor.receiver = newDelegate;
 }
 
+/*
+ // TODO: Figure out if this can be overridden somehow without messing up the delegation system
 - (id)delegate {
+	return self.delegate_interceptor.receiver;
+}
+*/
+
+- (id)textViewDelegate {
 	return self.delegate_interceptor.receiver;
 }
 

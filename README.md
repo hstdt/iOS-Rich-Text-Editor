@@ -44,6 +44,10 @@ Features:
 
 Make sure to link the MobileCoreServices framework.
 
+### Delegate Warning!
+
+In order to intercept delegate messages, this class uses WZProtocolInterceptor. If you call `self.richTextView.delegate`, you will get the WZProtocolInterceptor object, *not* the original delegate that you set earlier with `self.richTextView.delegate = ...`! If you need to get the delegate that you set, call `[self.richTextView textViewDelegate]`. (This is caused by the richTextView needing its own delegate methods.) 
+
 ### Note
 
 If text is set before the view is fully shown, the text may start scrolled to the bottom. Look [here](http://stackoverflow.com/a/27769359/3938401) for solutions. 

@@ -141,6 +141,8 @@ typedef NS_ENUM(NSInteger, RichTextEditorPreviewChange) {
 // Defaults to YES.
 @property BOOL allowsRichTextPasteOnlyFromThisClass;
 
+- (id)textViewDelegate;
+
 - (void)setBorderColor:(UIColor*)borderColor;
 - (void)setBorderWidth:(CGFloat)borderWidth;
 - (void)changeToAttributedString:(NSAttributedString*)string;
