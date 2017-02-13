@@ -58,7 +58,9 @@
 	self.selectedColorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 	[self.view addSubview:self.selectedColorView];
 	
-	self.colorsImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"colors.jpg"]];;
+	NSBundle *frameWorkBundle = [NSBundle bundleForClass:[self class]];
+	UIImage *image = [UIImage imageNamed:@"colors.jpg" inBundle:frameWorkBundle compatibleWithTraitCollection:nil];
+	self.colorsImageView = [[UIImageView alloc] initWithImage:image];;
 	self.colorsImageView.frame = CGRectMake(2, 40, self.view.frame.size.width-4, self.view.frame.size.height - 40 - 2);
 	self.colorsImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.colorsImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;

@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import <RichTextEditor/RichTextEditor.h>
 
-@interface ViewController ()
+@interface ViewController () <RichTextEditorDataSource>
 
 @property (assign) IBOutlet RichTextEditor *richTextEditor;
 
