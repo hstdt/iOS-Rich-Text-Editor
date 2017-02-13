@@ -27,9 +27,41 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "RichTextEditorToolbar.h"
+
+#import "RichTextEditorColorPicker.h"
+#import "RichTextEditorFontPicker.h"
+#import "RichTextEditorFontSizePicker.h"
+
+typedef NS_ENUM(NSUInteger, RichTextEditorToolbarPresentationStyle) {
+	RichTextEditorToolbarPresentationStyleModal,
+	RichTextEditorToolbarPresentationStylePopover
+};
+
+typedef NS_OPTIONS(NSUInteger, RichTextEditorFeature) {
+	RichTextEditorFeatureNone							= 1 << 0,
+	RichTextEditorFeatureFont							= 1 << 1,
+	RichTextEditorFeatureFontSize						= 1 << 2,
+	RichTextEditorFeatureBold							= 1 << 3,
+	RichTextEditorFeatureItalic							= 1 << 4,
+	RichTextEditorFeatureUnderline						= 1 << 5,
+	RichTextEditorFeatureStrikeThrough					= 1 << 6,
+	RichTextEditorFeatureTextAlignmentLeft				= 1 << 7,
+	RichTextEditorFeatureTextAlignmentCenter			= 1 << 8,
+	RichTextEditorFeatureTextAlignmentRight				= 1 << 9,
+	RichTextEditorFeatureTextAlignmentJustified			= 1 << 10,
+	RichTextEditorFeatureTextBackgroundColor			= 1 << 11,
+	RichTextEditorFeatureTextForegroundColor			= 1 << 12,
+	RichTextEditorFeatureParagraphIndentation			= 1 << 13,
+	RichTextEditorFeatureParagraphFirstLineIndentation	= 1 << 14,
+	RichTextEditorFeatureBulletList						= 1 << 15,
+	RichTextEditorTextAttachment						= 1 << 16,
+	RichTextEditorFeatureUndoRedo						= 1 << 17,
+	RichTextEditorFeatureDismissKeyboard				= 1 << 18,
+	RichTextEditorFeatureAll							= 1 << 19,
+};
 
 @class RichTextEditor;
+
 @protocol RichTextEditorDataSource <NSObject>
 
 @optional

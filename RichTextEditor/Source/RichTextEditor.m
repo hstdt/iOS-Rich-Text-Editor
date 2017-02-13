@@ -29,14 +29,16 @@
 // stackoverflow.com/questions/26454037/uitextview-text-selection-and-highlight-jumping-in-ios-8
 
 #import "RichTextEditor.h"
-#import <QuartzCore/QuartzCore.h>
-#import <objc/runtime.h>
-#import <MobileCoreServices/MobileCoreServices.h>
+#import "RichTextEditorToolbar.h"
 
 #import "UIFont+RichTextEditor.h"
 #import "NSAttributedString+RichTextEditor.h"
 #import "UIView+RichTextEditor.h"
 #import "WZProtocolInterceptor.h"
+
+#import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #define RICHTEXTEDITOR_TOOLBAR_HEIGHT 40
 

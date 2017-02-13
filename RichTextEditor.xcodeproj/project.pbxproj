@@ -34,9 +34,9 @@
 		34BF6A4C1E5140C500A736BB /* RichTextEditorColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957E179F9953005B2487 /* RichTextEditorColorPickerViewController.m */; };
 		34BF6A4D1E5140C500A736BB /* RichTextEditorFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9580179F9953005B2487 /* RichTextEditorFontPickerViewController.m */; };
 		34BF6A4E1E5140C500A736BB /* RichTextEditorFontSizePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9582179F9953005B2487 /* RichTextEditorFontSizePickerViewController.m */; };
-		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */; };
 		34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957B179F9953005B2487 /* RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9584179F9953005B2487 /* RichTextEditorToolbar.h */; };
@@ -102,6 +102,9 @@
 		34BF6A901E5142C500A736BB /* undo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7371A321FE900C57F03 /* undo@2x.png */; };
 		34BF6A911E5142C500A736BB /* unlink.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA73B1A321FE900C57F03 /* unlink.png */; };
 		34BF6A921E5142CE00A736BB /* OtherLicenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = D28387071A7EE1340093AF3E /* OtherLicenses.txt */; };
+		34BF6AA61E514AA500A736BB /* RichTextEditorColorPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 34BF6AA31E514AA500A736BB /* RichTextEditorColorPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6AA71E514AA500A736BB /* RichTextEditorFontPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 34BF6AA41E514AA500A736BB /* RichTextEditorFontPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6AA81E514AA500A736BB /* RichTextEditorFontSizePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 34BF6AA51E514AA500A736BB /* RichTextEditorFontSizePicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D28387081A7EE1340093AF3E /* OtherLicenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = D28387071A7EE1340093AF3E /* OtherLicenses.txt */; };
 /* End PBXBuildFile section */
 
@@ -190,6 +193,9 @@
 		34BF6A271E51409400A736BB /* RichTextEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RichTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BF6A291E51409400A736BB /* RichTextEditorFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RichTextEditorFramework.h; sourceTree = "<group>"; };
 		34BF6A2A1E51409400A736BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34BF6AA31E514AA500A736BB /* RichTextEditorColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorColorPicker.h; sourceTree = "<group>"; };
+		34BF6AA41E514AA500A736BB /* RichTextEditorFontPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorFontPicker.h; sourceTree = "<group>"; };
+		34BF6AA51E514AA500A736BB /* RichTextEditorFontSizePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorFontSizePicker.h; sourceTree = "<group>"; };
 		D28387071A7EE1340093AF3E /* OtherLicenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OtherLicenses.txt; sourceTree = "<group>"; };
 		D2ECA7011A321FE900C57F03 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
 		D2ECA7021A321FE900C57F03 /* bold@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bold@2x.png"; sourceTree = "<group>"; };
@@ -286,6 +292,9 @@
 				3402F2681D98224E0066F4BE /* Helpers */,
 				153F957B179F9953005B2487 /* RichTextEditor.h */,
 				153F957C179F9953005B2487 /* RichTextEditor.m */,
+				34BF6AA31E514AA500A736BB /* RichTextEditorColorPicker.h */,
+				34BF6AA41E514AA500A736BB /* RichTextEditorFontPicker.h */,
+				34BF6AA51E514AA500A736BB /* RichTextEditorFontSizePicker.h */,
 				153F9584179F9953005B2487 /* RichTextEditorToolbar.h */,
 				153F9585179F9953005B2487 /* RichTextEditorToolbar.m */,
 				15B6E20D17A4C2820015867C /* RichTextEditorToggleButton.h */,
@@ -494,15 +503,18 @@
 			files = (
 				34BF6A391E51409500A736BB /* RichTextEditorFramework.h in Headers */,
 				34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */,
+				34BF6AA81E514AA500A736BB /* RichTextEditorFontSizePicker.h in Headers */,
+				34BF6AA71E514AA500A736BB /* RichTextEditorFontPicker.h in Headers */,
+				34BF6AA61E514AA500A736BB /* RichTextEditorColorPicker.h in Headers */,
 				34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */,
 				34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */,
 				34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */,
-				34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */,
-				34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */,
-				34BF6A551E5140D500A736BB /* RichTextEditorToggleButton.h in Headers */,
 				34BF6A561E5140D500A736BB /* RichTextEditorColorPickerViewController.h in Headers */,
 				34BF6A571E5140D500A736BB /* RichTextEditorFontPickerViewController.h in Headers */,
 				34BF6A581E5140D500A736BB /* RichTextEditorFontSizePickerViewController.h in Headers */,
+				34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */,
+				34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */,
+				34BF6A551E5140D500A736BB /* RichTextEditorToggleButton.h in Headers */,
 				34BF6A591E5140D500A736BB /* RichTextEditorPopover.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
