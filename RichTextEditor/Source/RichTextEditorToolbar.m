@@ -490,10 +490,10 @@
 	self.btnTextAlignmentJustified = [self buttonWithImageNamed:@"justifyfull.png"
 													andSelector:@selector(textAlignmentSelected:)];
 	
-	self.btnForegroundColor = [self buttonWithImageNamed:@"forecolor.png"
+	self.btnForegroundColor = [self buttonWithImageNamed:@"format-color"
 											 andSelector:@selector(textForegroundColorSelected:)];
 	
-	self.btnBackgroundColor = [self buttonWithImageNamed:@"backcolor.png"
+	self.btnBackgroundColor = [self buttonWithImageNamed:@"format-color-fill"
 											 andSelector:@selector(textBackgroundColorSelected:)];
 	
 	self.btnBulletList = [self buttonWithImageNamed:@"bullist.png"
