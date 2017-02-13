@@ -8,6 +8,7 @@
 - [ ] Bug fixing/checking
 - [ ] Fix undo/redo when using bulleted lists
 - [ ] Make the toolbar more pretty
+- [ ] Framework output
 - [ ] New screenshots for this readme
 - [x] Make use of iOS NSTextStorage
 - [x] Port fixes and changes from OS X ([see here](https://github.com/Deadpikle/macOS-Rich-Text-Editor))
