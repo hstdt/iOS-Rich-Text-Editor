@@ -39,6 +39,30 @@
 		34BF6A1F1E513F2500A736BB /* format-color-fill@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6A1A1E513F2500A736BB /* format-color-fill@3x.png */; };
 		34BF6A201E513F2500A736BB /* format-color.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6A1B1E513F2500A736BB /* format-color.png */; };
 		34BF6A211E513F2500A736BB /* format-color@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34BF6A1C1E513F2500A736BB /* format-color@2x.png */; };
+		34BF6A391E51409500A736BB /* RichTextEditorFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 34BF6A291E51409400A736BB /* RichTextEditorFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A3C1E51409500A736BB /* RichTextEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF6A271E51409400A736BB /* RichTextEditor.framework */; };
+		34BF6A3D1E51409500A736BB /* RichTextEditor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 34BF6A271E51409400A736BB /* RichTextEditor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		34BF6A451E5140C500A736BB /* NSAttributedString+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F955C179F9953005B2487 /* NSAttributedString+RichTextEditor.m */; };
+		34BF6A461E5140C500A736BB /* UIFont+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F955E179F9953005B2487 /* UIFont+RichTextEditor.m */; };
+		34BF6A471E5140C500A736BB /* UIView+RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9560179F9953005B2487 /* UIView+RichTextEditor.m */; };
+		34BF6A481E5140C500A736BB /* WZProtocolInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3402F26A1D98225A0066F4BE /* WZProtocolInterceptor.m */; };
+		34BF6A491E5140C500A736BB /* RichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957C179F9953005B2487 /* RichTextEditor.m */; };
+		34BF6A4A1E5140C500A736BB /* RichTextEditorToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9585179F9953005B2487 /* RichTextEditorToolbar.m */; };
+		34BF6A4B1E5140C500A736BB /* RichTextEditorToggleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B6E20E17A4C2820015867C /* RichTextEditorToggleButton.m */; };
+		34BF6A4C1E5140C500A736BB /* RichTextEditorColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F957E179F9953005B2487 /* RichTextEditorColorPickerViewController.m */; };
+		34BF6A4D1E5140C500A736BB /* RichTextEditorFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9580179F9953005B2487 /* RichTextEditorFontPickerViewController.m */; };
+		34BF6A4E1E5140C500A736BB /* RichTextEditorFontSizePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 153F9582179F9953005B2487 /* RichTextEditorFontSizePickerViewController.m */; };
+		34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */; };
+		34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955D179F9953005B2487 /* UIFont+RichTextEditor.h */; };
+		34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F955F179F9953005B2487 /* UIView+RichTextEditor.h */; };
+		34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3402F2691D98225A0066F4BE /* WZProtocolInterceptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957B179F9953005B2487 /* RichTextEditor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9584179F9953005B2487 /* RichTextEditorToolbar.h */; };
+		34BF6A551E5140D500A736BB /* RichTextEditorToggleButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 15B6E20D17A4C2820015867C /* RichTextEditorToggleButton.h */; };
+		34BF6A561E5140D500A736BB /* RichTextEditorColorPickerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957D179F9953005B2487 /* RichTextEditorColorPickerViewController.h */; };
+		34BF6A571E5140D500A736BB /* RichTextEditorFontPickerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F957F179F9953005B2487 /* RichTextEditorFontPickerViewController.h */; };
+		34BF6A581E5140D500A736BB /* RichTextEditorFontSizePickerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9581179F9953005B2487 /* RichTextEditorFontSizePickerViewController.h */; };
+		34BF6A591E5140D500A736BB /* RichTextEditorPopover.h in Headers */ = {isa = PBXBuildFile; fileRef = 153F9583179F9953005B2487 /* RichTextEditorPopover.h */; };
 		D28387081A7EE1340093AF3E /* OtherLicenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = D28387071A7EE1340093AF3E /* OtherLicenses.txt */; };
 		D2ECA73D1A321FE900C57F03 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7011A321FE900C57F03 /* bold.png */; };
 		D2ECA73E1A321FE900C57F03 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2ECA7021A321FE900C57F03 /* bold@2x.png */; };
@@ -101,7 +125,28 @@
 			remoteGlobalIDString = 1583890D1735A5D7006DE713;
 			remoteInfo = RichTextEditor;
 		};
+		34BF6A3A1E51409500A736BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 158389051735A5D7006DE713 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34BF6A261E51409400A736BB;
+			remoteInfo = RichTextEditorFramework;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		34BF6A411E51409500A736BB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				34BF6A3D1E51409500A736BB /* RichTextEditor.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		153F955B179F9953005B2487 /* NSAttributedString+RichTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+RichTextEditor.h"; sourceTree = "<group>"; };
@@ -121,7 +166,7 @@
 		153F9583179F9953005B2487 /* RichTextEditorPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorPopover.h; sourceTree = "<group>"; };
 		153F9584179F9953005B2487 /* RichTextEditorToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RichTextEditorToolbar.h; sourceTree = "<group>"; };
 		153F9585179F9953005B2487 /* RichTextEditorToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RichTextEditorToolbar.m; sourceTree = "<group>"; };
-		1583890E1735A5D7006DE713 /* RichTextEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RichTextEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1583890E1735A5D7006DE713 /* RichTextEditorDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RichTextEditorDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		158389121735A5D7006DE713 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		158389141735A5D7006DE713 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		158389161735A5D7006DE713 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -154,6 +199,9 @@
 		34BF6A1A1E513F2500A736BB /* format-color-fill@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-color-fill@3x.png"; sourceTree = "<group>"; };
 		34BF6A1B1E513F2500A736BB /* format-color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-color.png"; sourceTree = "<group>"; };
 		34BF6A1C1E513F2500A736BB /* format-color@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "format-color@2x.png"; sourceTree = "<group>"; };
+		34BF6A271E51409400A736BB /* RichTextEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RichTextEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34BF6A291E51409400A736BB /* RichTextEditorFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RichTextEditorFramework.h; sourceTree = "<group>"; };
+		34BF6A2A1E51409400A736BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D28387071A7EE1340093AF3E /* OtherLicenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OtherLicenses.txt; sourceTree = "<group>"; };
 		D2ECA7011A321FE900C57F03 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
 		D2ECA7021A321FE900C57F03 /* bold@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bold@2x.png"; sourceTree = "<group>"; };
@@ -214,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3459D71A1E4A1F7B00B6B0ED /* MobileCoreServices.framework in Frameworks */,
+				34BF6A3C1E51409500A736BB /* RichTextEditor.framework in Frameworks */,
 				1583895A1735D7F4006DE713 /* CoreText.framework in Frameworks */,
 				158389131735A5D7006DE713 /* UIKit.framework in Frameworks */,
 				158389151735A5D7006DE713 /* Foundation.framework in Frameworks */,
@@ -227,6 +276,13 @@
 			files = (
 				1583893B1735A5D7006DE713 /* UIKit.framework in Frameworks */,
 				1583893C1735A5D7006DE713 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34BF6A231E51409400A736BB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +385,7 @@
 			children = (
 				158389181735A5D7006DE713 /* RichTextEditor */,
 				1583893F1735A5D7006DE713 /* RichTextEditorTests */,
+				34BF6A281E51409400A736BB /* RichTextEditorFramework */,
 				158389111735A5D7006DE713 /* Frameworks */,
 				1583890F1735A5D7006DE713 /* Products */,
 			);
@@ -337,8 +394,9 @@
 		1583890F1735A5D7006DE713 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1583890E1735A5D7006DE713 /* RichTextEditor.app */,
+				1583890E1735A5D7006DE713 /* RichTextEditorDemo.app */,
 				158389381735A5D7006DE713 /* RichTextEditorTests.xctest */,
+				34BF6A271E51409400A736BB /* RichTextEditor.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -412,6 +470,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		34BF6A281E51409400A736BB /* RichTextEditorFramework */ = {
+			isa = PBXGroup;
+			children = (
+				34BF6A291E51409400A736BB /* RichTextEditorFramework.h */,
+				34BF6A2A1E51409400A736BB /* Info.plist */,
+			);
+			path = RichTextEditorFramework;
+			sourceTree = "<group>";
+		};
 		D2ECA7051A321FE900C57F03 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,22 +498,46 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		34BF6A241E51409400A736BB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34BF6A391E51409500A736BB /* RichTextEditorFramework.h in Headers */,
+				34BF6A521E5140D500A736BB /* WZProtocolInterceptor.h in Headers */,
+				34BF6A531E5140D500A736BB /* RichTextEditor.h in Headers */,
+				34BF6A4F1E5140D500A736BB /* NSAttributedString+RichTextEditor.h in Headers */,
+				34BF6A501E5140D500A736BB /* UIFont+RichTextEditor.h in Headers */,
+				34BF6A511E5140D500A736BB /* UIView+RichTextEditor.h in Headers */,
+				34BF6A541E5140D500A736BB /* RichTextEditorToolbar.h in Headers */,
+				34BF6A551E5140D500A736BB /* RichTextEditorToggleButton.h in Headers */,
+				34BF6A561E5140D500A736BB /* RichTextEditorColorPickerViewController.h in Headers */,
+				34BF6A571E5140D500A736BB /* RichTextEditorFontPickerViewController.h in Headers */,
+				34BF6A581E5140D500A736BB /* RichTextEditorFontSizePickerViewController.h in Headers */,
+				34BF6A591E5140D500A736BB /* RichTextEditorPopover.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		1583890D1735A5D7006DE713 /* RichTextEditor */ = {
+		1583890D1735A5D7006DE713 /* RichTextEditorDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1583894A1735A5D7006DE713 /* Build configuration list for PBXNativeTarget "RichTextEditor" */;
+			buildConfigurationList = 1583894A1735A5D7006DE713 /* Build configuration list for PBXNativeTarget "RichTextEditorDemo" */;
 			buildPhases = (
 				1583890A1735A5D7006DE713 /* Sources */,
 				1583890B1735A5D7006DE713 /* Frameworks */,
 				1583890C1735A5D7006DE713 /* Resources */,
+				34BF6A411E51409500A736BB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				34BF6A3B1E51409500A736BB /* PBXTargetDependency */,
 			);
-			name = RichTextEditor;
+			name = RichTextEditorDemo;
 			productName = RichTextEditor;
-			productReference = 1583890E1735A5D7006DE713 /* RichTextEditor.app */;
+			productReference = 1583890E1735A5D7006DE713 /* RichTextEditorDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		158389371735A5D7006DE713 /* RichTextEditorTests */ = {
@@ -468,6 +559,24 @@
 			productReference = 158389381735A5D7006DE713 /* RichTextEditorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		34BF6A261E51409400A736BB /* RichTextEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34BF6A3E1E51409500A736BB /* Build configuration list for PBXNativeTarget "RichTextEditor" */;
+			buildPhases = (
+				34BF6A221E51409400A736BB /* Sources */,
+				34BF6A231E51409400A736BB /* Frameworks */,
+				34BF6A241E51409400A736BB /* Headers */,
+				34BF6A251E51409400A736BB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RichTextEditor;
+			productName = RichTextEditorFramework;
+			productReference = 34BF6A271E51409400A736BB /* RichTextEditor.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -477,6 +586,12 @@
 				LastTestingUpgradeCheck = 0610;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Aryan Ghassemi";
+				TargetAttributes = {
+					34BF6A261E51409400A736BB = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 158389081735A5D7006DE713 /* Build configuration list for PBXProject "RichTextEditor" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -490,8 +605,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1583890D1735A5D7006DE713 /* RichTextEditor */,
+				1583890D1735A5D7006DE713 /* RichTextEditorDemo */,
 				158389371735A5D7006DE713 /* RichTextEditorTests */,
+				34BF6A261E51409400A736BB /* RichTextEditor */,
 			);
 		};
 /* End PBXProject section */
@@ -574,6 +690,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		34BF6A251E51409400A736BB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -621,13 +744,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		34BF6A221E51409400A736BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34BF6A451E5140C500A736BB /* NSAttributedString+RichTextEditor.m in Sources */,
+				34BF6A461E5140C500A736BB /* UIFont+RichTextEditor.m in Sources */,
+				34BF6A471E5140C500A736BB /* UIView+RichTextEditor.m in Sources */,
+				34BF6A481E5140C500A736BB /* WZProtocolInterceptor.m in Sources */,
+				34BF6A491E5140C500A736BB /* RichTextEditor.m in Sources */,
+				34BF6A4A1E5140C500A736BB /* RichTextEditorToolbar.m in Sources */,
+				34BF6A4B1E5140C500A736BB /* RichTextEditorToggleButton.m in Sources */,
+				34BF6A4C1E5140C500A736BB /* RichTextEditorColorPickerViewController.m in Sources */,
+				34BF6A4D1E5140C500A736BB /* RichTextEditorFontPickerViewController.m in Sources */,
+				34BF6A4E1E5140C500A736BB /* RichTextEditorFontSizePickerViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		1583893E1735A5D7006DE713 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1583890D1735A5D7006DE713 /* RichTextEditor */;
+			target = 1583890D1735A5D7006DE713 /* RichTextEditorDemo */;
 			targetProxy = 1583893D1735A5D7006DE713 /* PBXContainerItemProxy */;
+		};
+		34BF6A3B1E51409500A736BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34BF6A261E51409400A736BB /* RichTextEditor */;
+			targetProxy = 34BF6A3A1E51409500A736BB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -743,6 +888,7 @@
 				GCC_PREFIX_HEADER = "RichTextEditor/RichTextEditor-Prefix.pch";
 				INFOPLIST_FILE = "RichTextEditor/RichTextEditor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.aryaxt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -756,6 +902,7 @@
 				GCC_PREFIX_HEADER = "RichTextEditor/RichTextEditor-Prefix.pch";
 				INFOPLIST_FILE = "RichTextEditor/RichTextEditor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.aryaxt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -798,6 +945,68 @@
 			};
 			name = Release;
 		};
+		34BF6A3F1E51409500A736BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = RichTextEditorFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pikleproductions.RichTextEditorFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		34BF6A401E51409500A736BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = RichTextEditorFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pikleproductions.RichTextEditorFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -810,7 +1019,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1583894A1735A5D7006DE713 /* Build configuration list for PBXNativeTarget "RichTextEditor" */ = {
+		1583894A1735A5D7006DE713 /* Build configuration list for PBXNativeTarget "RichTextEditorDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1583894B1735A5D7006DE713 /* Debug */,
@@ -827,6 +1036,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		34BF6A3E1E51409500A736BB /* Build configuration list for PBXNativeTarget "RichTextEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34BF6A3F1E51409500A736BB /* Debug */,
+				34BF6A401E51409500A736BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
