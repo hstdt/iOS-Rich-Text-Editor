@@ -461,33 +461,33 @@
 									  andSelector:@selector(fontSizeSelected:)];
 	[self.btnFontSize setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
 	[self.btnFontSize setTitle:@"14" forState:UIControlStateNormal];
-	self.btnBold = [self buttonWithImageNamed:@"bold.png"
+	self.btnBold = [self buttonWithImageNamed:@"format-bold"
 								  andSelector:@selector(boldSelected:)];
 	
 	
-	self.btnItalic = [self buttonWithImageNamed:@"italic.png"
+	self.btnItalic = [self buttonWithImageNamed:@"format-italic"
 									andSelector:@selector(italicSelected:)];
 	
 	
-	self.btnUnderline = [self buttonWithImageNamed:@"underline.png"
+	self.btnUnderline = [self buttonWithImageNamed:@"format-underlined"
 									   andSelector:@selector(underLineSelected:)];
 	
-	self.btnStrikeThrough = [self buttonWithImageNamed:@"strikethrough"
+	self.btnStrikeThrough = [self buttonWithImageNamed:@"format-strikethrough"
 										   andSelector:@selector(strikeThroughSelected:)];
 	
 	
-	self.btnTextAlignmentLeft = [self buttonWithImageNamed:@"justifyleft.png"
+	self.btnTextAlignmentLeft = [self buttonWithImageNamed:@"format-align-left"
 											   andSelector:@selector(textAlignmentSelected:)];
 	
 	
-	self.btnTextAlignmentCenter = [self buttonWithImageNamed:@"justifycenter.png"
+	self.btnTextAlignmentCenter = [self buttonWithImageNamed:@"format-align-center"
 												 andSelector:@selector(textAlignmentSelected:)];
 	
 	
-	self.btnTextAlignmentRight = [self buttonWithImageNamed:@"justifyright.png"
+	self.btnTextAlignmentRight = [self buttonWithImageNamed:@"format-align-right"
 												andSelector:@selector(textAlignmentSelected:)];
 	
-	self.btnTextAlignmentJustified = [self buttonWithImageNamed:@"justifyfull.png"
+	self.btnTextAlignmentJustified = [self buttonWithImageNamed:@"format-align-justify"
 													andSelector:@selector(textAlignmentSelected:)];
 	
 	self.btnForegroundColor = [self buttonWithImageNamed:@"format-color"
@@ -496,13 +496,13 @@
 	self.btnBackgroundColor = [self buttonWithImageNamed:@"format-color-fill"
 											 andSelector:@selector(textBackgroundColorSelected:)];
 	
-	self.btnBulletList = [self buttonWithImageNamed:@"bullist.png"
+	self.btnBulletList = [self buttonWithImageNamed:@"format-list-bulleted"
 										 andSelector:@selector(bulletListSelected:)];
 	
-	self.btnParagraphIndent = [self buttonWithImageNamed:@"indent.png"
+	self.btnParagraphIndent = [self buttonWithImageNamed:@"indent-increase"
 											 andSelector:@selector(paragraphIndentSelected:)];
 	
-	self.btnParagraphOutdent = [self buttonWithImageNamed:@"outdent.png"
+	self.btnParagraphOutdent = [self buttonWithImageNamed:@"indent-decrease"
 											  andSelector:@selector(paragraphOutdentSelected:)];
 	
 	self.btnParagraphFirstLineHeadIndent = [self buttonWithImageNamed:@"firstLineIndent.png"
