@@ -505,16 +505,16 @@
 	self.btnParagraphOutdent = [self buttonWithImageNamed:@"indent-decrease"
 											  andSelector:@selector(paragraphOutdentSelected:)];
 	
-	self.btnParagraphFirstLineHeadIndent = [self buttonWithImageNamed:@"firstLineIndent.png"
+	self.btnParagraphFirstLineHeadIndent = [self buttonWithImageNamed:@"format-first-line-indent"
 														  andSelector:@selector(paragraphHeadIndentOutdentSelected:)];
 	
-	self.btnTextAttachment = [self buttonWithImageNamed:@"image.png"
+	self.btnTextAttachment = [self buttonWithImageNamed:@"insert-photo"
                                             andSelector:@selector(textAttachmentSelected:)];
-	self.btnTextUndo = [self buttonWithImageNamed:@"undo.png"
+	self.btnTextUndo = [self buttonWithImageNamed:@"undo"
                                       andSelector:@selector(undoSelected:)];
-	self.btnTextRedo = [self buttonWithImageNamed:@"redo.png"
+	self.btnTextRedo = [self buttonWithImageNamed:@"redo"
                                       andSelector:@selector(redoSelected:)];
-    self.btnDismissKeyboard = [self buttonWithImageNamed:@"dismiss_keyboard.png" andSelector:@selector(dismissKeyboard:)];
+    self.btnDismissKeyboard = [self buttonWithImageNamed:@"keyboard-hide" andSelector:@selector(dismissKeyboard:)];
 }
 
 
