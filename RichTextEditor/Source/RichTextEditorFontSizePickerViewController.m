@@ -35,10 +35,16 @@
 	
 	NSArray *customizedFontSizes = [self.dataSource richTextEditorFontSizePickerViewControllerCustomFontSizesForSelection];
 	
-	if (customizedFontSizes)
+	if (customizedFontSizes) {
 		self.fontSizes = customizedFontSizes;
-	else
-		self.fontSizes = @[@8, @10, @12, @14, @16, @18, @20, @22, @24, @26, @28, @30];
+	}
+	else {
+		NSMutableArray *mutableFontSizes = [NSMutableArray array];
+		for (NSUInteger i = 8; i <= 64; i += 2) {
+			[mutableFontSizes addObject:[NSNumber numberWithUnsignedInteger:i]];
+		}
+		self.fontSizes = mutableFontSizes;
+	}
 	
 	if ([self.dataSource richTextEditorFontSizePickerViewControllerShouldDisplayToolbar])
 	{
