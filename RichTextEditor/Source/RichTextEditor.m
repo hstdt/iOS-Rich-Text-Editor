@@ -797,6 +797,7 @@
 	[self.textStorage insertAttributedString:attributedStringAttachment atIndex:self.selectedRange.location];
 	[self.textStorage addAttributes:previousAttributes range:NSMakeRange(self.selectedRange.location, 1)];
 	[self.textStorage endEditing];
+	[self sendDelegateTVChanged];
 }
 
 - (UIViewController <RichTextEditorColorPicker> *)colorPickerForRichTextEditorToolbarWithAction:(RichTextEditorColorPickerAction)action {
