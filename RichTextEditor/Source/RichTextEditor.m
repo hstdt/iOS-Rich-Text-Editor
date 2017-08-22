@@ -326,24 +326,36 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-	RichTextEditorFeature features = [self featuresEnabledForRichTextEditorToolbar];
+    RichTextEditorFeature features = [self featuresEnabledForRichTextEditorToolbar];
+    
+    if (action == @selector(richTextEditorToolbarDidSelectBold)) {
+        return ([self.dataSource respondsToSelector:@selector(shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:)] &&
+                [self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self]) &&
+                (features & RichTextEditorFeatureBold || features & RichTextEditorFeatureAll);
+    }
+    
+    if (action == @selector(richTextEditorToolbarDidSelectItalic)) {
+        return ([self.dataSource respondsToSelector:@selector(shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:)] &&
+                [self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self]) &&
+                (features & RichTextEditorFeatureItalic || features & RichTextEditorFeatureAll);
+    }
+    
+    if (action == @selector(richTextEditorToolbarDidSelectUnderline)) {
+        return ([self.dataSource respondsToSelector:@selector(shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:)] &&
+                [self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self]) &&
+                (features & RichTextEditorFeatureUnderline || features & RichTextEditorFeatureAll);
+    }
+    
+    if (action == @selector(richTextEditorToolbarDidSelectStrikeThrough)) {
+        return ([self.dataSource respondsToSelector:@selector(shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:)] &&
+                [self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self]) &&
+                (features & RichTextEditorFeatureStrikeThrough || features & RichTextEditorFeatureAll);
+    }
+    
+    if (action == @selector(selectParagraph:) && self.selectedRange.length > 0)
+        return YES;
 	
-	if ([self.dataSource respondsToSelector:@selector(shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:)] &&
-		[self.dataSource shouldDisplayRichTextOptionsInMenuControllerForRichTextEditor:self]) {
-		if (action == @selector(richTextEditorToolbarDidSelectBold) && (features & RichTextEditorFeatureBold  || features & RichTextEditorFeatureAll))
-			return YES;
-		if (action == @selector(richTextEditorToolbarDidSelectItalic) && (features & RichTextEditorFeatureItalic  || features & RichTextEditorFeatureAll))
-			return YES;
-		if (action == @selector(richTextEditorToolbarDidSelectUnderline) && (features & RichTextEditorFeatureUnderline  || features & RichTextEditorFeatureAll))
-			return YES;
-		if (action == @selector(richTextEditorToolbarDidSelectStrikeThrough) && (features & RichTextEditorFeatureStrikeThrough  || features & RichTextEditorFeatureAll))
-			return YES;
-	}
-	
-	if (action == @selector(selectParagraph:) && self.selectedRange.length > 0)
-		return YES;
-	
-	return [super canPerformAction:action withSender:sender];
+    return [super canPerformAction:action withSender:sender];
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText {
