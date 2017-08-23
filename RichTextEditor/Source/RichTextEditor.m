@@ -30,6 +30,7 @@
 
 #import "RichTextEditor.h"
 #import "RichTextEditorToolbar.h"
+#import "RichTextImageAttachment.h"
 
 #import "UIFont+RichTextEditor.h"
 #import "NSAttributedString+RichTextEditor.h"
@@ -802,7 +803,7 @@
 
 - (void)richTextEditorToolbarDidSelectTextAttachment:(UIImage *)textAttachment {
 	[self sendDelegatePreviewChangeOfType:RichTextEditorPreviewChangeTextAttachment];
-	NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+	RichTextImageAttachment *attachment = [[RichTextImageAttachment alloc] init];
 	[attachment setImage:textAttachment];
 	NSAttributedString *attributedStringAttachment = [NSAttributedString attributedStringWithAttachment:attachment];
 	NSDictionary *previousAttributes = [self dictionaryAtIndex:self.selectedRange.location];
